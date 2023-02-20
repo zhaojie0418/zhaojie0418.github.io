@@ -19,40 +19,40 @@
     <meta name="description" content="深入理解JAVA虚拟机第二章：java内存区域和内存溢出异常  程序计数器部分：  如果线程正在执行的是一个Java方法，这个计数器记录的是正在执行的虚拟机字节码指令的地址；如果正在执行的是本地（Native）方法，这个计数器值则应为空（Undefined）此内存区域是唯一一个在《Java虚拟机规范》中没有规定任何OutOfMemoryError情况的区域·   栈帧（Stack Frame）用于">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fluid">
-<meta property="og:url" content="http://example.com/2023/01/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:url" content="http://example.com/2022/10/13/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="fluid">
 <meta property="og:description" content="深入理解JAVA虚拟机第二章：java内存区域和内存溢出异常  程序计数器部分：  如果线程正在执行的是一个Java方法，这个计数器记录的是正在执行的虚拟机字节码指令的地址；如果正在执行的是本地（Native）方法，这个计数器值则应为空（Undefined）此内存区域是唯一一个在《Java虚拟机规范》中没有规定任何OutOfMemoryError情况的区域·   栈帧（Stack Frame）用于">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221119222233318.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221120151423921.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221120151434004.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221120153930160.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221121165159996.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221121165405966.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221123193014729.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221123202904830.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221126173040784.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221201173858863.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221128104046824.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221128144957798.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221128145018987.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221125203205479.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221125203607563.png">
-<meta property="og:image" content="http://example.com/2023/01/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/typoraPictureFiles/image-20221125192746870.png">
-<meta property="og:image" content="http://example.com/2023/01/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/typoraPictureFiles/image-20221125194122388.png">
-<meta property="og:image" content="http://example.com/2023/01/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/typoraPictureFiles/image-20221125194107906.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221125200903780.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221125200921258.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221126125054413.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221126125628190.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221126125826690.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221126130001272.png">
-<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221126161740653.png">
-<meta property="article:published_time" content="2023-01-20T08:28:57.551Z">
-<meta property="article:modified_time" content="2022-12-12T15:02:08.519Z">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221119222233318.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120151423921.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120151434004.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120153930160.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165159996.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165405966.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221201173858863.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123202904830.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123193014729.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126173040784.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125203607563.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125203205479.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221128104046824.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221128144957798.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221128145018987.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125192746870.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125194107906.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125200903780.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125194122388.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125200921258.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126130001272.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126125628190.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126125826690.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126125054413.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126161740653.png">
+<meta property="article:published_time" content="2022-10-13T12:33:18.950Z">
+<meta property="article:modified_time" content="2023-02-18T15:40:01.833Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/typoraPictureFiles/image-20221119222233318.png">
+<meta name="twitter:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221119222233318.png">
   
   
   
@@ -233,8 +233,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-01-20 16:28" pubdate>
-          2023年1月20日 下午
+        <time datetime="2022-10-13 20:33" pubdate>
+          2022年10月13日 晚上
         </time>
       </span>
     
@@ -299,7 +299,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="深入理解JAVA虚拟机"><a href="#深入理解JAVA虚拟机" class="headerlink" title="深入理解JAVA虚拟机"></a>深入理解JAVA虚拟机</h1><h2 id="第二章：java内存区域和内存溢出异常"><a href="#第二章：java内存区域和内存溢出异常" class="headerlink" title="第二章：java内存区域和内存溢出异常"></a>第二章：java内存区域和内存溢出异常</h2><p><img src="/typoraPictureFiles/image-20221119222233318.png" srcset="/img/loading.gif" lazyload alt="image-20221119222233318"></p>
+                <h1 id="深入理解JAVA虚拟机"><a href="#深入理解JAVA虚拟机" class="headerlink" title="深入理解JAVA虚拟机"></a>深入理解JAVA虚拟机</h1><h2 id="第二章：java内存区域和内存溢出异常"><a href="#第二章：java内存区域和内存溢出异常" class="headerlink" title="第二章：java内存区域和内存溢出异常"></a>第二章：java内存区域和内存溢出异常</h2><p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221119222233318.png" srcset="/img/loading.gif" lazyload alt="image-20221119222233318"></p>
 <ul>
 <li><p>程序计数器部分：</p>
 <ul>
@@ -368,10 +368,10 @@
 <ul>
 <li>句柄访问</li>
 <li>使用句柄来访问的最大好处就是reference中存储的是稳定句柄地址，在对象被移动（垃圾收集时移动对象是非常普遍的行为）时只会改变句柄中的实例数据指针，而reference本身不需要被修改</li>
-<li><img src="/typoraPictureFiles/image-20221120151423921.png" srcset="/img/loading.gif" lazyload alt="image-20221120151423921"></li>
+<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120151423921.png" srcset="/img/loading.gif" lazyload alt="image-20221120151423921"></li>
 <li>直接指针访问</li>
 <li>优点：使用直接指针来访问最大的好处就是速度更快，它节省了一次指针定位的时间开销，由于对象访问在Java中非常频繁，因此这类开销积少成多也是一项极为可观的执行成本，就本书讨论的主要虚拟机HotSpot而言，它<strong>主要使用第二种</strong>方式进行对象访问</li>
-<li><img src="/typoraPictureFiles/image-20221120151434004.png" srcset="/img/loading.gif" lazyload alt="image-20221120151434004"></li>
+<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120151434004.png" srcset="/img/loading.gif" lazyload alt="image-20221120151434004"></li>
 </ul>
 </li>
 <li><p>Java的线程是映射到操作系统的内核线程上，无限制地创建线程会对操作系统带来很大压力，上述代码执行时有很高的风险，可能会由于创建线程数量过多而导致操作系统假死</p>
@@ -391,7 +391,7 @@
 </ul>
 </li>
 <li>方法区和运行时常量池溢出<ul>
-<li><img src="/typoraPictureFiles/image-20221120153930160.png" srcset="/img/loading.gif" lazyload alt="image-20221120153930160"></li>
+<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120153930160.png" srcset="/img/loading.gif" lazyload alt="image-20221120153930160"></li>
 </ul>
 </li>
 <li>随着Spring框架等动态生成类的大量使用，导致方法区容易溢出，但是随着java8将类数据移动到元空间中，即类导致的内存溢出不容易出现</li>
@@ -534,11 +534,11 @@
 </li>
 <li><p>经典垃圾回收器</p>
 <ul>
-<li><p><img src="/typoraPictureFiles/image-20221121165159996.png" srcset="/img/loading.gif" lazyload alt="image-20221121165159996"></p>
+<li><p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165159996.png" srcset="/img/loading.gif" lazyload alt="image-20221121165159996"></p>
 </li>
 <li><p><strong>Serial 垃圾回收器</strong></p>
 <ul>
-<li><img src="/typoraPictureFiles/image-20221121165405966.png" srcset="/img/loading.gif" lazyload alt="image-20221121165405966"></li>
+<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165405966.png" srcset="/img/loading.gif" lazyload alt="image-20221121165405966"></li>
 <li>优点：HotSpot虚拟机运行在客户端模式下的默认新生代收集器，有着优于其他收集器的地方，那就是<strong>简单而高效</strong>（与其他收集器的单线程相比）<ul>
 <li><strong>物理机内存受限的情况：</strong>对于内存资源受限的环境，它是所有收集器里<strong>额外内存消耗（Memory Footprint）最小的</strong>；</li>
 <li><strong>单核处理器情况：</strong>对于单核处理器或处理器核心数较少的环境来说，Serial收集器由于<strong>没有线程交互的开销，专心做垃圾收集自然可以获得最高的单线程收集效率</strong></li>
@@ -550,7 +550,7 @@
 <li><p><strong>ParNew收集器</strong></p>
 <ul>
 <li>实质上是Serial收集器的多线程并行版本，除了同时使用多条线程进行垃圾收集之外，其余的行为包括Serial收集器可用的所有控制参数（例如：-XX：SurvivorRatio、-XX：PretenureSizeThreshold、-XX：HandlePromotionFailure等）、收集算法、Stop The World、对象分配规则、回收策略等都与Serial收集器完全一致，在实现上这两种收集器也共用了相当多的代码</li>
-<li><img src="/typoraPictureFiles/image-20221123193014729.png" srcset="/img/loading.gif" lazyload alt="image-20221123193014729"></li>
+<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221201173858863.png" srcset="/img/loading.gif" lazyload alt="image-20221123193014729"></li>
 <li>优点：不少运行在服务端模式下的HotSpot虚拟机<ul>
 <li>除了Serial收集器外，目前只有它能与CMS收集器配合工作</li>
 <li>当处理器多核并且开启了很多线程时比Serial收集器效果更好</li>
@@ -610,7 +610,7 @@
 <li>清理删除掉标记阶段判断的已经死亡的对象，由于<strong>不需要移动存活对象</strong>，所以这个阶段也是可以与用户线程同时并发的</li>
 </ul>
 </li>
-<li><img src="/typoraPictureFiles/image-20221123202904830.png" srcset="/img/loading.gif" lazyload alt="image-20221123202904830"></li>
+<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123202904830.png" srcset="/img/loading.gif" lazyload alt="image-20221123202904830"></li>
 </ul>
 </li>
 <li>优点：<ul>
@@ -668,7 +668,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221126173040784.png" srcset="/img/loading.gif" lazyload alt="image-20221126173040784"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123193014729.png" srcset="/img/loading.gif" lazyload alt="image-20221126173040784"></p>
 </li>
 <li><p><strong>CMS垃圾回收器和G1垃圾回收器比较</strong></p>
 <ul>
@@ -698,7 +698,7 @@
 </li>
 <li>类文件中的数据指向可以看做是连环嵌套的格式，比如下图类索引指向常量池中的类info，而类info中的字面量又指向utf8_info</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221201173858863.png" srcset="/img/loading.gif" lazyload alt="image-20221201173858863"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126173040784.png" srcset="/img/loading.gif" lazyload alt="image-20221201173858863"></p>
 <ul>
 <li>相比于全限定名和简单名称，方法和字段的描述符就要复杂一些。描述符的作用是用来描述字段的数据类型、方法的参数列表（包括数量、类型以及顺序）和返回值<ul>
 <li>对于数组类型，每一维度将使用一个前置的“[”字符来描述，如一个定义为“java.lang.String[][]”类型的二维数组将被记录成“[[Ljava&#x2F;lang&#x2F;String；”，一个整型数组“int[]”将被记录成“[I”。</li>
@@ -777,7 +777,7 @@
 <li>第4层。使用服务端编译器将字节码编译为本地代码，相比起客户端编译器，服务端编译器会启用更多编译耗时更长的优化，还会根据性能监控信息进行一些不可靠的激进优化</li>
 <li>不同情况下的分层编译</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221128104046824.png" srcset="/img/loading.gif" lazyload alt="image-20221128104046824"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125203607563.png" srcset="/img/loading.gif" lazyload alt="image-20221128104046824"></p>
 </li>
 <li><p>分层编译的好处</p>
 <ul>
@@ -801,14 +801,14 @@
 <li><strong>采用这种方法的虚拟机会为每个方法（甚至是代码块）建立计数器</strong>，统计方法的执行次数，如果执行次数超过一定的阈值就认为它是“热点方法”。这种统计方法实现起来要麻烦一些，需要为每个方法建立并维护计数器，而且不能直接获取到方法的调用关系。但是它的统计结果相对来说更加精确严谨。</li>
 <li>方法调用计数器（Invocation Counter）</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221128144957798.png" srcset="/img/loading.gif" lazyload alt="image-20221128144957798"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125203205479.png" srcset="/img/loading.gif" lazyload alt="image-20221128144957798"></p>
 <ul>
 <li>回边计数器（Back Edge Counter“回边”的意思就是指在循环边界往回跳转）<ul>
 <li><strong>在字节码中遇到控制流向后跳转的指令就称为“回边（Back Edge）”，很显然建立回边计数器统计的目的是为了触发栈上的替换编译</strong></li>
 </ul>
 </li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221128145018987.png" srcset="/img/loading.gif" lazyload alt="image-20221128145018987"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221128104046824.png" srcset="/img/loading.gif" lazyload alt="image-20221128145018987"></p>
 <ul>
 <li><strong>当一个方法被调用时</strong>，虚拟机会先检查该方法是否存在被即时编译过的版本，如果存在，则优先使用编译后的本地代码来执行。如果不存在已被编译过的版本，则将该方法的调用计数器值加一，然后判断<strong>方法调用计数器与回边计数器值之和</strong>是否超过方法调用计数器的阈值。一旦已超过阈值的话，将会向即时编译器提交一个该方法的代码编译请求</li>
 <li><strong>当解释器遇到一条回边指令时</strong>，会先查找将要执行的代码片段是否有已经编译好的版本，如果有的话，它将会优先执行已编译的代码，否则就把回边计数器的值加一，然后判断方法调用计数器与回边计数器值之和是否超过回边计数器的阈值。当超过阈值的时候，将会提交一个栈上替换编译请求，并且把回边计数器的值稍微降低一些，以便继续在解释器中执行循环，等待编译器输出编译结果</li>
@@ -952,7 +952,7 @@
 <ul>
 <li>示例一（先执行的不一定先行发生）</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221125203205479.png" srcset="/img/loading.gif" lazyload alt="image-20221125203205479"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221128144957798.png" srcset="/img/loading.gif" lazyload alt="image-20221125203205479"></p>
 <ul>
 <li>线程A先（时间上的先后）调用了setValue(1)，然后线程B调用了同一个对象的getValue()，那么线程B收到的返回值是什么?    答案：可能是0，也有可能是1</li>
 <li>分析：由于两个方法分别由线程A和B调用，不在一个线程中，所以程序次序规则在这里不适用；由于没有同步块，自然就不会发生lock和unlock操作，所以管程锁定规则不适用；由于value变量没有被volatile关键字修饰，所以volatile变量规则不适用；后面的线程启动、终止、中断规则和对象终结规则也和这里完全没有关系。因为没有一个适用的先行发生规则，所以最后一条传递性也无从谈起，因此我们可以判定，尽管线程A在操作时间上先于线程B，但是无法确定线程B中getValue()方法的返回结果，换句话说，这里面的操作不是线程安全的</li>
@@ -963,7 +963,7 @@
 </li>
 <li>示例二（满足先行发生的不一定真的时间上先发生）</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221125203607563.png" srcset="/img/loading.gif" lazyload alt="image-20221125203607563"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221128145018987.png" srcset="/img/loading.gif" lazyload alt="image-20221125203607563"></p>
 <ul>
 <li>根据程序次序规则，“int i&#x3D;1”的操作先行发生于“int j&#x3D;2”，但是“int j&#x3D;2”的代码完全可能先被处理器执行，这并不影响先行发生原则的正确性，因为我们在这条线程之中没有办法感知到这一点</li>
 </ul>
@@ -985,7 +985,7 @@
 </ul>
 </li>
 </ul>
-<img src="typoraPictureFiles/image-20221125192746870.png" srcset="/img/loading.gif" lazyload alt="image-20221125192746870" style="zoom:67%;" />
+<img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125192746870.png" srcset="/img/loading.gif" lazyload alt="image-20221125192746870" style="zoom:67%;" />
 
 <ul>
 <li>优点：<ul>
@@ -1004,7 +1004,7 @@
 <li>优点：狭义上的用户线程指的是完全建立在用户空间的线程库上，<strong>系统内核不能感知到用户线程的存在及如何实现的。用户线程的建立、同步、销毁和调度完全在用户态中完成，不需要内核的帮助。如果程序实现得当，这种线程不需要切换到内核态，因此操作可以是非常快速且低消耗的，也能够支持规模更大的线程数量</strong>，部分高性能数据库中的多线程就是由用户线程实现的。这种进程与用户线程之间1：N的关系称为一对多的线程模型</li>
 <li>局限性：成也萧何败也萧何，用户线程的优势在于不需要系统内核支援，劣势也在于没有系统内核的支援，所有的线程操作都需要由用户程序自己去处理。线程的创建、销毁、切换和调度都是用户必须考虑的问题，而且由于操作系统只把处理器资源分配到进程，那诸如<strong>“阻塞如何处理”“多处理器系统中如何将线程映射到其他处理器上”这类问题解决起来将会异常困难，甚至有些是不可能实现的。因为使用用户线程实现的程序通常都比较复杂，除了有明确的需求外（譬如以前在不支持多线程的操作系统中的多线程程序、需要支持大规模线程数量的应用），一般的应用程序都不倾向使用用户线程。</strong>Java、Ruby等语言都曾经使用过用户线程，最终又都放弃了使用它。但是近年来许多新的、以高并发为卖点的编程语言又普遍支持了用户线程，譬如Golang、Erlang等，使得用户线程的使用率有所回升</li>
 </ul>
-<img src="typoraPictureFiles/image-20221125194122388.png" srcset="/img/loading.gif" lazyload alt="image-20221125194122388" style="zoom:67%;" />
+<img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125194107906.png" srcset="/img/loading.gif" lazyload alt="image-20221125194122388" style="zoom:67%;" />
 </li>
 <li><p><strong>使用用户线程加轻量级进程混合实现（N：M实现）</strong></p>
 <ul>
@@ -1014,7 +1014,7 @@
 </ul>
 </li>
 </ul>
-<img src="typoraPictureFiles/image-20221125194107906.png" srcset="/img/loading.gif" lazyload alt="image-20221125194107906" style="zoom:67%;" />
+<img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125200903780.png" srcset="/img/loading.gif" lazyload alt="image-20221125194107906" style="zoom:67%;" />
 </li>
 <li><p>java线程的实现</p>
 <ul>
@@ -1065,8 +1065,8 @@
 <ul>
 <li>Java语言定义了6种线程状态，在任意一个时间点中，<strong>一个线程只能有且只有其中的一种状态</strong>，并且可以通过特定的方法在不同状态之间转换</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221125200903780.png" srcset="/img/loading.gif" lazyload alt="image-20221125200903780"></p>
-<p><img src="/typoraPictureFiles/image-20221125200921258.png" srcset="/img/loading.gif" lazyload alt="image-20221125200921258"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125194122388.png" srcset="/img/loading.gif" lazyload alt="image-20221125200903780"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125200921258.png" srcset="/img/loading.gif" lazyload alt="image-20221125200921258"></p>
 </li>
 </ul>
 </li>
@@ -1265,7 +1265,7 @@ public final native boolean compareAndSetInt(Object o, long offset,
 <li>锁消除是指虚拟机即时编译器在运行时，对一些代码要求同步，但是对被检测到不可能存在共享数据竞争的锁进行消除。锁消除的主要判定依据来源于逃逸分析的数据支持（第11章已经讲解过逃逸分析技术），如果判断到一段代码中，在堆上的所有数据都不会逃逸出去被其他线程访问到，那就可以把它们当作栈上数据对待，认为它们是线程私有的，同步加锁自然就无须再进行</li>
 <li>同步代码块的出现频率实际上很高，即使用户没有显示的调用同步代码，实际上在运行过程中也是有很多同步代码和同步代码块优化</li>
 <li>应用场景<ul>
-<li><img src="/typoraPictureFiles/image-20221126125054413.png" srcset="/img/loading.gif" lazyload alt="image-20221126125054413"></li>
+<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126130001272.png" srcset="/img/loading.gif" lazyload alt="image-20221126125054413"></li>
 </ul>
 </li>
 </ul>
@@ -1283,20 +1283,20 @@ public final native boolean compareAndSetInt(Object o, long offset,
 <li>轻量级锁是基于对于对象的Mark Word 实现的，而轻量级锁的加锁解锁操作实际上都是基于CAS实现的</li>
 <li>Mark Word：是一个非固定的动态数据结构，以便在极小的空间内存储尽量多的信息。它会根据对象的状态复用自己的存储空间</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221126125628190.png" srcset="/img/loading.gif" lazyload alt="image-20221126125628190"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126125628190.png" srcset="/img/loading.gif" lazyload alt="image-20221126125628190"></p>
 <ul>
 <li><p><strong>轻量级锁的工作流程</strong></p>
 <ul>
 <li>1、在代码即将进入同步块的时候，如果此同步对象没有被锁定（锁标志位为“01”状态），虚拟机首先将在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间，用于存储锁对象目前的Mark Word的拷贝（官方为这份拷贝加了一个Displaced前缀，即Displaced Mark Word），这时候线程堆栈与对象头的状态如图13-3</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221126125826690.png" srcset="/img/loading.gif" lazyload alt="image-20221126125826690"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126125826690.png" srcset="/img/loading.gif" lazyload alt="image-20221126125826690"></p>
 <ul>
 <li>2、然后，虚拟机将使用CAS操作尝试把对象的Mark Word更新为指向Lock Record的指针。如果这个更新动作成功了，即代表该线程拥有了这个对象的锁，并且对象Mark Word的锁标志位（Mark Word的最后两个比特）将转变为“00”，表示此对象处于轻量级锁定状态。这时候线程堆栈与对象头的状态如图13-4所示<ul>
 <li><strong>如果这个更新操作失败了，那就意味着至少存在一条线程与当前线程竞争获取该对象的锁。</strong>虚拟机首先会检查对象的Mark Word是否指向当前线程的栈帧，如果是，说明当前线程已经拥有了这个对象的锁，那直接进入同步块继续执行就可以了，否则就说明这个锁对象已经被其他线程抢占了。如果出现两条以上的线程争用同一个锁的情况，那轻量级锁就不再有效，必须要膨胀为重量级锁，锁标志的状态值变为“10”，此时Mark Word中存储的就是指向重量级锁（互斥量）的指针，后面等待锁的线程也必须进入阻塞状态</li>
 </ul>
 </li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221126130001272.png" srcset="/img/loading.gif" lazyload alt="image-20221126130001272"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126125054413.png" srcset="/img/loading.gif" lazyload alt="image-20221126130001272"></p>
 <ul>
 <li>3、轻量级锁的解锁过程（把原本存在栈帧中的Mark Word换回来）：上面描述的是轻量级锁的加锁过程，它的解锁过程也同样是通过CAS操作来进行的，如果对象的Mark Word仍然指向线程的锁记录，那就用CAS操作把对象当前的Mark Word和线程中复制的DisplacedMark Word替换回来。假如能够成功替换，那整个同步过程就顺利完成了；如果替换失败，则说明有其他线程尝试过获取该锁，就要在释放锁的同时，唤醒被挂起的线程</li>
 </ul>
@@ -1315,7 +1315,7 @@ public final native boolean compareAndSetInt(Object o, long offset,
 <li>假设当前虚拟机启用了偏向锁（<strong>启用参数-XX：+UseBiased Locking，默认启动</strong>），<strong>那么当锁对象第一次被线程获取的时候，虚拟机将会把对象头中的标志位设置为“01”、把偏向模式设置为“1”，表示进入偏向模式。同时使用CAS操作把获取到这个锁的线程的ID记录在对象的Mark Word之中。如果CAS操作成功，持有偏向锁的线程以后每次进入这个锁相关的同步块时，虚拟机都可以不再进行任何同步操作</strong>（例如加锁、解锁及对Mark Word的更新操作等）</li>
 <li><strong>一旦出现另外一个线程去尝试获取这个锁的情况，偏向模式就马上宣告结束</strong>。根据锁对象目前是否处于被锁定的状态决定是否撤销偏向（偏向模式设置为“0”），撤销后标志位恢复到未锁定（标志位为“01”）或轻量级锁定（标志位为“00”）的状态，后续的同步操作就按照上面介绍的轻量级锁那样去执行。偏向锁、轻量级锁的状态转化及对象Mark Word的关系如图13-5所示。</li>
 </ul>
-<p><img src="/typoraPictureFiles/image-20221126161740653.png" srcset="/img/loading.gif" lazyload alt="image-20221126161740653"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126161740653.png" srcset="/img/loading.gif" lazyload alt="image-20221126161740653"></p>
 <ul>
 <li><p>不用担心使用偏向锁时由于线程id和epoch的位置占据了hash值，因为线程ID和hashcode本身就是势不两立的</p>
 <ul>
@@ -1349,7 +1349,7 @@ public final native boolean compareAndSetInt(Object o, long offset,
   <div class="license-box my-3">
     <div class="license-title">
       <div></div>
-      <div>http://example.com/2023/01/20/深入理解java虚拟机笔记/</div>
+      <div>http://example.com/2022/10/13/深入理解java虚拟机笔记/</div>
     </div>
     <div class="license-meta">
       
@@ -1361,7 +1361,7 @@ public final native boolean compareAndSetInt(Object o, long offset,
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年1月20日</div>
+          <div>2022年10月13日</div>
         </div>
       
       
@@ -1393,7 +1393,7 @@ public final native boolean compareAndSetInt(Object o, long offset,
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/01/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0/" title="">
+                      <a href="/2023/02/20/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/" title="">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
@@ -1402,12 +1402,6 @@ public final native boolean compareAndSetInt(Object o, long offset,
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/2023/01/20/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/" title="">
-                        <span class="hidden-mobile"></span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>
