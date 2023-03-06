@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="单体架构：将业务的所有功能都集中在一个项目中开发，打包成一个包部署  优点：架构简单，部署成本低 缺点：耦合度高  分布式架构：根据业务功能对系统进行拆分，每个业务模块作为独立项目开发，称之为一个服务  优点：降低服务耦合，  springCloud的服务远程调用使用的协议是基于http协议的Feign，其进行了一定封装 spring充分利用了springboot的自动装配功能将许多的微服务进行自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/springCloud/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="单体架构：将业务的所有功能都集中在一个项目中开发，打包成一个包部署  优点：架构简单，部署成本低 缺点：耦合度高  分布式架构：根据业务功能对系统进行拆分，每个业务模块作为独立项目开发，称之为一个服务  优点：降低服务耦合，  springCloud的服务远程调用使用的协议是基于http协议的Feign，其进行了一定封装 spring充分利用了springboot的自动装配功能将许多的微服务进行自">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-06T12:20:13.485Z">
+<meta property="article:modified_time" content="2022-06-04T14:01:47.636Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          52 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>单体架构：</strong>将业务的所有功能都集中在一个项目中开发，打包成一个包部署</p>
+<ul>
+<li>优点：架构简单，部署成本低</li>
+<li>缺点：耦合度高</li>
+</ul>
+<p>分布式架构：根据业务功能对系统进行拆分，每个业务模块作为独立项目开发，称之为一个服务</p>
+<ul>
+<li>优点：降低服务耦合，</li>
+</ul>
+<p>springCloud的服务远程调用使用的协议是基于http协议的Feign，其进行了一定封装</p>
+<p>spring充分利用了springboot的自动装配功能将许多的微服务进行自动装配，所以注意springcloud需要和对应的springboot版本匹配</p>
+<p>服务的提供者和消费者是相对于请求服务而言的，对于链条状的服务请求链的跨模块分析是没有意义的</p>
+<p>配置Eureka对应的客户端和用户端只要在对应的pom.xml文件中增加对应依赖启动器即可</p>
+<p>查看原码不理解某个类时可以先观察其父类，因为子类一定是父类的增强，所以只要理解父类，就能理解其一部分</p>
+<p>具体使用的负载均衡策略和使用的对应服务器可以在日志中查看</p>
+<p><strong>修改服务器查询规则：</strong></p>
+<ul>
+<li>在对应Application.java中添加对应返回为IRule类的方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-keyword">public</span> IRule <span class="hljs-title function_">randomRule</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RandomRule</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>配置文件方式：在order-service的application.yml文件中，添加新的配置也可以修改规则</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#相对于在对应Application.java中添加对应返回为IRule类的方法，配置文件能够更好的适配粒度更小的划分</span><br><span class="hljs-attr">userservice:</span>  <br>     <span class="hljs-attr">ribbon:</span>   <br>       <span class="hljs-attr">NFLoadBalancerRuleClassName:</span> <span class="hljs-string">com.netflix.loadbalancer.RandomRule</span>   <span class="hljs-comment">#负载均衡规则 </span><br></code></pre></td></tr></table></figure>
+
+<p>由于Ribbon默认是采用懒加载，即第一次访问时才会去创建LoadBalanceClient，请求时间会很长，故可以在配置文件中设置饥饿加载</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">ribbon:</span><br>  <span class="hljs-attr">eager-load:</span><br>   <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>   <span class="hljs-comment"># 开启饥饿加载 </span><br>     <span class="hljs-attr">clients:</span> <span class="hljs-string">userservice</span> <span class="hljs-comment"># 指定对userservice这个服务饥饿加载</span><br></code></pre></td></tr></table></figure>
+
+<p>在文件夹中打开控制台窗口只需要在对应的地址栏中输入cmd即可</p>
+<p>在nacos对应的属性中增加cluster-name: localname 即可将对应的服务或用户添加到名为localname 的集群中</p>
+<p><strong>nacos的访问特点：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">userservice:</span>  <br>     <span class="hljs-attr">ribbon:</span>   <br>       <span class="hljs-attr">NFLoadBalancerRuleClassName:</span> <span class="hljs-string">com.alibaba.cloud.nacos.ribbon.NacosRule</span> <br>       <span class="hljs-comment"># NacosRule特点在于优先使用集群中的服务，在对应集群中的服务中在使用随机选取</span><br>       <span class="hljs-comment"># 如果当前集群内没有能够使用的服务，就进行跨集群调用服务</span><br></code></pre></td></tr></table></figure>
+
+<p>可以在nacos的浏览器端通过设置对应的权重来修改访问的可能性</p>
+<p><strong>nacos的临时实例和非临时实例：</strong></p>
+<ul>
+<li>临时实例采用心跳检测，当其服务不正常后，注册中心会直接将其去除</li>
+<li>非临时实例采用nacos注册中心主动询问，并且如果不能使用也不会将其去除，但是注意nacos注册中心主动询问会对服务器造成压力，所以建议使用临时实例</li>
+</ul>
+<p><strong>Feign进行性能优化：</strong></p>
+<ul>
+<li>使用连接池代替默认的URLConnection</li>
+<li>设置日志级别最好使用basic或none来减少损耗</li>
+</ul>
+<p><strong>Feign的两种实现方式：</strong></p>
+<ul>
+<li>方式一（继承）：给消费者的FeignClient和提供者的controller定义统一的父接口作为标准。<ul>
+<li>缺点在于：1、服务紧耦合 2、父接口参数列表中的映射不会被继承</li>
+</ul>
+</li>
+<li>方式二（抽取）：将FeignClient抽取为独立模块，并且把接口有关的POJO、默认的Feign配置都放到这个模块中，提供给所有消费者使用<ul>
+<li>缺点在于：feign-api提供了现成的UserClient来供服务调用，并且提供了默认的配置等信息，但是有时服务只需要使用很小的一部分信息，而传递了过多的数据量造成了浪费</li>
+</ul>
+</li>
+</ul>
+<p>有时spring在编译时没有报错，但是在运行后显示没有对应的类可供注入，在这种情况下，可能是有对应的类，但是没有开启spring扫描组件，spring容器中没有对应的实体类，导致无法完成注入</p>
+<p><strong>Gateway路由断言工厂：</strong></p>
+<ul>
+<li>PredicateFactory作用：读取用户所配置的断言规则，然后将其解析为对应的判断条件，当用户发送请求时对请求进行判断</li>
+<li>Path&#x3D;&#x2F;user&#x2F;**：表示路径为&#x2F;user开头的就是符合条件的请求</li>
+</ul>
+<p><strong>GatewayFilter：</strong></p>
+<ul>
+<li>Spring提供了31种不同的路由过滤器工厂GatewayFilterFactory</li>
+<li>GatewayFilter是网关中提供的一种过滤器，可以对进入网关的请求和微服务返回的响应做处理（请求和响应都能处理）</li>
+<li>如果想要对所有路由统一进行操作只需要配置默认过滤器default-filters即可</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span><br><span class="hljs-keyword">public</span> User <span class="hljs-title function_">queryById</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;id&quot;)</span> Long id,</span><br><span class="hljs-params">                      <span class="hljs-meta">@RequestHeader(value = &quot;Truth&quot;, required = false)</span> String truth)</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;truth: &quot;</span> + truth);<br>    <span class="hljs-keyword">return</span> userService.queryById(id);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>会自动从下面的配置文件中获取对应的Truth数据</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">cloud:</span><br>  <span class="hljs-attr">nacos:</span><br>    <span class="hljs-attr">server-addr:</span> <span class="hljs-string">nacos:8848</span> <span class="hljs-comment"># nacos地址</span><br>  <span class="hljs-attr">gateway:</span><br>    <span class="hljs-attr">routes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">user-service</span> <span class="hljs-comment"># 路由标示，必须唯一</span><br>        <span class="hljs-attr">uri:</span> <span class="hljs-string">lb://userservice</span> <span class="hljs-comment"># 路由的目标地址1</span><br>        <span class="hljs-attr">predicates:</span> <span class="hljs-comment"># 路由断言，判断请求是否符合规则</span><br>          <span class="hljs-bullet">-</span> <span class="hljs-string">Path=/user/**</span> <span class="hljs-comment"># 路径断言，判断路径是否是以/user开头，如果是则符合</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">order-service</span><br>        <span class="hljs-attr">uri:</span> <span class="hljs-string">lb://orderservice</span><br>        <span class="hljs-attr">predicates:</span><br>          <span class="hljs-bullet">-</span> <span class="hljs-string">Path=/order/**</span><br>      <span class="hljs-comment">#     filters:</span><br>      <span class="hljs-comment">#   - AddRequestHeader=Truth,Itcast is freaking awesome! # 这样的设置是对满足断言条件的路由请求生效</span><br>    <span class="hljs-attr">default-filters:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">AddRequestHeader=Truth,Itcast</span> <span class="hljs-string">is</span> <span class="hljs-string">freaking</span> <span class="hljs-string">awesome!</span> <span class="hljs-comment"># 这样的设置是对所有的路由请求都生效</span><br>      <br></code></pre></td></tr></table></figure>
+
+<p><strong>对权限登录的过滤器配置示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Order(-1)</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AuthorizeFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">GlobalFilter</span>, Ordered &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Mono&lt;Void&gt; <span class="hljs-title function_">filter</span><span class="hljs-params">(ServerWebExchange exchange, GatewayFilterChain chain)</span> &#123;<br>        <span class="hljs-comment">// 1.获取请求参数</span><br>        <span class="hljs-type">ServerHttpRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> exchange.getRequest();<br>        MultiValueMap&lt;String, String&gt; params = request.getQueryParams();<br>        <span class="hljs-comment">// 2.获取参数中的 authorization 参数</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">auth</span> <span class="hljs-operator">=</span> params.getFirst(<span class="hljs-string">&quot;authorization&quot;</span>);<br>        <span class="hljs-comment">// 3.判断参数值是否等于 admin</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;admin&quot;</span>.equals(auth)) &#123;<br>            <span class="hljs-comment">// 4.是，放行</span><br>            <span class="hljs-keyword">return</span> chain.filter(exchange); <span class="hljs-comment">//继续调用过滤器链</span><br>        &#125;<br>       <br>        <span class="hljs-comment">// 5.否，拦截</span><br>        <span class="hljs-comment">// 5.1.设置状态码</span><br>        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);<br>        <span class="hljs-comment">//这里的HttpStatus.UNAUTHORIZED是枚举类型，返回为401(即未登录时对应的状态码)</span><br>  <br>        <br>        <span class="hljs-comment">// 5.2.拦截请求</span><br>        <span class="hljs-keyword">return</span> exchange.getResponse().setComplete();<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getOrder</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>虚拟机快照备份：</strong></p>
+<ul>
+<li>磁盘快照的基本概念与磁带备份等机制有非常大的不同。在建立磁盘快照时，并不需要复制数据本身，它所作的只是通知LX Series NAS服务器将有数据的磁盘区块全部保留起来，不被覆写。这个通知动作只需花费极短的时间。接下来的档案修改或任何新增、删除动作，均不会覆写原本数据所在的磁盘区块，而是将修改部分写入其它可用的磁盘区块中。所以可以说，数据复制，或者说数据备份，是在平常档案存取时就做好了，而且对效能影响极低。LX Series NAS档案系统内部会建立一份数据结构，纪录磁盘快照备份及作用中档案系统所使用到的磁盘区块及指针，让使用者可以同时存取到主要档案系统及过去的磁盘快照版本</li>
+</ul>
+<p><strong>微服务之间的依赖关系：</strong></p>
+<ul>
+<li>如果两个微服务都需要依赖同一个包，则可以将这两个微服务所共同依赖的代码写到对应父工程中的pom.xml文件中，而不需要再次写到对应微服务各自的pom.xml中</li>
+</ul>
+<p><strong>域名相关知识：</strong></p>
+<p>域名cn和com与org最大区别是，在我国，cn和com均可以申请备案，而org无法申请域名备案</p>
+<p>域名cn，国家顶级域名，表示中国国家域名，是国别域名</p>
+<p>域名com，源自英文单词“commercial”，是全球最热门的域名后缀，是通用顶级域名后缀</p>
+<p>域名org，为organization（组织）缩写，与com、net等一样，是通用顶级域名后缀</p>
+<p><strong>aptitude：</strong></p>
+<p>aptitude与 apt-get 一样，是 Debian 及其衍生系统中功能极其强大的包管理工具，与 apt-get 不同的是，aptitude在处理依赖问题上更佳一些。举例来说，aptitude在删除一个包时，会同时删除本身所依赖的包。这样，系统中不会残留无用的包，整个系统更为干净</p>
+<p><strong>Bootstrap：</strong></p>
+<p>Bootstrap是美国 Twitter 公司的设计师Mark Otto和Jacob Thornton合作基于HTML、CSS、JavaScript开发的简洁、直观、强悍的前端开发框架，使得 Web 开发更加快捷。Bootstrap提供了优雅的HTML和CSS规范，它即是由动态CSS语言Less写成</p>
+<p><strong>过滤器链的产生：</strong></p>
+<ul>
+<li>在形成过滤器链之前，由于不同的过滤器的类型不同，但是由于框架提供了GatewayFilterAdapter类，该类通过传递的参数GlobalFilter将其转换为GatewayFilter类</li>
+<li>通过GatewayFilterAdapter类，可以将所有的GlobalFilter都适配成GatewayFilter类</li>
+<li>GlobalFilter通过实现Ordered接口，或者添加@Order注解来指定order值，由我们自己指定</li>
+<li>路由过滤器和defaultFilter的order由Spring指定，默认是按照声明顺序从1递增</li>
+<li>当过滤器的order值一样时，会按照 defaultFilter &gt; 路由过滤器 &gt; GlobalFilter的顺序执行</li>
+</ul>
+<p><strong>Redis的使用：</strong></p>
+<ul>
+<li>Redis是一个基于内存的key-value结构数据库其特点为<ul>
+<li>基于内存存储，读写性能高</li>
+<li>适合存储热点数据（热点商品，资讯，新闻）</li>
+<li>企业应用广泛</li>
+</ul>
+</li>
+</ul>
+<p><strong>Docker的使用：</strong></p>
+<ul>
+<li>Docker允许开发中将应用、依赖、函数库、配置一起打包，形成可移植镜像，由于其将所有的配置都打包在了一起，所以在函数调用或者读取配置时只需要读取自身所在容器中的数据即可，甚至连系统级的函数调用也进行了封装，所以docker打包的镜像可以在任意Linux内核的系统中运行</li>
+<li>Docker中的镜像的读写数据是存储在对应容器中的，然后通过拷贝复制到对应Docker运行的操作系统上</li>
+<li>docker 调用run命令后返回的是唯一的指定容器的ID</li>
+<li>镜像（<code>Image</code>）和容器（<code>Container</code>）的关系，就像是面向对象程序设计中的 <code>类</code> 和 <code>实例</code> 一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等</li>
+<li>docker容器中的文件管理结构时类似于Linux的，但是docker容器中的函数文件等是按需加载的，只会将调用相关的函数文件等打包放入容器中，按需进行存储</li>
+<li>exec命令可以进入容器修改文件，但是在容器内修改文件是不推荐的，原因如下<ul>
+<li>由于容器只会存储调用所需的文件，所以常用的修改文件命令是无法使用或者不便使用的</li>
+<li>对容器的修改不便于记录，容易对容器本身产生影响</li>
+</ul>
+</li>
+<li>数据卷用于控制容器中的数据和宿主机上的数据的中间的桥梁，保证两者其中只要有一者修改，另一方随之进行改变</li>
+<li>在DockerCompose底层进行了一系列配置，使得能够在底层通过调用名进行配置</li>
+<li>在出现错误时，注意使用 docker logs 容器名 来查看日志进行检查</li>
+<li>解压后对应的tar包和镜像之间是不关联的，所以删除对应的tar包对其镜像本身不影响</li>
+</ul>
+<p><strong>Git的使用：</strong></p>
+<ul>
+<li><p>在idea使用git的本质实际上还是在使用原本的git软件</p>
+</li>
+<li><p>由于在使用git时，并不是所有程序文件都需要纳入版本控制，比如idea自带的.idea和对应产生的target文件夹，所以要使用.gitignore来标注不需要进入版本控制的文件</p>
+</li>
+<li><p>idea对版本控制做了进一步简化，在commit的同时就已经将文件存放到了暂存区</p>
+</li>
+<li><p>在idea中使用文件的颜色对文件的状态进行管理</p>
+<ul>
+<li>黑色：表示没有发生改变，已经纳入了版本控制</li>
+<li>红色：未加入版本控制</li>
+<li>绿色：已经加入版本控制暂未提交</li>
+<li>蓝色：加入，已提交，有改动</li>
+<li>灰色：版本控制已忽略文件</li>
+</ul>
+</li>
+</ul>
+<p><strong>RabbitMQ使用：</strong></p>
+<ul>
+<li>RabbitMQ在设置过程中5672是消息传送的端口号，而15672是查看界面的UI端口号，注意进行区分</li>
+</ul>
+<p><strong>Elasticsearch的使用：</strong></p>
+<ul>
+<li><p>ESL语句实际就是根据RESTful风格发送到ES当中</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs elm">&#123;<br>    <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">21</span>,<br>    <span class="hljs-string">&quot;weight&quot;</span>: <span class="hljs-number">52.1</span>,<br>    <span class="hljs-string">&quot;isMarried&quot;</span>: false,<br>    <span class="hljs-string">&quot;info&quot;</span>: <span class="hljs-string">&quot;黑马程序员Java讲师&quot;</span>,<br>    <span class="hljs-string">&quot;email&quot;</span>: <span class="hljs-string">&quot;zy@itcast.cn&quot;</span>,<br>    <span class="hljs-string">&quot;score&quot;</span>: [<span class="hljs-number">99.1</span>, <span class="hljs-number">99.5</span>, <span class="hljs-number">98.9</span>],  //<span class="hljs-string">&quot;在ES中不能使用数组，但是可以给一个数值定义多个值&quot;</span><br>    <span class="hljs-string">&quot;name&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;firstName&quot;</span>: <span class="hljs-string">&quot;云&quot;</span>,<br>        <span class="hljs-string">&quot;lastName&quot;</span>: <span class="hljs-string">&quot;赵&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在ES中不允许进行修改，可以先删除索引，再增加索引</p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/springCloud/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E5%87%A4%E5%87%B0%E6%9E%B6%E6%9E%84%E7%AC%94%E8%AE%B0/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

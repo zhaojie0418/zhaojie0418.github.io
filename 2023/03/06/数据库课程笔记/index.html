@@ -1,0 +1,975 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="数据库相关总结第一讲：绪论 数据模型的组成要素：数据结构（静态特性)，数据操作(动态特性)，完整性约束条件 任何关系必须满足实体完整性和参照完整性两个条件（还有用户自定义完整性） 层次，网状，关系  第二讲：关系型数据库 域（domin）：是一组具有相同数据类型的值的集合（类似于数学的取值范围）  笛卡尔积：行行相乘  元组：一行数据，有n列就n元（向量）  分量：一个元组的一个列单元（分量）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="数据库相关总结第一讲：绪论 数据模型的组成要素：数据结构（静态特性)，数据操作(动态特性)，完整性约束条件 任何关系必须满足实体完整性和参照完整性两个条件（还有用户自定义完整性） 层次，网状，关系  第二讲：关系型数据库 域（domin）：是一组具有相同数据类型的值的集合（类似于数学的取值范围）  笛卡尔积：行行相乘  元组：一行数据，有n列就n元（向量）  分量：一个元组的一个列单元（分量）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214252997.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214910703.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214926999.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214935965.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214948941.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214956483.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211215047974.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214222518662.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214223156674.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214223234642.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\AppData\Roaming\Typora\typora-user-images\image-20230215010656553.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230215083646154.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230215100818862.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230215090521946.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214230209638.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214231333195.png">
+<meta property="article:published_time" content="2023-03-06T12:20:13.771Z">
+<meta property="article:modified_time" content="2023-02-15T12:22:15.661Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214252997.png">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="数据库相关总结"><a href="#数据库相关总结" class="headerlink" title="数据库相关总结"></a>数据库相关总结</h1><h2 id="第一讲：绪论"><a href="#第一讲：绪论" class="headerlink" title="第一讲：绪论"></a>第一讲：绪论</h2><ul>
+<li>数据模型的组成要素：数据结构（静态特性)，数据操作(动态特性)，完整性约束条件</li>
+<li>任何关系必须满足<strong>实体完整性和参照完整性</strong>两个条件（还有用户自定义完整性）</li>
+<li>层次，网状，关系</li>
+</ul>
+<h2 id="第二讲：关系型数据库"><a href="#第二讲：关系型数据库" class="headerlink" title="第二讲：关系型数据库"></a>第二讲：关系型数据库</h2><ul>
+<li><p>域（domin）：是一组具有相同数据类型的值的集合（类似于数学的取值范围）</p>
+</li>
+<li><p>笛卡尔积：行行相乘</p>
+</li>
+<li><p>元组：一行数据，有n列就n元（向量）</p>
+</li>
+<li><p>分量：一个元组的一个列单元（分量）</p>
+</li>
+<li><p>属性：一列</p>
+</li>
+<li><p>候选码：所有唯一表示的键放一块（可以是好多个，也可以由多个组成一个）</p>
+</li>
+<li><p>全码：所有属性一起才能唯一表示称之为主码</p>
+</li>
+<li><p>主属性：候选码的属性</p>
+</li>
+<li><p><strong>关系模式可以形式化地表示为：</strong>R（U，D，DOM，F）</p>
+<p> R：关系名</p>
+<p> U ：组成该关系的属性名集合</p>
+<p> D ：属性组U中属性所来自的域</p>
+<p> DOM：属性向域的映象集合</p>
+<p> F：属性间的数据依赖关系集合 </p>
+</li>
+<li><p>关系代数运算符</p>
+<ul>
+<li>选择：选择特定行</li>
+<li>投影：输出特定列</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214252997.png" srcset="/img/loading.gif" lazyload alt="image-20230211214252997"></p>
+<ul>
+<li>连接相关定义</li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214910703.png" srcset="/img/loading.gif" lazyload alt="image-20230211214910703"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214926999.png" srcset="/img/loading.gif" lazyload alt="image-20230211214926999"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214935965.png" srcset="/img/loading.gif" lazyload alt="image-20230211214935965"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214948941.png" srcset="/img/loading.gif" lazyload alt="image-20230211214948941"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211214956483.png" srcset="/img/loading.gif" lazyload alt="image-20230211214956483"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230211215047974.png" srcset="/img/loading.gif" lazyload alt="image-20230211215047974"></p>
+<h2 id="第三讲：SQL"><a href="#第三讲：SQL" class="headerlink" title="第三讲：SQL"></a>第三讲：SQL</h2><p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214222518662.png" srcset="/img/loading.gif" lazyload alt="image-20230214222518662"></p>
+<ul>
+<li><strong>视图</strong><ul>
+<li>从一个或几个基本表导出的表</li>
+<li>数据库中只存放视图的定义而不存放视图对应的数据，视图是一个虚表</li>
+<li>用户可以在视图上再定义视图</li>
+</ul>
+</li>
+<li>模式（todo）</li>
+<li>删除的相关限制<ul>
+<li>CASCADE 和 RESTRICT</li>
+</ul>
+</li>
+<li>删除附带的情况</li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214223156674.png" srcset="/img/loading.gif" lazyload alt="image-20230214223156674"></p>
+<ul>
+<li><strong>MySQL数据类型</strong></li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214223234642.png" srcset="/img/loading.gif" lazyload alt="image-20230214223234642"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs sql"># CLUSTER 表示创建聚蔟索引<br><span class="hljs-keyword">CREATE</span> [<span class="hljs-keyword">UNIQUE</span>] [CLUSTER] INDEX <span class="hljs-operator">&lt;</span>索引名<span class="hljs-operator">&gt;</span>  <span class="hljs-keyword">ON</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span> (<span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>[<span class="hljs-operator">&lt;</span>次序<span class="hljs-operator">&gt;</span>]…)；<br><br># <span class="hljs-keyword">ESCAPE</span>表示指定该符号为转移字符<br><span class="hljs-keyword">SELECT</span>  <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span>   Course<br><span class="hljs-keyword">WHERE</span>  Cname <span class="hljs-keyword">LIKE</span>‘DB\_<span class="hljs-operator">%</span>i_ _’ <span class="hljs-keyword">ESCAPE</span> ‘\ ’<br>     <br>#这里先用<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span>字句按Sno进行分组，然后再用COUNT对每一组计数，<span class="hljs-keyword">HAVING</span>给出了选择组的条件，只有满足条件的组才会被选出    <br><span class="hljs-keyword">SELECT</span> Sno<br><span class="hljs-keyword">FROM</span>  SC<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> Sno<br><span class="hljs-keyword">HAVING</span>  <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">&gt;</span><span class="hljs-number">3</span>；         <br><br><span class="hljs-keyword">HAVING</span>短语与<span class="hljs-keyword">WHERE</span>子句的区别：<br>  作用对象不同；<br>  <span class="hljs-keyword">WHERE</span>子句作用于基表或视图，从中选择满 <br>     足条件的元组；<br> <span class="hljs-keyword">HAVING</span>短语作用于组，从中选择满足条件的组<br><br><br> <br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>一般情况下<strong>主键会默认创建聚簇索引</strong>，且一张表只允许存在一个聚簇索引</li>
+<li><strong>DISTINCT</strong>表示会去除重复的行</li>
+<li><strong>% 表示任意长度的字符串</strong>。**_ 则表示任意的单个字符**</li>
+<li><strong>Where 子句中是不能用聚集函数作为条件表达式的</strong></li>
+<li><strong>like和&#x3D;的区别</strong><ul>
+<li>like模糊查询，&#x3D;准确查找</li>
+<li>like严格匹配空格，&#x3D;会自动去除多余前缀后缀空格</li>
+</ul>
+</li>
+<li><strong>IS NULL</strong> <strong>或</strong> <strong>IS NOT NULL</strong>其中的is不能用&#x3D;替代</li>
+<li><strong>排序相关</strong><ul>
+<li>升序：ASC；降序：DESC，<strong>缺省值为升序</strong></li>
+<li>当排序列含空值时：<ul>
+<li>ASC：排序列为空值的元组最后显示</li>
+<li>DESC：排序列为空值的元组最先显示</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>当聚集函数遇到空值时，除了count( * )外，都跳过空值只处理非空值</li>
+<li>HAVING短语与WHERE子句的区别：<strong>作用对象不同</strong><ul>
+<li>WHERE子句作用于基表或视图，从中选择满足条件的元组；</li>
+<li>HAVING短语作用于组，从中选择满足条件的组</li>
+</ul>
+</li>
+<li>子查询的限制<ul>
+<li>不能使用 ORDER BY 子句</li>
+<li>层层嵌套方式反映了 SQL 语言的结构，有些嵌套查询可以用连接运算替代；</li>
+</ul>
+</li>
+<li>子查询分类<ul>
+<li>不相关子查询：先内层查询，再外层查询</li>
+<li>相关查询：取得外层中获取一条元组，代入到内层查询中，再查询得到内查询结果，再运行外层查询，然后再取一个元组运算</li>
+</ul>
+</li>
+<li>视图相关<ul>
+<li>视图定义以后，可以当成基本表一样使用，视图定义后，并不执行任何操作，只有在使用视图时，才执行，视图只是虚表，对视图的操作都转化成为对相应基本表的操作</li>
+<li>只能修改行列子视图，其他视图都不能修改</li>
+<li>视图的更新是受限更新<ul>
+<li>1.视图由两个基本表导出，则不可更新:</li>
+<li>2.视图的字段来白聚集函数，不可更新;</li>
+<li>3.视图定义中有GROUP BY或者DISTINCT短语，不允许更新4.定义在视图之上的视图，不允许更新</li>
+</ul>
+</li>
+<li>视图的作用<ul>
+<li>视图能够简化用户的操作</li>
+<li>视图使用户能以多种角度看待同一数据 </li>
+<li>视图对重构数据库提供了一定程度的逻辑独立性 </li>
+<li>视图能够对机密数据提供安全保护</li>
+<li>适当的利用视图可以更清晰的表达查询</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="第四章：数据库安全性"><a href="#第四章：数据库安全性" class="headerlink" title="第四章：数据库安全性"></a>第四章：数据库安全性</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">GRANT</span>  <span class="hljs-operator">&lt;</span>权限<span class="hljs-operator">&gt;</span> [,<span class="hljs-operator">&lt;</span>权限<span class="hljs-operator">&gt;</span>]... <br><span class="hljs-keyword">ON</span>   <span class="hljs-operator">&lt;</span>对象类型<span class="hljs-operator">&gt;</span>  <span class="hljs-operator">&lt;</span>对象名<span class="hljs-operator">&gt;</span>]<br><span class="hljs-keyword">TO</span>   <span class="hljs-operator">&lt;</span>用户<span class="hljs-operator">&gt;</span> [,<span class="hljs-operator">&lt;</span>用户<span class="hljs-operator">&gt;</span>]...<br>[<span class="hljs-keyword">WITH</span> <span class="hljs-keyword">GRANT</span> OPTION];#设置能否传递数据<br><br>#授予的权限可以由DBA或其他授权者用<span class="hljs-keyword">REVOKE</span>语句收回<br><span class="hljs-keyword">REVOKE</span> <span class="hljs-operator">&lt;</span>权限<span class="hljs-operator">&gt;</span>[,<span class="hljs-operator">&lt;</span>权限<span class="hljs-operator">&gt;</span>]... <br><span class="hljs-keyword">ON</span> <span class="hljs-operator">&lt;</span>对象类型<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>对象名<span class="hljs-operator">&gt;</span>]<br><span class="hljs-keyword">FROM</span> <span class="hljs-operator">&lt;</span>用户<span class="hljs-operator">&gt;</span>[,<span class="hljs-operator">&lt;</span>用户<span class="hljs-operator">&gt;</span>]...;<br><br>#对创建数据库模式一类的数据库对象的授权由DBA在创建用户时实现<br><span class="hljs-keyword">CREATE</span>  <span class="hljs-keyword">USER</span>  <span class="hljs-operator">&lt;</span>username<span class="hljs-operator">&gt;</span> <br>［<span class="hljs-keyword">WITH</span>］［DBA <span class="hljs-operator">|</span> RESOURCE <span class="hljs-operator">|</span> <span class="hljs-keyword">CONNECT</span>］<br><br>#角色的创建<br><span class="hljs-keyword">CREATE</span>  ROLE  <span class="hljs-operator">&lt;</span>角色名<span class="hljs-operator">&gt;</span> <br>#对角色授权 <br> <span class="hljs-keyword">GRANT</span> <span class="hljs-operator">&lt;</span>权限<span class="hljs-operator">&gt;</span>［，<span class="hljs-operator">&lt;</span>权限<span class="hljs-operator">&gt;</span>］… <br> <span class="hljs-keyword">ON</span> <span class="hljs-operator">&lt;</span>对象类型<span class="hljs-operator">&gt;</span> 对象名  <br>  <span class="hljs-keyword">TO</span> <span class="hljs-operator">&lt;</span>角色<span class="hljs-operator">&gt;</span>［，<span class="hljs-operator">&lt;</span>角色<span class="hljs-operator">&gt;</span>］…<br><br>#对修改SC表结构或修改SC表数据的操作进行审计<br>AUDIT <span class="hljs-keyword">ALTER</span>，<span class="hljs-keyword">UPDATE</span>  <br><span class="hljs-keyword">ON</span>  SC；<br><br># 取消对SC表的一切审计<br>NOAUDIT  <span class="hljs-keyword">ALTER</span>，<span class="hljs-keyword">UPDATE</span>  <br><span class="hljs-keyword">ON</span>  SC；<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\小赵同学\AppData\Roaming\Typora\typora-user-images\image-20230215010656553.png" srcset="/img/loading.gif" lazyload alt="image-20230215010656553"></p>
+<ul>
+<li><p><strong>常用存取控制方式</strong></p>
+<ul>
+<li>自主存取控制（Discretionary Access Control,DAC）</li>
+<li>强制存取控制（Mandatory Access Control, MAC）</li>
+</ul>
+</li>
+<li><p>对创建数据库模式一类的数据库对象的授权由DBA在创建用户时实现</p>
+</li>
+<li><p><strong>创建数据库模式的权限</strong></p>
+<ul>
+<li>具有CONNECT特权的用户：不能创建新用户，不能创建模式和基本表，可以与数据库连接，能根据授权进行数据库中数据的查询、更新。</li>
+<li>具有RESOURCE特权的用户除具有CONNECT特权外，还能创建表、索引，修改表结构，将自己创建的数据对象的访问权授予其他用户或从其他用户那儿收回，对自己创建的数据对象能进行跟踪审查。 </li>
+<li>具有DBA特权的用户能进行所有的数据库操作</li>
+</ul>
+</li>
+<li><p><strong>数据库角色</strong>：被命名的一组与数据库操作相关的权限</p>
+<ul>
+<li>角色是权限的集合 </li>
+<li>可以为一组具有相同权限的用户创建一个角色</li>
+<li>使用角色来管理数据库权限可以简化授权的过程</li>
+</ul>
+</li>
+<li><p><strong>强制存取控制（Mandatory Access Control,MAC）</strong></p>
+<ul>
+<li>每一个数据对象被标以一定的密级，每一个用户也被授予某一个级别的权限，对于任意一个数据对象，只有具有合法许可证的用户才可以存取</li>
+<li>保证更高程度的安全性</li>
+<li>用户不能直接感知或进行控制</li>
+<li>适用于对数据有严格而固定密级分类的部门</li>
+<li>仅当主体的许可证级别大于或等于客体的密级时，该主体才能读取相应的客体</li>
+<li>仅当主体的许可证级别等于客体的密级时，该主体才能写相应的客体</li>
+<li>禁止了拥有高许可证级别的主体更新低密级的数据对象。    </li>
+<li>强制存取控制是对数据本身进行密级标记，无论数据如何复制，标记与数据是一个不可分的整体，只有符合密级要求的用户才可以操作数据，从而提供了更高级别的安全性</li>
+</ul>
+</li>
+<li><p>还可以通过使用户观察视图而非控制原表格来实现</p>
+</li>
+<li><p>审计功能</p>
+<ul>
+<li>审计功能是数据库管理系统达到C2以上安全级别必不可少的一项指标<br>审计功能是把用户对数据库的所有操作自动记录下来放入审计日志（audit log）中，审计员可以利用审计日志监控数据库的各种行为，找出非法数据的人、时间和内容，对潜在的威胁提前采取措施加以防范。<br>审计通常很费时间和空间，所以数据库管理系统往往都将审计设置为可选特征，允许数据库管理员根据具体应用对安全性的要求灵活地打开或者关闭审计功能。 </li>
+<li>数据库安全审计系统提供了一种事后检查的安全机制，将特定用户或者特定对象相关的操作记录到审计日志中，作为后续对操作的查询分析和追踪的依据</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230215083646154.png" srcset="/img/loading.gif" lazyload alt="image-20230215083646154"></p>
+<h2 id="第五章：数据库完整性"><a href="#第五章：数据库完整性" class="headerlink" title="第五章：数据库完整性"></a>第五章：数据库完整性</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql">#创建对应断言来简化条件筛选<br><span class="hljs-keyword">CREATE</span>  ASSERTION  ASSE_SC_DB_NUM<br>	<span class="hljs-keyword">CHECK</span> (  <span class="hljs-number">60</span><span class="hljs-operator">&gt;=</span> (  <span class="hljs-keyword">SELECT</span>  <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>)<br>	<span class="hljs-keyword">FROM</span> Course, SC<br>	<span class="hljs-keyword">WHERE</span> SC.Cno<span class="hljs-operator">=</span>Course.Cno  <span class="hljs-keyword">AND</span>  Course.Cname<span class="hljs-operator">=</span>‘数据库’  )  )；<br>#触发器的创建相关<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TRIGGER</span> <span class="hljs-operator">&lt;</span>触发器名<span class="hljs-operator">&gt;</span>  <br>    &#123; BEFORE <span class="hljs-operator">|</span> AFTER &#125;  <span class="hljs-operator">&lt;</span>触发事件<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ON</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span><br>          <span class="hljs-keyword">FOR</span> <span class="hljs-keyword">EACH</span>  &#123; <span class="hljs-type">ROW</span> <span class="hljs-operator">|</span> STATEMENT &#125;<br>       ［ <span class="hljs-keyword">WHEN</span> <span class="hljs-operator">&lt;</span>触发条件<span class="hljs-operator">&gt;</span>］  <span class="hljs-operator">&lt;</span> 触发动作体 <span class="hljs-operator">&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>实体完整性<ul>
+<li>主码的值必须不为空且唯一</li>
+</ul>
+</li>
+</ul>
+<h2 id="第六章：关系数据理论"><a href="#第六章：关系数据理论" class="headerlink" title="第六章：关系数据理论"></a>第六章：关系数据理论</h2><p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230215100818862.png" srcset="/img/loading.gif" lazyload alt="image-20230215100818862"></p>
+<h2 id="第八章：数据库恢复技术"><a href="#第八章：数据库恢复技术" class="headerlink" title="第八章：数据库恢复技术"></a>第八章：数据库恢复技术</h2><ul>
+<li><strong>为什么要先写入日志</strong><ul>
+<li>写数据库和写日志文件是两个不同的操作在这两个操作之间可能发生故障</li>
+<li>如果先写了数据库修改，而在日志文件中没有登记下这个修改，则以后就无法恢复这个修改了</li>
+<li>如果先写日志，但没有修改数据库，按日志文件恢复时只不过是多执行一次不必要的UNDO操作，并不会影响数据库的正确性</li>
+</ul>
+</li>
+<li>数据库恢复的流程<ul>
+<li>撤销（Undo）故障发生时未完成的事务；</li>
+<li>重做（Redo）已完成的事务。</li>
+</ul>
+</li>
+<li><strong>redo日志和undo日志的本质区别</strong>（数据丢失时回复的流程）<ul>
+<li><strong>重做(REDO)队列</strong>在故障发生前已经提交的事务，这些事务既有BEGIN TRANSACTION记录，也有COMMIT记录</li>
+<li><strong>撤销 (Undo)队列</strong>故障发生时尚未完成的事务，这些事务只有BEGIN TRANSACTION记录，无相应的COMMIT记录</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230215090521946.png" srcset="/img/loading.gif" lazyload alt="image-20230215090521946"></p>
+<ul>
+<li>数据库恢复步骤<ul>
+<li>1、正向扫描日志文件（即从头扫描日志文件）<ul>
+<li><strong>重做(REDO)队列</strong>在故障发生前已经提交的事务，这些事务既有BEGIN TRANSACTION记录，也有COMMIT记录</li>
+<li><strong>撤销 (Undo)队列</strong>故障发生时尚未完成的事务，这些事务只有BEGIN TRANSACTION记录，无相应的COMMIT记录</li>
+</ul>
+</li>
+<li>2、对撤销(Undo)队列事务进行撤销(UNDO)处理<ul>
+<li>反向扫描日志文件，对每个UNDO事务的更新操作执行逆操作，即将日志记录中“更新前的值”写入数据库</li>
+</ul>
+</li>
+<li>3、对重做(Redo)队列事务进行重做(REDO)处理<ul>
+<li>正向扫描日志文件，对每个REDO事务重新执行登记的操作， 即将日志记录中“更新后的值”写入数据库</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用检查点方法可以改善恢复效率<ul>
+<li>当事务 T 在一个检查点之前提交，T 对数据库所做的修改已写入数据库，写入时间是在这个检查点建立之前或在这个检查点建立之时，在进行恢复处理时，没有必要对事务T执行REDO操作。</li>
+</ul>
+</li>
+<li><strong>动态维护日志文件</strong>的方法：周期性地执行如下操作：建立检查点，保存数据库状态<ul>
+<li>将当前日志缓冲区中的所有日志记录写入磁盘的日志文件上；</li>
+<li>在日志文件中写入一个检查点记录；</li>
+<li>将当前数据缓冲区的所有数据记录写入磁盘的数据库中；</li>
+<li>把检查点记录在日志文件中的地址写入一个重新开始文件。</li>
+</ul>
+</li>
+<li>冗余磁盘阵列(Redundent Array of Independent Disks，RAID)<ul>
+<li>RAID将一组磁盘驱动器用某种逻辑方式联系起来，作为逻辑上的一个磁盘驱动器来使用。</li>
+<li>一般情况下，组成的逻辑磁盘驱动器的容量要小于各个磁盘驱动器容量的总和。</li>
+<li>RAID通过冗余技术，提供一个高级别的数据保护。</li>
+<li>RAID的具体实现可以靠硬件也可以靠软件，Windows NT操作系统就提供软件RAID功能。</li>
+<li>优点<ul>
+<li>成本低，功耗小，传输速率高 </li>
+<li>可以提供容错功能 </li>
+<li>具备数据校验（Parity）功能 </li>
+<li>RAID比起传统的大直径磁盘驱动器来，在同样的容量下，价格要低许多</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="第九讲：并发控制"><a href="#第九讲：并发控制" class="headerlink" title="第九讲：并发控制"></a>第九讲：并发控制</h2><p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214230209638.png" srcset="/img/loading.gif" lazyload alt="image-20230214230209638"></p>
+<ul>
+<li>依赖的事务构成了环则为死锁，可以撤销代价小的事务解决</li>
+<li><strong>两段锁协议</strong><ul>
+<li><strong>第一阶段是获得封锁</strong>，也称为扩展阶段</li>
+<li>事务可以申请获得任何数据项上的任何类型的锁，但是不能释放任何锁 </li>
+<li><strong>第二阶段是释放封锁</strong>，也称为收缩阶段</li>
+<li>事务可以释放任何数据项上的任何类型的锁，但是不能再申请任何锁</li>
+</ul>
+</li>
+<li><strong>意向锁</strong><ul>
+<li>如果对一个结点加意向锁，则说明该结点的下层结点正在被加锁</li>
+<li>对任一结点加基本锁，必须先对它的上层结点加意向锁<ul>
+<li>例：对任一元组加锁时，必须先对它所在的数据库和关系加意向锁</li>
+</ul>
+</li>
+<li>SIX锁<ul>
+<li>如果对一个数据对象加SIX锁，表示对它加S锁，再加IX锁， 即SIX &#x3D; S + IX。（只和IS锁相容）</li>
+<li>对某个表加SIX锁，则表示该事务要读整个表（所以要对该表加S锁），同时会更新个别元组（所以要对该表加IX锁）</li>
+<li>之所以其只和is锁相容是因为IX锁只和IS和IX锁相容</li>
+<li>IX锁和IX锁相容是因为两者都只是意向锁</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230214231333195.png" srcset="/img/loading.gif" lazyload alt="image-20230214231333195"></p>
+<h2 id="第十章：数据库设计"><a href="#第十章：数据库设计" class="headerlink" title="第十章：数据库设计"></a>第十章：数据库设计</h2><ul>
+<li><p>数据库设计分6个阶段<br>① 需求分析<br>② 语义数据库建模（概念结构设计）<br>③ 逻辑结构设计<br>④ 物理结构设计<br>⑤ 数据库实现<br>⑥ 数据库运行管理与维护 </p>
+</li>
+<li><p>需求分析和概念设计独立于任何数据库管理系统 </p>
+</li>
+<li><p>逻辑设计和物理设计与选用的DBMS密切相关</p>
+</li>
+<li><p>数据字典的用途</p>
+<ul>
+<li>进行详细的数据收集和数据分析所获得的主要结果</li>
+</ul>
+</li>
+<li><p>数据字典的内容</p>
+</li>
+<li><p>数据项</p>
+</li>
+<li><p>数据结构</p>
+</li>
+<li><p>数据流</p>
+</li>
+<li><p>数据存储</p>
+</li>
+<li><p>处理过程</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>数据库系统的<strong>特点</strong></p>
+<ul>
+<li>数据结构化；数据的共享性高，冗余度低，易扩充；数据独立性高；数据由DBMS统一管理和控制</li>
+</ul>
+</li>
+<li><p>数据模型分为<strong>两类</strong>（分属两个不同的层次）</p>
+<ul>
+<li>概念模型   也称信息模型，它是按用户的观点来对数据和信息建模，用于数据库设计。 </li>
+<li>逻辑模型和物理模型   <ul>
+<li>逻辑模型主要包括网状模型、层次模型、关系模型、面向对象模型等，按计算机系统的观点对数据建模，用于DBMS实现。<br>物理模型是对数据最底层的抽象，描述数据在系统内部的表示方式和存取方法，在磁盘或磁带上的存储方式和存取方法。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>数据模型的组成要素：数据结构 ；数据操作；完整性约束条件</p>
+</li>
+<li><p>关系数据模型的优缺点</p>
+<ul>
+<li>优点<ul>
+<li>建立在严格的数学概念的基础上</li>
+<li>概念单一</li>
+<li>实体和各类联系都用关系(即表)来表示，对数据的检索结果也是关系</li>
+<li>关系模型的存取路径对用户透明</li>
+<li>具有更高的数据独立性，更好的安全保密性简化了程序员的工作和数据库开发建立的工作</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>存取路径对用户透明导致查询效率往往不如非关系数据模型</li>
+<li>为提高性能，必须对用户的查询请求进行优化增加了开发DBMS的难度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>先进行DAC检查，通过DAC检查的数据对象再由系统进行MAC检查，只有通过MAC检查的数据对象方可存取。</p>
+</li>
+<li><p>两段锁协议</p>
+<ul>
+<li>指所有事务必须分两个阶段对数据项加锁和解锁 </li>
+<li>在对任何数据进行读、写操作之前，事务首先要获得对该数据的封锁</li>
+<li>在释放一个封锁之后，事务不再申请和获得任何其他封锁</li>
+</ul>
+</li>
+<li><p>封锁对象的大小称为封锁粒度(Granularity)<br>封锁的对象：逻辑单元，物理单元<br>封锁粒度与系统的并发度和并发控制的开销密切相关。<br>封锁的粒度越大，数据库所能够封锁的数据单元就越少，并发度就越小，系统开销也越小；<br>封锁的粒度越小，并发度较高，但系统开销也就越大</p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/数据库课程笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E7%BC%96%E7%A8%8B%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/2023java%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

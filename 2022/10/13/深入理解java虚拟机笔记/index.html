@@ -29,10 +29,10 @@
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120153930160.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165159996.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165405966.png">
-<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221201173858863.png">
-<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123202904830.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123193014729.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123202904830.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126173040784.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221201173858863.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125203607563.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221125203205479.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221128104046824.png">
@@ -49,7 +49,7 @@
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126125054413.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126161740653.png">
 <meta property="article:published_time" content="2022-10-13T12:33:18.950Z">
-<meta property="article:modified_time" content="2023-02-18T15:40:01.833Z">
+<meta property="article:modified_time" content="2023-03-05T08:20:11.734Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221119222233318.png">
@@ -534,10 +534,8 @@
 </li>
 <li><p>经典垃圾回收器</p>
 <ul>
-<li><p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165159996.png" srcset="/img/loading.gif" lazyload alt="image-20221121165159996"></p>
-</li>
-<li><p><strong>Serial 垃圾回收器</strong></p>
-<ul>
+<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165159996.png" srcset="/img/loading.gif" lazyload alt="image-20221121165159996"></li>
+<li><strong>Serial 垃圾回收器</strong><ul>
 <li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221121165405966.png" srcset="/img/loading.gif" lazyload alt="image-20221121165405966"></li>
 <li>优点：HotSpot虚拟机运行在客户端模式下的默认新生代收集器，有着优于其他收集器的地方，那就是<strong>简单而高效</strong>（与其他收集器的单线程相比）<ul>
 <li><strong>物理机内存受限的情况：</strong>对于内存资源受限的环境，它是所有收集器里<strong>额外内存消耗（Memory Footprint）最小的</strong>；</li>
@@ -547,10 +545,8 @@
 </li>
 </ul>
 </li>
-<li><p><strong>ParNew收集器</strong></p>
-<ul>
+<li><strong>ParNew收集器</strong><ul>
 <li>实质上是Serial收集器的多线程并行版本，除了同时使用多条线程进行垃圾收集之外，其余的行为包括Serial收集器可用的所有控制参数（例如：-XX：SurvivorRatio、-XX：PretenureSizeThreshold、-XX：HandlePromotionFailure等）、收集算法、Stop The World、对象分配规则、回收策略等都与Serial收集器完全一致，在实现上这两种收集器也共用了相当多的代码</li>
-<li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221201173858863.png" srcset="/img/loading.gif" lazyload alt="image-20221123193014729"></li>
 <li>优点：不少运行在服务端模式下的HotSpot虚拟机<ul>
 <li>除了Serial收集器外，目前只有它能与CMS收集器配合工作</li>
 <li>当处理器多核并且开启了很多线程时比Serial收集器效果更好</li>
@@ -559,8 +555,7 @@
 <li>缺点：ParNew收集器在单核心处理器的环境中绝对不会有比Serial收集器更好的效果，甚至由于存在线程交互的开销，该收集器在通过超线程（Hyper-Threading）技术实现的伪双核处理器环境中都不能百分之百保证超越Serial收集器。当然，随着可以被使用的处理器核心数量的增加，ParNew对于垃圾收集时系统资源的高效利用还是很有好处的。它默认开启的收集线程数与处理器核心数量相同，在处理器核心非常多（譬如32个，现在CPU都是多核加超线程设计，服务器达到或超过32个逻辑核心的情况非常普遍）的环境中</li>
 </ul>
 </li>
-<li><p><strong>Parallel Scavenge收集器：</strong>也是一款新生代收集器，它同样是基于标记-复制算法实现的收集器，也是能够并行收集的多线程收集器，Parallel Scavenge的诸多特性从表面上看和ParNew非常相似</p>
-<ul>
+<li><strong>Parallel Scavenge收集器：</strong>也是一款新生代收集器，它同样是基于标记-复制算法实现的收集器，也是能够并行收集的多线程收集器，Parallel Scavenge的诸多特性从表面上看和ParNew非常相似<ul>
 <li>特点：Parallel Scavenge收集器的特点是它的关注点与其他收集器不同，CMS等收集器的关注点是尽可能地缩短垃圾收集时用户线程的停顿时间，而Parallel Scavenge收集器的目标则是达到一个可控制的吞吐量（Throughput）。所谓吞吐量就是处理器用于运行用户代码的时间与处理器总消耗时间的比值</li>
 <li>适用场景：停顿时间越短就越适合需要与用户交互或需要保证服务响应质量的程序，良好的响应速度能提升用户体验；而高吞吐量则可以最高效率地利用处理器资源，尽快完成程序的运算任务，主要适合在后台运算而不需要太多交互的分析任务</li>
 <li>调节参数：Parallel Scavenge收集器提供了两个参数用于精确控制吞吐量，<ul>
@@ -576,6 +571,9 @@
 </li>
 </ul>
 </li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123193014729.png" srcset="/img/loading.gif" lazyload alt="image-20221126173040784"></p>
+<ul>
 <li><p><strong>Serial Old收集器：</strong>是Serial收集器的老年代版本，它同样是一个单线程收集器，使用标记-整理算法(特征类似Serial )</p>
 <ul>
 <li>适用场景：<ul>
@@ -587,7 +585,7 @@
 </li>
 <li><p><strong>Parallel Old收集器：</strong>是Parallel Scavenge收集器的老年代版本，支持多线程并发收集，基于标记-整理算法实现</p>
 <ul>
-<li>适用场景：在注重吞吐量或者处理器资源较为稀缺的场合，都可以优先考虑Parallel Scavenge加Parallel Old收集器这个组合</li>
+<li>适用场景：<strong>在注重吞吐量或者处理器资源较为稀缺的场合，都可以优先考虑Parallel Scavenge加Parallel Old收集器这个组合</strong></li>
 </ul>
 </li>
 <li><p><strong>CMS（Concurrent Mark Sweep）收集器：</strong>是一种以获取最短回收停顿时间为目标的收集器</p>
@@ -668,7 +666,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221123193014729.png" srcset="/img/loading.gif" lazyload alt="image-20221126173040784"></p>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126173040784.png" srcset="/img/loading.gif" lazyload alt="image-20221201173858863"></p>
 </li>
 <li><p><strong>CMS垃圾回收器和G1垃圾回收器比较</strong></p>
 <ul>
@@ -685,32 +683,38 @@
 <li><p>TODO （剩余部分省略）</p>
 </li>
 </ul>
-<h2 id="第六章：类文件结构"><a href="#第六章：类文件结构" class="headerlink" title="第六章：类文件结构"></a>第六章：类文件结构</h2><ul>
-<li>class文件由两部分组成：无符号数和表（更准确的说，class文件的一部分即为常量池，而常量池中的所有数据项都可以看做是“_info”结尾的表，而这些表又由其他表或者基本数据类型所组成）<ul>
+<h2 id="第六章：类文件结构"><a href="#第六章：类文件结构" class="headerlink" title="第六章：类文件结构"></a>第六章：类文件结构</h2><p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221201173858863.png" srcset="/img/loading.gif" lazyload alt="image-20221123193014729"></p>
+<ul>
+<li><p>class文件由两部分组成：无符号数和表（更准确的说，class文件的一部分即为常量池，而常量池中的所有数据项都可以看做是“_info”结尾的表，而这些表又由其他表或者基本数据类型所组成）</p>
+<ul>
 <li>无符号数属于基本的数据类型，以u1、u2、u4、u8来分别代表1个字节、2个字节、4个字节和8个字节的无符号数，无符号数可以用来描述数字、索引引用、数量值或者按照UTF-8编码构成字符串值。</li>
 <li>表是由多个无符号数或者其他表作为数据项构成的复合数据类型，为了便于区分，所有表的命名都习惯性地以“_info”结尾。表用于描述有层次关系的复合结构的数据，整个Class文件本质上也可以视作是一张表，这张表由表6-1所示的数据项按严格顺序排列构成</li>
 </ul>
 </li>
-<li>由于class文件没有任何分割符，所以必须保证其长度的确定性</li>
-<li>UTF-8缩略编码与普通UTF-8编码的区别是：（尽可能的省）<ul>
+<li><p>由于class文件没有任何分割符，所以必须保证其长度的确定性</p>
+</li>
+<li><p>UTF-8缩略编码与普通UTF-8编码的区别是：（尽可能的省）</p>
+<ul>
 <li>从’\u0001’到’\u007f’之间的字符（相当于1～127的ASCII码）的缩略编码使用一个字节表示，从’\u0080’到’\u07ff’之间的所有字符的缩略编码用两个字节表示，从’\u0800’开始到’\uffff’之间的所有字符的缩略编码就按照普通UTF-8编码规则使用三个字节表示</li>
 </ul>
 </li>
-<li>类文件中的数据指向可以看做是连环嵌套的格式，比如下图类索引指向常量池中的类info，而类info中的字面量又指向utf8_info</li>
-</ul>
-<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221126173040784.png" srcset="/img/loading.gif" lazyload alt="image-20221201173858863"></p>
+<li><p>类文件中的数据指向可以看做是连环嵌套的格式，比如下图类索引指向常量池中的类info，而类info中的字面量又指向utf8_info</p>
+</li>
+<li><p>相比于全限定名和简单名称，方法和字段的描述符就要复杂一些。描述符的作用是用来描述字段的数据类型、方法的参数列表（包括数量、类型以及顺序）和返回值</p>
 <ul>
-<li>相比于全限定名和简单名称，方法和字段的描述符就要复杂一些。描述符的作用是用来描述字段的数据类型、方法的参数列表（包括数量、类型以及顺序）和返回值<ul>
 <li>对于数组类型，每一维度将使用一个前置的“[”字符来描述，如一个定义为“java.lang.String[][]”类型的二维数组将被记录成“[[Ljava&#x2F;lang&#x2F;String；”，一个整型数组“int[]”将被记录成“[I”。</li>
 <li>用描述符来描述方法时，按照先参数列表、后返回值的顺序描述，参数列表按照参数的严格顺序放在一组小括号“()”之内。如方法void inc()的描述符为“()V”，方法java.lang.String toString()的描述符为“()Ljava&#x2F;lang&#x2F;String；”，方法int indexOf(char[]source，int sourceOffset，int sourceCount，char[]target，int targetOffset，int targetCount，int fromIndex)的描述符为“([CII[CIII)I”</li>
 </ul>
 </li>
-<li>方法表中本身没有code，其具体代码存放在方法属性表中<ul>
+<li><p>方法表中本身没有code，其具体代码存放在方法属性表中</p>
+<ul>
 <li>方法的定义可以通过访问标志、名称索引、描述符索引来表达清楚，但方法里面的代码去哪里了？方法里的Java代码，经过Javac编译器编译成字节码指令之后，存放在方法属性表集合中一个名为“Code”的属性里面，属性表作为Class文件格式中最具扩展性的一种数据项目，将在下一节中详细讲解。</li>
 </ul>
 </li>
-<li>在Java语言中，要重载（Overload）一个方法，除了要与原方法具有相同的简单名称之外，还要求必须拥有一个与原方法不同的特征签名[2]。特征签名是指一个方法中各个参数在常量池中的字段符号引用的集合，也正是因为返回值不会包含在特征签名之中，所以Java语言里面是无法仅仅依靠返回值的不同来对一个已有方法进行重载的。但是在Class文件格式之中，特征签名的范围明显要更大一些，只要描述符不是完全一致的两个方法就可以共存。也就是说，如果两个方法有相同的名称和特征签名，但返回值不同，那么也是可以合法共存于同一个Class文件中的</li>
-<li>与Class文件中其他的数据项目要求严格的顺序、长度和内容不同，属性表集合的限制稍微宽松一些，不再要求各个属性表具有严格顺序，并且《Java虚拟机规范》允许只要不与已有属性名重复，任何人实现的编译器都可以向属性表中写入自己定义的属性信息，Java虚拟机运行时会忽略掉它不认识的属性</li>
+<li><p>在Java语言中，要重载（Overload）一个方法，除了要与原方法具有相同的简单名称之外，还要求必须拥有一个与原方法不同的特征签名[2]。特征签名是指一个方法中各个参数在常量池中的字段符号引用的集合，也正是因为返回值不会包含在特征签名之中，所以Java语言里面是无法仅仅依靠返回值的不同来对一个已有方法进行重载的。但是在Class文件格式之中，特征签名的范围明显要更大一些，只要描述符不是完全一致的两个方法就可以共存。也就是说，如果两个方法有相同的名称和特征签名，但返回值不同，那么也是可以合法共存于同一个Class文件中的</p>
+</li>
+<li><p>与Class文件中其他的数据项目要求严格的顺序、长度和内容不同，属性表集合的限制稍微宽松一些，不再要求各个属性表具有严格顺序，并且《Java虚拟机规范》允许只要不与已有属性名重复，任何人实现的编译器都可以向属性表中写入自己定义的属性信息，Java虚拟机运行时会忽略掉它不认识的属性</p>
+</li>
 </ul>
 <h2 id="第十章：前端编译和优化（TODO学完编译原理后学习）"><a href="#第十章：前端编译和优化（TODO学完编译原理后学习）" class="headerlink" title="第十章：前端编译和优化（TODO学完编译原理后学习）"></a>第十章：前端编译和优化（TODO学完编译原理后学习）</h2><ul>
 <li><strong>java中的编译的”多种解释”</strong><ul>
@@ -746,7 +750,6 @@
 </li>
 </ul>
 </li>
-<li></li>
 </ul>
 <h2 id="第十一章：后端编译和优化"><a href="#第十一章：后端编译和优化" class="headerlink" title="第十一章：后端编译和优化"></a>第十一章：后端编译和优化</h2><ul>
 <li><p>即时编译器编译热点代码</p>

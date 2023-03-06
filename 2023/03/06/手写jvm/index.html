@@ -1,0 +1,811 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="手写jvm相关笔记第一章：命令行工具 使用flag包中的go语言函数能够很方便的解析命令行中  第二章：搜索class文件概述：实现类路径，使得虚拟机可以找到对应class文件，并将数据加载到内存中  类路径可以分为以下三个部分 启动类路径 其默认路径对应于jre&#x2F;lib目录，java的标准库存在于该路径   扩展类路径 扩展类路径默认位于jre&#x2F;lib&#x2F;ext目录中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/%E6%89%8B%E5%86%99jvm/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="手写jvm相关笔记第一章：命令行工具 使用flag包中的go语言函数能够很方便的解析命令行中  第二章：搜索class文件概述：实现类路径，使得虚拟机可以找到对应class文件，并将数据加载到内存中  类路径可以分为以下三个部分 启动类路径 其默认路径对应于jre&#x2F;lib目录，java的标准库存在于该路径   扩展类路径 扩展类路径默认位于jre&#x2F;lib&#x2F;ext目录中">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-06T12:20:13.811Z">
+<meta property="article:modified_time" content="2023-03-06T06:45:30.558Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="手写jvm相关笔记"><a href="#手写jvm相关笔记" class="headerlink" title="手写jvm相关笔记"></a>手写jvm相关笔记</h1><h2 id="第一章：命令行工具"><a href="#第一章：命令行工具" class="headerlink" title="第一章：命令行工具"></a>第一章：命令行工具</h2><ul>
+<li>使用flag包中的go语言函数能够很方便的解析命令行中</li>
+</ul>
+<h2 id="第二章：搜索class文件"><a href="#第二章：搜索class文件" class="headerlink" title="第二章：搜索class文件"></a>第二章：搜索class文件</h2><p><strong>概述</strong>：实现类路径，使得虚拟机可以找到对应class文件，并将数据加载到内存中</p>
+<ul>
+<li>类路径可以分为以下三个部分<ul>
+<li>启动类路径<ul>
+<li>其默认路径对应于jre&#x2F;lib目录，java的标准库存在于该路径</li>
+</ul>
+</li>
+<li>扩展类路径<ul>
+<li>扩展类路径默认位于jre&#x2F;lib&#x2F;ext目录中，使用java扩展机制的类位于该路径</li>
+</ul>
+</li>
+<li>用户类路径<ul>
+<li>自己实现的和第三方的类库位于用户类路径，可以使用-Xbootclasspath选项修改启动类路径，但一般不这样做</li>
+<li>用户类路径的默认值是当前路径，即“.”,可以在CLASSPATH环境变量中设置对应的路径，但是这样设置并不灵活，所以不推荐使用，更好的办法是使用java命令传递 -classpath(或者可以简写为-cp)，并且使用-classpath(-cp)所设置的选项优先级更高，可以覆盖环境变量的配置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>entry实际上就是一个访问类路径，并且其有不同类型，当对其进行赋值操作时，并不是简单的进行赋值，而是通过对应方法在调用过程中就设定了对应的entry类型</li>
+<li><strong>本章相关方法解析</strong><ul>
+<li>readClass方法参数是class的相对路径，路径之间使用 &#x2F; 进行分隔，文件名后面有class后缀，该方法的返回值是读取到的字节数据，最终定位到class文件的entry，以及相应错误信息</li>
+</ul>
+</li>
+<li><strong>本章相关go语言特性</strong><ul>
+<li>go的函数或者方法允许返回多个值，按照惯例，可以使用最后一个返回值作为错误信息</li>
+<li>go语言和java不同的是，go语言结构体不需要显式实现接口，只需要进行方法匹配，并且go语言没有专门的构造函数，可以使用统一的new开头的函数作为创建结构体实例的函数</li>
+</ul>
+</li>
+</ul>
+<h2 id="第三章：解析class文件"><a href="#第三章：解析class文件" class="headerlink" title="第三章：解析class文件"></a>第三章：解析class文件</h2><p><strong>概述：</strong>实现class文件解析，可以将class数据解析成一个ClassFile结构体</p>
+<ul>
+<li><p>classreader只是对字节数组进行封装，每次读取就读取数据然后切割数据，对于读取数组类型的数据，则先读取对应的长度，然后迭代读取</p>
+</li>
+<li><p>使用统一的MemberInfo来作为对于<strong>字段或者方法</strong>的描述符，二者合二为一</p>
+</li>
+<li><p>class文件中存储的类名类似于完全限定名，只是将点换成了斜线，java语言规范将这种名称称之为 二进制名</p>
+</li>
+<li><p>常量池实际上也是一个表，但是需要注意如下三点</p>
+<ul>
+<li>表头给出的常量池的大小比实际大1，假设表头给出的值是n，那么常量池的实际大小是n-1</li>
+<li>有效的常量池索引是  1到n-1  ，0是无效索引，表示不指向任何常量</li>
+<li>CONSTANT_Long_info和CONSTANT_Double_info还要各占两个位置，即如果常量池中存在这两种常量，那么常量池中的实际常量数量比n-1还要少，并且索引范围中的部分数也会变成无效索引</li>
+</ul>
+</li>
+<li><p>CONSTANT_Integer_info正好可以容纳一个java的int类型常量，但是实际上比int小的boolean、byte、short和char类型常量也存放在CONSTANT_Integer_info中</p>
+</li>
+<li><p>注意在class文件中，字符串是以MUTF-8（Modified UTF-8）方式编码的，而不是使用标准的UTF-8，同样的java序列化也是使用MUTF-8</p>
+</li>
+<li><p>常量池中的常量可以分为以下两种</p>
+<ul>
+<li><p>字面量（literal）：字面量包括数字常量和字符串常量</p>
+</li>
+<li><p>符号引用（symbolic reference）：符号引用包含类和接口名，字段和方法信息</p>
+</li>
+</ul>
+</li>
+<li><p>除了字面量以外，其他常量都是通过索引间接或者直接的指向CONSTANT_Utf-8_info</p>
+</li>
+<li><p>计算机科学中的任何难题都可以通过增加一个中间层来解决，在本书中的ClassFile结构体就是为了实现类加载功能而增加的中间层</p>
+</li>
+<li><p>由于属性表中的数据并不是固定的，不用的虚拟机可以实现不同的属性，java虚拟机规范没有使用tag来表明属性，而是使用属性名来区分不同的属性</p>
+</li>
+<li><p><strong>本章相关go语言特性</strong></p>
+<ul>
+<li>为了描述class文件结构，java虚拟机规范规定了u1，u2，u4等四种数据类型来表示1、2、4字节的无符号整数，分别对应的是go语言中的uint8、uint16、uint32。相同类型的多条数据一般使用表的形式存储在class文件中，表由表头和表项构成，表头是u2或者u4整数，假设表头是n，后面就紧跟着n个表项数据</li>
+<li>相比于java语言中，go语言的访问控制很简单，只有公开和私有两种，所有首字母大写的都是公开的，可以供其他包进行使用，所有首字母小写的都是私有的，只能在包内部使用</li>
+<li>go语言没有异常处理机制，只有一个panic-recover机制</li>
+<li>go语言没有相关继承定义，但是可以使用结构体嵌套来模拟继承</li>
+</ul>
+</li>
+</ul>
+<h3 id="新代码实现学习："><a href="#新代码实现学习：" class="headerlink" title="新代码实现学习："></a>新代码实现学习：</h3><p>class_reader:使用切片进行数据读取</p>
+<h2 id="第四章：运行时数据区"><a href="#第四章：运行时数据区" class="headerlink" title="第四章：运行时数据区"></a>第四章：运行时数据区</h2><p><strong>概述</strong>：初步实现线程私有的运行时数据区</p>
+<ul>
+<li>运行java程序时，需要内存来存放各式各样的数据，java虚拟机规范将这些内存区域称之为运行时数据区，并且运行时数据区可以分为以下两种：<ul>
+<li>多线程共享：共享的数据区需要在java虚拟机启动的时候就创建好，在java虚拟机退出时销毁，多线程共享区域主要存放以下两种数据<ul>
+<li>类数据：类数据存放在方法区中，类数据包含字段和方法信息，方法的字节码，运行时常量池等，从逻辑上将方法区实际上也是堆的一部分</li>
+<li>类实例：对象信息存放在堆中，该部分信息由垃圾回收器进行处理</li>
+</ul>
+</li>
+<li>单线程私有：私有的数据区在创建线程时才创建，线程退出时销毁，其由以下几部分组成<ul>
+<li>PC寄存器：存放当前正在执行的java虚拟机指令的地址</li>
+<li>java虚拟机栈：其由一系列栈帧组成，栈帧中保存方法执行的状态，包括局部变量表和操作数栈等，在任意时刻，某一线程肯定是在执行某个方法，这个方法称之为当前线程的当前方法，执行该方法的帧称之为线程的当前帧，声明该方法的类称之为当前类</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>java中的引用类型分为<ul>
+<li>类类型，接口类型，数组类型，null</li>
+</ul>
+</li>
+<li>注意当操作数栈弹出一个引用类型变量时，需要对这个slot结构体中的ref设置为nil，以便于更好的帮助go语言实现垃圾回收object结构体实例</li>
+</ul>
+<h2 id="第五章：指令集和解释器"><a href="#第五章：指令集和解释器" class="headerlink" title="第五章：指令集和解释器"></a>第五章：指令集和解释器</h2><p><strong>概述：</strong>在先前的基础上实现一个简单的解释器和150多条指令，这些指令主要用于操作局部变量表和操作数栈，进行数学运算，比较运算，跳转控制等</p>
+<ul>
+<li>可以理解为虚拟机是一个虚拟的机器，而字节码就是这个虚拟的机器上的机器码，由于每一个指令都由一个字节组成，故称之为字节码</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> Instruction <span class="hljs-keyword">interface</span> &#123;<br>    <span class="hljs-comment">//从字节码中提取操作数</span><br>	FetchOperands(reader *BytecodeReader)<br>    <span class="hljs-comment">//具体的逻辑实现</span><br>	Execute(frame *rtda.Frame)<br>&#125;<br><span class="hljs-comment">//而具体的操作数并不存放在Instruction接口中，而是存放在继承Instruction的类型中</span><br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>操作数栈和局部变量表只存放数据的值，并不记录数据类型</li>
+<li>如果使用switch来映射执行语句则会使得代码可读性差，本书使用将指令抽象为接口，解码和执行逻辑写在具体的指令实现中</li>
+<li>为了避免每次解码指令都需要创建一个BytecodeReader实例，给BytecodeReader定义一个reset方法来实现对其的复用</li>
+<li>fcmp用于比较浮点数，该指令和lcmp指令很像，但是由于浮点数运算中可能产生NaN值，所以比较两个浮点数时，除了要定义大于、小于、等于之外，还有第四种结果：无法比较</li>
+<li>所有的跳转逻辑都集成在Branch()函数中</li>
+<li>java语言中的switch-case语句有两种实现方式<ul>
+<li>如果case值可以编码成一个索引表（case中的情况是正整数），则实现成tableswitch</li>
+<li>如果不能表示则实现成lookupswitch指令</li>
+</ul>
+</li>
+<li>对于大部分的方法而言，其局部变量表大小都不会超过256，所以使用一字节来表示索引就足够了，但是如果有的方法的局部变量表超过限制则需要使用wide指令来扩展前述指令</li>
+<li>相关指令集中有很大一部分指令集是没有操作数的，所以不需要每次都创建不同的实例，为了优化可以为这些指令定义单例变量，使得每次调用实际上都是使用的同一个单例变量</li>
+<li><strong>本章相关go语言特性</strong><ul>
+<li>由于go语言没有给浮点数类型进行求余的操作符，所以需要另外使用math包中的mod函数进行求余</li>
+</ul>
+</li>
+</ul>
+<h2 id="第六章：类和对象"><a href="#第六章：类和对象" class="headerlink" title="第六章：类和对象"></a>第六章：类和对象</h2><p><strong>概述</strong>：实现线程共享的运行时数据区，包括方法区和运行时常量池，并且将进一步处理ClassFile结构体，并且将其加以转换，放到方法区以供后续使用，实现了类和对象结构体、一个简单的类加载器，以及ldc和部分引用类指令</p>
+<ul>
+<li><p>方法区：属于运行时数据区的一块逻辑区域，由多个线程共享，方法区主要用于存放从class文件中获取的类信息，此外类信息也会存放在方法区中，当java虚拟机第一次使用某个类时，它会搜索类路径找到对应的class文件，然后读取并且解析class文件，将相关信息放入方法区，至于方法区到底位于何处，是固定大小还是动态调整，是否参与垃圾回收，以及如何在方法区中存放类数据等，java虚拟机规范并没有明确规定</p>
+</li>
+<li><p>操作数栈和局部变量表大小是在java编译过程时就计算好的，并不需要额外计算</p>
+</li>
+<li><p>运行时常量池主要存放以下两种信息：</p>
+<ul>
+<li>字面量：包含整数、浮点数、字符串字面量</li>
+<li>符号引用：包含类符号引用、字段符号引用、方法符号引用、接口方法符号引用</li>
+</ul>
+</li>
+<li><p>在结构体中定义cp字段，cp是指向常量池的指针，这样就可以通过符号引用访问到运行时常量池，进一步访问到对应的微数据</p>
+</li>
+<li><p>使用className字段用于存放类的完全限定名，class字段用于缓存解析后的类结构体指针，这样类符号引用只需要解析一次就可以了，后续可以直接使用其缓存值</p>
+</li>
+<li><p>定义ClassMember结构体用于存放字段和方法所共有的信息，类似的也定义了MemberRef结构体来存放字段和方法符号引用共有的信息</p>
+</li>
+<li><p>P135相关的继承关系图</p>
+</li>
+<li><p>类加载器的结构体中存在cp用于保存classpath指针，而使用classMap字段来记录已经加载的类数据（在java虚拟机规范中，方法区只是一个抽象的概念，可以使用classMap作为方法区具体的实现）</p>
+</li>
+<li><p>数组类和普通类并不相同，数组类的数据并不是来自class文件，而是在java虚拟机运行期间动态生成</p>
+</li>
+<li><p>类的加载过程：</p>
+<ul>
+<li>找到class文件并且将数据读取到内存中</li>
+<li>解析class文件，生成虚拟机可以使用的类数据，并放入方法区中</li>
+<li>最后进行连接（类的连接分为验证和准备两个部分）</li>
+</ul>
+</li>
+<li><p>类的连接过程</p>
+<ul>
+<li>验证：在java虚拟机规范中要求在执行类的任何代码之前都需要对类进行严格的验证（本书忽略其实现）</li>
+<li>准备：准备阶段主要是给类变量分配空间并且给予其初始值</li>
+</ul>
+</li>
+<li><p>注意类是可以继承的，在统计实例变量时，要递归的数超类中的实例变量</p>
+</li>
+<li><p>如果静态变量属于基本类型或者String类型，有final修饰符，并且在编译期间已知，则将该值存储在class文件的常量池中</p>
+</li>
+<li><p>ldc系列指令将运行时常量池中的常量推入操作数栈顶</p>
+</li>
+<li><p>new指令的操作数是一个uint16索引，来自字节码，通过这个索引，可以从当前类的运行时常量池中找到一个对应的类符号引用，解析这个类符号引用，拿到对应的类数据，创建对应对象然后将这个对象引用推入栈顶</p>
+</li>
+<li><p>由于接口和抽象类都不能进行实例化，所以当解析后的类是接口或者抽象类，按照java虚拟机规范规定，需要抛出InstaniationError异常，如果解析后的类还是没有初始化则需要首先进行初始化类</p>
+</li>
+<li><p>instanceof指令需要两个操作数，第一个操作数是uint16索引，从方法的字节码中获取，通过这个索引可以从当前类的运行时常量池中找到一个类符号引用，第二个操作数是对象引用，从操作数栈中弹出</p>
+</li>
+<li><p>ldc和ldc_w的唯一区别在于两者的操作数宽度，根据其不同的操作数宽度选用不同的ldc</p>
+</li>
+</ul>
+<h2 id="第七章：方法调用和返回"><a href="#第七章：方法调用和返回" class="headerlink" title="第七章：方法调用和返回"></a>第七章：方法调用和返回</h2><p><strong>概述</strong>：实现方法的调用和返回</p>
+<ul>
+<li>java中的方法实现分类：<ul>
+<li>抽象方法，不进行实现</li>
+<li>使用java语言进行实现</li>
+<li>使用本地语言进行实现（c和c++）</li>
+</ul>
+</li>
+<li>在java7之前一共提供了四条方法调用指令<ul>
+<li>invokestatic</li>
+<li>invokespecial</li>
+<li>invokeinterface</li>
+<li>invokeviturtal</li>
+</ul>
+</li>
+<li>详细的调用指令区分<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/kangkanglou/article/details/79422520">(53条消息) JVM指令之invokestatic,invokespecial,invokeinterface,invokevirtual,invokedynamic___HelloWorld__的博客-CSDN博客</a></li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/手写jvm/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/go/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E7%BC%96%E7%A8%8B%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,909 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="构建RESTful API与单元测试：  @Controller：修饰class，用来创建处理http请求的对象  @RestController：Spring4之后加入的注解，原来在@Controller中返回json需要@ResponseBody来配合，如果直接用@RestController替代@Controller就不需要再配置@ResponseBody，默认返回json格式  @Requ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/SpringBoot%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="构建RESTful API与单元测试：  @Controller：修饰class，用来创建处理http请求的对象  @RestController：Spring4之后加入的注解，原来在@Controller中返回json需要@ResponseBody来配合，如果直接用@RestController替代@Controller就不需要再配置@ResponseBody，默认返回json格式  @Requ">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-06T12:20:13.508Z">
+<meta property="article:modified_time" content="2022-06-24T10:00:54.967Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          15k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          128 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>构建RESTful API与单元测试：</strong></p>
+<ul>
+<li><p><code>@Controller</code>：修饰class，用来创建处理http请求的对象</p>
+</li>
+<li><p><code>@RestController</code>：Spring4之后加入的注解，原来在<code>@Controller</code>中返回json需要<code>@ResponseBody</code>来配合，如果直接用<code>@RestController</code>替代<code>@Controller</code>就不需要再配置<code>@ResponseBody</code>，默认返回json格式</p>
+</li>
+<li><p><code>@RequestMapping</code>：配置url映射。现在更多的也会直接用以Http Method直接关联的映射注解来定义，比如：<code>GetMapping</code>、<code>PostMapping</code>、<code>DeleteMapping</code>、<code>PutMapping</code>等</p>
+</li>
+<li><p>使用<code>@Data</code>注解可以实现在编译器自动添加set和get函数的效果，该注释由lombok提供</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//@PathVariable可以用来映射URL中的占位符到目标方法的参数中</span><br><span class="hljs-meta">@RequestMapping(&quot;/testPathVariable/&#123;id&#125;&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">testPathVariable</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span><br>    &#123;<br>        System.out.println(<span class="hljs-string">&quot;testPathVariable:&quot;</span>+id);<br>        <span class="hljs-keyword">return</span> SUCCESS;<br>    &#125;<br> <span class="hljs-meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span><br>    <span class="hljs-keyword">public</span> User <span class="hljs-title function_">getUser</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> Long id)</span> &#123;<br>        <span class="hljs-comment">// 可以进行绑定，只要重名即可</span><br>        <span class="hljs-comment">// url中的id可通过@PathVariable绑定到函数的参数中</span><br>        <span class="hljs-keyword">return</span> users.get(id);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>REST风格:</strong></p>
+<ul>
+<li>REST：即 Representational State Transfer。（资源）表现层状态转化。是目前最流行的一种互联网软件架构。它结构清晰、符合标准、易于理解、扩展方便，所以正得到越来越多网站的采用</li>
+<li>资源（<strong>Resources</strong>）：网络上的一个实体，或者说是网络上的一个具体信息。它可以是一段文本、一张图片、一首歌曲、一种服务，总之就是一个具体的存在。可以用一个URI（统一资源定位符）指向它，每种资源对应一个特定的 <strong>URI</strong> 。要获取这个资源，访问它的URI就可以，因此 <strong>URI</strong> 即为每一个资源的独一无二的识别符。</li>
+<li>表现层（<strong>Representation</strong>）：把资源具体呈现出来的形式，叫做它的表现层（<strong>Representation</strong>）。比如，文本可以用 txt 格式表现，也可以用 HTML 格式、XML 格式、JSON 格式表现，甚至可以采用二进制格式。</li>
+<li>状态转化（<strong>State Transfer</strong>）：每发出一个请求，就代表了客户端和服务器的一次交互过程。HTTP协议，是一个无状态协议，即所有的状态都保存在服务器端。因此，如果客户端想要操作服务器，必须通过某种手段，让服务器端发生<strong>“</strong>状态转化<strong>”</strong>（<strong>State Transfer</strong>）。而这种转化是建立在表现层之上的，所以就是 <strong>“</strong>表现层状态转化<strong>”</strong>。具体说，就是 <strong>HTTP</strong> 协议里面，四个表示操作方式的动词：<strong>GET</strong>、<strong>POST</strong>、<strong>PUT</strong>、<strong>DELETE</strong>。它们分别对应四种基本操作：<strong>GET</strong> 用来获取资源，<strong>POST</strong> 用来新建资源，<strong>PUT</strong> 用来更新资源，<strong>DELETE</strong> 用来删除资源。</li>
+</ul>
+<p><strong>连接数据库：</strong></p>
+<ul>
+<li><p>以MySQL数据库为例，先引入MySQL连接的依赖包，在<code>pom.xml</code>中加入：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在<code>src/main/resources/application.properties</code>中配置数据源信息</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">spring.datasource.url</span>=<span class="hljs-string">jdbc:mysql://localhost:3306/test</span><br><span class="hljs-attr">spring.datasource.username</span>=<span class="hljs-string">dbuser</span><br><span class="hljs-attr">spring.datasource.password</span>=<span class="hljs-string">dbpass</span><br><span class="hljs-attr">spring.datasource.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-comment">#因为Spring Boot 2.1.x默认使用了MySQL 8.0的驱动，所以这里采用com.mysql.cj.jdbc.Driver，而不是老的com.mysql.jdbc.Driver</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>在数据库连接的基础上还要使用数据源的原因：</strong></p>
+<ul>
+<li>封装关于数据库访问的各种参数，实现统一管理</li>
+<li>通过对数据库的连接池管理，节省开销并提高效率</li>
+</ul>
+<p><strong>原生组件的导入：</strong></p>
+<ul>
+<li><p>Servlet</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@WebServlet(urlPatterns = &quot;/my&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;<br>        resp.getWriter().write(<span class="hljs-string">&quot;66666&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Filter</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@WebFilter(urlPatterns=&#123;&quot;/css/*&quot;,&quot;/images/*&quot;&#125;)</span> <span class="hljs-comment">//my</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Filter</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>        log.info(<span class="hljs-string">&quot;MyFilter初始化完成&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;<br>        log.info(<span class="hljs-string">&quot;MyFilter工作&quot;</span>);<br>        chain.doFilter(request,response);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;<br>        log.info(<span class="hljs-string">&quot;MyFilter销毁&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Listener</p>
+</li>
+<li><p>使用配置类RegistrationBean进行配置</p>
+</li>
+</ul>
+<p>切换服务器：</p>
+<ul>
+<li><p>在默认的场景中排除原来的服务器启动器</p>
+</li>
+<li><p>新增新的服务器启动器</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-undertow<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>		<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>修改版本号可以直接在项目的pom.xml的上面集中修改版本号</p>
+<p>可以将简单的sql语句写在注释版本上，而复杂的查询语句存放在对应的配置文件中</p>
+<p><strong>@RunWith的作用：</strong></p>
+<p>@RunWith就是一个运行器</p>
+<p>@RunWith(JUnit4.class)就是指用JUnit4来运行</p>
+<p>@RunWith(SpringJUnit4ClassRunner.class),让测试运行于Spring测试环境</p>
+<p>@RunWith(Suite.class)的话就是一套测试集合，</p>
+<p> @RunWith(SpringJUnit4ClassRunner.class)使用了Spring的SpringJUnit4ClassRunner，以便在测试开始的时候自动创建Spring的应用上下文。其他的想创建spring容器的话，就得子啊web.xml配置classloder。 注解了@RunWith就可以直接使用spring容器，直接使用@Test注解，不用启动spring容器</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42383787/article/details/87938070"> 对于常用@RequestParam等注解的使用</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhoucheng05_13/article/details/54603985"> Spring表达式基础   Spring Expression Language</a></p>
+<p><strong>@Autowired的使用：</strong></p>
+<ul>
+<li><p>使用在字段上表示这个字段被自动装填</p>
+</li>
+<li><p>使用在方法上表示这个方法的参数被自动装填</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//@Autowired默认使用byType进行装配</span><br><span class="hljs-comment">//如果想按照byName则需要使用@Qualifier注解</span><br><br><span class="hljs-meta">@Autowired</span><br><span class="hljs-meta">@Qualifier(&quot;user1&quot;)</span><br><span class="hljs-keyword">private</span> IUser user;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>@Slf4j的使用：</strong></p>
+<p>@Slf4j是用作日志输出的，一般会在项目每个类的开头加入该注解，该注解相当于在对应类中添加下面这段代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Logger</span> <span class="hljs-variable">logger</span> <span class="hljs-operator">=</span> LoggerFactory.getLogger(当前类名.class);<br></code></pre></td></tr></table></figure>
+
+<p>添加了该注释之后，就可以在代码中直接饮用log.info( ) 打印日志了</p>
+<p><strong>MyBatis的使用：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//可以将对应的自定义的Mapper继承BaseMapper来获得最基本的CRUD功能</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BaseMapper</span>&lt;User&gt; &#123;<br><br>&#125;<br><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@TableName(&quot;user_tbl&quot;)</span><span class="hljs-comment">//通过这个属性来将实体类和对应的数据库表对应</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 所有属性都应该在数据库中</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@TableField(exist = false)</span>  <span class="hljs-comment">//标注当前属性表中不存在</span><br>    <span class="hljs-keyword">private</span> String userName;<br>    <span class="hljs-meta">@TableField(exist = false)</span><br>    <span class="hljs-keyword">private</span> String password;<br><br><br>    <span class="hljs-comment">//以下是数据库字段</span><br>    <span class="hljs-keyword">private</span> Long id;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> Integer age;<br>    <span class="hljs-keyword">private</span> String email;<br><br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>springboot+MyBatis整合开发：</strong></p>
+<p>使用maven导入不成功注意使用install命令进行处理</p>
+<p>使用mybatis-Plus可以直接通过继承BaseMapper，IService，ServiceImpl等现成的类来实现简化开发的作用</p>
+<p>前端编写的console.log()是在前端浏览器的控制台输出的</p>
+<p>MybatisPlus可以对公共字段进行自动填充，即在插入或者更新的过程中为指定的字段赋予指定的值，使用其的好处在于能够统一的对这些字段进行处理，避免了重复代码操作，下面是具体的实现步骤</p>
+<ul>
+<li>首先在实体类的属性上增加@TableField注解，指定自动填充的策略</li>
+<li>按照框架要求编写元数据的对象处理器，在此类中统一为公共字段进行赋值，此类需要实现MetaObjectHandler接口</li>
+</ul>
+<p>当需要进行测试的时候可以在test下进行创建代码进行测试</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fangaoxin/article/details/6952954?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1-6952954-blog-92760353.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1-6952954-blog-92760353.pc_relevant_default&utm_relevant_index=2">超级详细的！ Cookie&#x2F;Session机制详解_</a></p>
+<p><strong>Cookie机制是通过检查客户身上的“通行证”来确定客户身份的话，那么Session机制就是通过检查服务器上的“客户明细表”来确认客户身份。Session相当于程序在服务器上建立的一份客户档案，客户来访的时候只需要查询客户档案表就可以了。</strong></p>
+<p><strong>Cookie</strong></p>
+<ul>
+<li><p>Cookie实际上是一小段的文本信息。客户端请求服务器，如果服务器需要记录该用户状态，就使用response向客户端浏览器颁发一个Cookie。客户端浏览器会把Cookie保存起来。当浏览器再请求该网站时，浏览器把请求的网址连同该Cookie一同提交给服务器。服务器检查该Cookie，以此来辨认用户状态。服务器还可以根据需要修改Cookie的内容</p>
+</li>
+<li><p>不同的浏览器采用不同的方式保存Cookie，并且不同的服务器端会对其进行加密操作</p>
+</li>
+<li><p>Java中把Cookie封装成了javax.servlet.http.Cookie类。每个Cookie都是该Cookie类的对象。服务器通过操作Cookie类对象对客户端Cookie进行操作。通过request.getCookie()获取客户端提交的所有Cookie（以Cookie[]数组形式返回），通过response.addCookie(Cookiecookie)向客户端设置Cookie</p>
+</li>
+<li><p>Cookie对象使用key-value属性对的形式保存用户状态，一个Cookie对象保存一个属性对，一个request或者response同时使用多个Cookie</p>
+</li>
+<li><p>Cookie具有不可跨域名性。根据Cookie规范，浏览器访问Google只会携带Google的Cookie，而不会携带Baidu的Cookie。Google也只能操作Google的Cookie，而不能操作Baidu的Cookie。</p>
+<p>Cookie在客户端是由浏览器来管理的。浏览器能够保证Google只会操作Google的Cookie而不会操作Baidu的Cookie，从而保证用户的隐私安全。浏览器判断一个网站是否能操作另一个网站Cookie的依据是域名。Google与Baidu的域名不一样，因此Google不能操作Baidu的Cookie。</p>
+<p>需要注意的是，虽然网站images.google.com与网站<a target="_blank" rel="noopener" href="http://www.google.com同属于google,但是域名不一样,二者同样不能互相操作彼此的cookie./">www.google.com同属于Google，但是域名不一样，二者同样不能互相操作彼此的Cookie。</a></p>
+<p>注意：用户登录网站<a target="_blank" rel="noopener" href="http://www.google.com之后会发现访问images.google.com时登录信息仍然有效,而普通的cookie是做不到的.这是因为google做了特殊处理.本章后面也会对cookie做类似的处理/">www.google.com之后会发现访问images.google.com时登录信息仍然有效，而普通的Cookie是做不到的。这是因为Google做了特殊处理。本章后面也会对Cookie做类似的处理</a></p>
+</li>
+<li><p>Cookie不仅可以使用ASCII字符与Unicode字符，还可以使用二进制数据。例如在Cookie中使用数字证书，提供安全度</p>
+</li>
+<li><p>Cookie实现自动登录</p>
+<ul>
+<li><p>如果用户是在自己家的电脑上上网，登录时就可以记住他的登录信息，下次访问时不需要再次登录，直接访问即可。实现方法是把登录信息如账号、密码等保存在Cookie中，并控制Cookie的有效期，下次访问时再验证Cookie中的登录信息即可。</p>
+<p>保存登录信息有多种方案。最直接的是把用户名与密码都保持到Cookie中，下次访问时检查Cookie中的用户名与密码，与数据库比较。这是一种比较危险的选择，一般不把密码等重要信息保存到Cookie中。</p>
+<p>还有一种方案是把密码加密后保存到Cookie中，下次访问时解密并与数据库比较。这种方案略微安全一些。如果不希望保存密码，还可以把登录的时间戳保存到Cookie与数据库中，到时只验证用户名与登录时间戳就可以了。</p>
+<p>这几种方案验证账号时都要查询数据库。</p>
+<p>本例将采用另一种方案，只在登录时查询一次数据库，以后访问验证登录信息时不再查询数据库。实现方式是把账号按照一定的规则加密后，连同账号一块保存到Cookie中。下次访问时只需要判断账号的加密规则是否正确即可。本例把账号保存到名为account的Cookie中，把账号连同密钥用MD1算法加密后保存到名为ssid的Cookie中。验证时验证Cookie中的账号与密钥加密后是否与Cookie中的ssid相等</p>
+</li>
+</ul>
+</li>
+<li></li>
+</ul>
+<p><strong>Session：</strong></p>
+<ul>
+<li><p>Session即用于记录一系列状态</p>
+</li>
+<li><p>Session对应的类为javax.servlet.http.HttpSession类。每个来访者对应一个Session对象，所有该客户的状态信息都保存在这个Session对象里。Session对象是在客户端第一次请求服务器的时候创建的。Session也是一种key-value的属性对</p>
+</li>
+<li><p>Session与cookie功能效果相同，Session与Cookie的区别在于Session是记录在服务端的，而Cookie是记录在客户端，即Cookie通过在客户端记录信息确定用户身份<strong>，</strong>Session通过在服务器端记录信息确定用户身份</p>
+</li>
+<li><p>Session的创建，当访问服务器否个网页的时候，会在服务器端的内存里开辟一块内存，这块内存就叫做session，而这个内存是跟浏览器关联在一起的。这个浏览器指的是浏览器窗口，或者是浏览器的子窗口，意思就是，只允许当前这个session对应的浏览器访问，就算是在同一个机器上新启的浏览器也是无法访问的。而另外一个浏览器也需要记录session的话，就会再启一个属于自己的session</p>
+</li>
+<li><p>Session的意义在于，HTTP协议是无状态性的，取完当前浏览器的内容，然后关闭浏览器后，链接就断开了，而没有任何机制去记录取出后的信息。而当需要访问同一个网站的另外一个页面时(就好比如在第一个页面选择购买的商品后，跳转到第二个页面去进行付款)这个时候取出来的信息，就读不出来了。所以必须要有一种机制让页面知道原来页面的session内容</p>
+</li>
+<li><p>如何知道浏览器和这个服务器中的session是一一对应的呢？又如何保证不会去访问其它的session呢？</p>
+<ul>
+<li>原理解答：就是当访问一个页面的时候给浏览器创建一个独一无二的号码，也给同时创建的session赋予同样的号码。这样就可以在打开同一个网站的第二个页面时获取到第一个页面中session保留下来的对应信息（理解：当访问第二个页面时将号码同时传递到第二个页面。找到对应的session。）。这个号码也叫sessionID，session的ID号码，session的独一无二号码</li>
+</ul>
+</li>
+<li><p>session的两种实现方式（也就是传递方式）：1、通过cookies实现  2、通过URL重写来实现</p>
+<ul>
+<li>第一种方式：就是把session的id 放在cookie里面（为什么是使用cookies存放呢，因为cookie有临时的，也有定时的，临时的就是当前浏览器什么时候关掉即消失，也就是说session本来就是当浏览器关闭即消失的，所以可以用临时的cookie存放。保存再cookie里的sessionID一定不会重复，因为是独一无二的。），当允许浏览器使用cookie的时候，session就会依赖于cookies，当浏览器不支持cookie后，则通过第二种方式获取session内存中的数据资源</li>
+<li>第二种方式的理解：在客户端不支持cookie的情况下使用。为了以防万一，也可以同时使用<ul>
+<li>如果不支持cookie，必须自己编程使用URL重写的方式实现</li>
+<li>重写URL：通过response.encodeURL()方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>encodeURL()的两个作用</p>
+<ul>
+<li>第一个作用：转码（说明：转中文的编码，或者一些其他特殊的编码。就好比如网页的链接中存在中文字符，就会转换成为一些百分号或者其他的符号代替。）</li>
+<li>第二个作用：URL后面加入sessionID，当不支持cookie的时候，可以使用encodeURL()方法，encodeUTL()后面跟上sessionID，这样的话，在禁用cookie的浏览器中同时也可以使用session了。但是需要自己编程，只要链接支持，想用session就必须加上encodeURL()</li>
+<li>提示：若想程序中永远支持session，那就必须加上encodeURL()，当别人禁用了cookie，一样可以使用session</li>
+</ul>
+</li>
+<li><p>session有期限：</p>
+<ul>
+<li>当一个网站的第一个窗口关掉了，而没有继续接着访问第二个页面，就没有使用到session。那么session会在中断程序后立刻关闭session吗？这个时候session就需要给它保留的时间，当最近一次访问的时候开始计时，每刷新一次重写开始计时。当隔了这么久的时间，没有访问这个session后，对不起，要关闭这个session了。session有过期时间，session什么时候过期，要看配置，</li>
+</ul>
+</li>
+<li><p>session能干什么：</p>
+<ul>
+<li>session就是服务器里面的一块内存，内存里面能放任何东西，只要是名值对就可以了</li>
+<li>session里面的名字永远都是String类型</li>
+</ul>
+</li>
+<li><p>当多个客户端执行程序时，服务器会保存多个客户端的Session。获取Session的时候也不需要声明获取谁的Session。Session机制决定了当前客户只会获取到自己的Session，而不会获取到别人的Session。各客户的Session也彼此独立，互不可见。</p>
+<p>提示：Session的使用比Cookie方便，但是过多的Session存储在服务器内存中，会对服务器造成压力</p>
+</li>
+<li><p>Session保存在服务器端。为了获得更高的存取速度，服务器一般把Session放在内存里。每个用户都会有一个独立的Session。如果Session内容过于复杂，当大量客户访问服务器时可能会导致内存溢出。因此，Session里的信息应该尽量精简。</p>
+<p>Session在用户第一次访问服务器的时候自动创建。需要注意只有访问JSP、Servlet等程序时才会创建Session，只访问HTML、IMAGE等静态资源并不会创建Session。如果尚未生成Session，也可以使用request.getSession(true)强制生成Session</p>
+<p>Session生成后，只要用户继续访问，服务器就会更新Session的最后访问时间，并维护该Session。用户每访问服务器一次，无论是否读写Session，服务器都认为该用户的Session“活跃（active）”了一次</p>
+<p>由于会有越来越多的用户访问服务器，因此Session也会越来越多。为防止内存溢出，服务器会把长时间内没有活跃的Session从内存删除。这个时间就是Session的超时时间。如果超过了超时时间没访问过服务器，Session就自动失效了</p>
+</li>
+<li><p>虽然Session保存在服务器，对客户端是透明的，它的正常运行仍然需要客户端浏览器的支持。这是因为Session需要使用Cookie作为识别标志。HTTP协议是无状态的，Session不能依据HTTP连接来判断是否为同一客户，因此服务器向客户端浏览器发送一个名为JSESSIONID的Cookie，它的值为该Session的id（也就是HttpSession.getId()的返回值）。Session依据该Cookie来识别是否为同一用户。</p>
+<p>该Cookie为服务器自动生成的，它的maxAge属性一般为–1，表示仅当前浏览器内有效，并且各浏览器窗口间不共享，关闭浏览器就会失效。</p>
+<p>因此同一机器的两个浏览器窗口访问服务器时，会生成两个不同的Session。但是由浏览器窗口内的链接、脚本等打开的新窗口（也就是说不是双击桌面浏览器图标等打开的窗口）除外。这类子窗口会共享父窗口的Cookie，因此会共享一个Session。</p>
+<p>注意：新开的浏览器窗口会生成新的Session，但子窗口除外。子窗口会共用父窗口的Session。例如，在链接上右击，在弹出的快捷菜单中选择“在新窗口中打开”时，子窗口便可以访问父窗口的Session。</p>
+<p>如果客户端浏览器将Cookie功能禁用，或者不支持Cookie怎么办？例如，绝大多数的手机浏览器都不支持Cookie。Java Web提供了另一种解决方案：URL地址重写</p>
+</li>
+</ul>
+<p><strong>Maven常见操作：</strong></p>
+<p>1.clean (清理)</p>
+<p>用于清除之前构建生成的所有文件</p>
+<p>其中具体为清除了Target目录中的所有文件，包括该目录</p>
+<p>i.e：删除了install生成的所有文件</p>
+<p>2.validate(验证)</p>
+<p>用于验证项目是否正确，并且其中有必要信息是否都可用</p>
+<p>3.compile(编译源代码)</p>
+<p>编译项目的源代码，主要是java文件</p>
+<p>一般是编译scr&#x2F;main&#x2F;java或是scr&#x2F;test&#x2F;java里面的文件</p>
+<p>4.test (运行测试)</p>
+<p>用合适的测试框架来进行测试，测试compile中编译出来的代码</p>
+<p>测试的东西一般不加包和部署</p>
+<p>5.package(打包)</p>
+<p>(生成target目录，编译、测试代码，生成测试报告，生成jar&#x2F;war文件<br>获取compile中编译好的代码并将其打包成可分类的格式，i.e:jar包或者 war包</p>
+<p>6.vertify(验证)</p>
+<p>这步是用来验证test</p>
+<p>检查test的结果是否满足标准</p>
+<p>7.install(安装至本地仓库)(在本地Repository中安装jar)</p>
+<p>将软件包安装到本地存储库中</p>
+<p>确保本地其他项目可能需要使用他（eg:装了core才能用oms）</p>
+<p>8.site</p>
+<p>生成项目的站点文档</p>
+<p>9.deploy (复制到远程仓库)(上传到私服)</p>
+<p>复制最终的包至远程仓库<br>共享给其它开发人员和项目</p>
+<p><strong>axios的使用：</strong></p>
+<ul>
+<li><p>axios是目前最流行的ajax封装库之一，用于很方便地实现ajax请求的发送</p>
+</li>
+<li><p>axios支持的功能：</p>
+<ul>
+<li>从浏览器发出 XMLHttpRequests请求。</li>
+<li>从 node.js 发出 http 请求。</li>
+<li>支持 Promise API。</li>
+<li>能拦截请求和响应。</li>
+<li>能转换请求和响应数据。</li>
+<li>取消请求。</li>
+<li>实现JSON数据的自动转换。</li>
+<li>客户端支持防止 XSRF攻击。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//配置对象常用的配置项：</span><br><br>&#123;<br>  <span class="hljs-comment">// 路径url</span><br>  url: <span class="hljs-string">&#x27;/user&#x27;</span>,<br><br>  <span class="hljs-comment">// 请求方法，默认get</span><br>  method: <span class="hljs-string">&#x27;get&#x27;</span>, <br><br>  <span class="hljs-comment">//基础url，最终请求的url是 baseURL+url拼接，所以再全局设置默认，可以使得发送请求时的url变得简洁</span><br>  baseURL: <span class="hljs-string">&#x27;https://some-domain.com/api/&#x27;</span>,<br><br>  <span class="hljs-comment">//设置请求头</span><br>  headers: &#123;<span class="hljs-string">&#x27;X-Requested-With&#x27;</span>: <span class="hljs-string">&#x27;XMLHttpRequest&#x27;</span>&#125;,<br><br>  <span class="hljs-comment">//设置请求url的query参数，可以使得url简洁。</span><br>  <span class="hljs-comment">//比如url是https://some-domain.com/api/user  然后params如下设置，那么最终的url是：</span><br>  <span class="hljs-comment">//https://some-domain.com/api/user?ID=12345&amp;name=Jack</span><br>  params: &#123;<br>    ID: <span class="hljs-number">12345</span>,<br>    name:<span class="hljs-string">&quot;Jack&quot;</span><br>  &#125;,<br><br><br> <span class="hljs-comment">//设置请求体</span><br>  data: &#123;<br>    firstName: <span class="hljs-string">&#x27;Fred&#x27;</span><br>  &#125;,<br>  <br>  <span class="hljs-comment">//设置请求的另外一种格式，不过这个是直接设置字符串的</span><br>  data: <span class="hljs-string">&#x27;Country=Brasil&amp;City=Belo Horizonte&#x27;</span>,<br><br> <span class="hljs-comment">//请求超时，单位毫秒，默认0，不超时。</span><br>  timeout: <span class="hljs-number">1000</span>,<br><br>  <span class="hljs-comment">//响应数据类型，默认json</span><br>  responseType: <span class="hljs-string">&#x27;json&#x27;</span>, <br><br>  <span class="hljs-comment">//响应数据的编码规则，默认utf-8</span><br>  responseEncoding: <span class="hljs-string">&#x27;utf8&#x27;</span>,<br><br><br>	<span class="hljs-comment">//响应体的最大长度 </span><br>  maxContentLength: <span class="hljs-number">2000</span>,<br><br>  <span class="hljs-comment">// 请求体的最大长度</span><br>  maxBodyLength: <span class="hljs-number">2000</span>,<br><br>  <span class="hljs-comment">//设置响应状态码为多少时是成功，调用resolve，否则调用reject失败</span><br>  <span class="hljs-comment">//默认是大于等于200，小于300</span><br>  validateStatus: function (status) &#123;<br>    <span class="hljs-keyword">return</span> status &gt;= <span class="hljs-number">200</span> &amp;&amp; status &lt; <span class="hljs-number">300</span>; <br>  &#125;<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!--可以设置全局默认配置，是为了避免多种重复配置在不同请求中重复，比如baseURL、timeout等，这里设置baseURL--&gt;</span><br><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>默认配置<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">        axios.<span class="hljs-property">defaults</span>.<span class="hljs-property">baseURL</span>=<span class="hljs-string">&quot;http://localhost:3000&quot;</span>;</span><br><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-comment">//因为上面配置了baseURL，所以我们之后的请求只需要配置url不用像之前那样的全路径</span></span><br><span class="language-javascript">        axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;/posts/1&quot;</span>)</span><br><span class="language-javascript">       .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span>=&gt;</span>&#123;</span><br><span class="language-javascript">           <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(response);</span><br><span class="language-javascript">       &#125;)</span><br><span class="language-javascript"></span><br><span class="language-javascript">    </span><br><span class="language-javascript">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs html">请求拦截器：用于拦截请求，自定义做一个逻辑后再把请求发送，可以用于配置公用的逻辑，就不用每个请求都配一遍。<br>响应拦截器：用于拦截响应，做一些处理后再出发响应回调。<br><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>axios拦截器<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-comment">//这个是设置请求拦截器的api，传入两个回调，第一个成功回调，第二个失败回调。</span></span><br><span class="language-javascript">        axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(</span><br><span class="language-javascript">            <span class="hljs-keyword">function</span>(<span class="hljs-params">config</span>)&#123;</span><br><span class="language-javascript">                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;请求拦截器1调用成功&quot;</span>);</span><br><span class="language-javascript">                <span class="hljs-keyword">return</span> config;</span><br><span class="language-javascript">            &#125;,</span><br><span class="language-javascript">            <span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>)&#123;</span><br><span class="language-javascript">                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;请求拦截器1调用失败&quot;</span>);</span><br><span class="language-javascript">                <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)</span><br><span class="language-javascript">            &#125;</span><br><span class="language-javascript">        )</span><br><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-comment">//这个是设置响应拦截器的api，第一个成功回调，第二个失败回调</span></span><br><span class="language-javascript">        axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">response</span>.<span class="hljs-title function_">use</span>(</span><br><span class="language-javascript">            <span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>)&#123;</span><br><span class="language-javascript">                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;响应拦截器1调用成功&quot;</span>);</span><br><span class="language-javascript">                <span class="hljs-keyword">return</span> response;</span><br><span class="language-javascript">            &#125;,</span><br><span class="language-javascript">            <span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>)&#123;</span><br><span class="language-javascript">                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;响应拦截器1调用失败&quot;</span>);</span><br><span class="language-javascript">                <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error);</span><br><span class="language-javascript">            &#125;</span><br><span class="language-javascript">        )</span><br><span class="language-javascript"></span><br><span class="language-javascript">        axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;http://localhost:3000/posts/1&quot;</span>)</span><br><span class="language-javascript">        .<span class="hljs-title function_">then</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>)&#123;</span><br><span class="language-javascript">            <span class="hljs-comment">//</span></span><br><span class="language-javascript">            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;请求回调成功&quot;</span>);</span><br><span class="language-javascript">        &#125;).<span class="hljs-title function_">catch</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>)&#123;</span><br><span class="language-javascript">            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;请求回调失败&quot;</span>);</span><br><span class="language-javascript">        &#125;)</span><br><span class="language-javascript">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>注意idea在调试过程中对于数据库的改变是实时的</p>
+<p>idea还可以先让其在调试模式下运行然后再增加断点</p>
+<p>注意java有时忘了是大小写可能会写错</p>
+<p>利用增强版的for循环遍历对象数组时，对象数组中的对象也会发生改变</p>
+<p>springboot本身是支持put 和 delete 请求的，有时候抱不支持这类方法的错实际上需要添加注解参数</p>
+<p>Win+R调出cmd，输入netstat -na，即可得到对应端口号信息</p>
+<p><strong>cmd和PowerShell的区别：</strong></p>
+<ul>
+<li>PowerShell是跨平台的，cmd是Windows专用的</li>
+<li>cmd是进入dos系统的命令，输入cmd进入的是dos系统，可以进行命令提示符操作</li>
+<li>命令提示符窗口（cmd.exe）是Windows的“标配”组件，它可以实现用户与操作系统的直接交流，并负责用户输入的所有命令的解释和支持</li>
+<li>powershell是系统工具，是对cmd（命令提示符）的扩展，其中多了很多操作，比如管道操作</li>
+<li>PowerShell可以看作是cmd的升级版、补充版，但其背后的实现方式却有很大的不同，PowerShell基于面向对象的，更为易用</li>
+<li>PowerShell是运行在Windows操作系统上实现对系统以及应用程序进行管理自动化的命令行脚本环境PowerShell需要.NET环境的支持</li>
+<li>PowerShell从Windows7开始已经内置于Windows操作系统</li>
+<li>PowerShell有面向对象的管道</li>
+<li>PowerShell能够调用.NET的很多功能</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xinzhifu1/article/details/106356958/">过滤器 和 拦截器的 6个区别，</a></p>
+<p><strong>Mybatis-plus可以通过setSql来设置相关的sql语句：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">boolean</span> <span class="hljs-variable">success</span> <span class="hljs-operator">=</span> seckillVoucherService.update()<br>        .setSql(<span class="hljs-string">&quot;stock = stock - 1&quot;</span>) <span class="hljs-comment">// set stock = stock - 1</span><br>        .eq(<span class="hljs-string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="hljs-string">&quot;stock&quot;</span>, <span class="hljs-number">0</span>) <span class="hljs-comment">// where id = ? and stock &gt; 0</span><br>        .update();<br></code></pre></td></tr></table></figure>
+
+<p>系统变量和用户变量的区别：</p>
+<ul>
+<li>系统变量是针对于该电脑的所有用户适用的</li>
+<li>用户变量是针对当前用户所使用的</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/39356740/answer/1907479772">@Autowired和@Resource的区别是什么？</a></p>
+<p>用户上传的图片可以放在专用的文件服务器上，也可以直接上传到前端服务器Nginx上</p>
+<p>当使用Redis控制台进行添加数据时，记得控制语句结尾需要多一个空格来保证语句的执行</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42914528/article/details/123540207">分析 RestController 与 Controller 的区别</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiangyu1013/article/details/84397366"> @Transactional 详解</a></p>
+<p><strong>@RequestBody和@RequestParam</strong></p>
+<ul>
+<li><p>@RequestBody</p>
+<ul>
+<li><p>注解@RequestBody接收的参数是来自requestBody中，即请求体</p>
+</li>
+<li><p>一个请求只能有一个@RequestBody</p>
+</li>
+<li><p>@RequestBody接受的参数是来自request body中也就是请求体</p>
+</li>
+<li><p>RequestBody也可以传递List&lt;&gt;类型的值，只要传递的对应json数据是合法的即可</p>
+</li>
+</ul>
+</li>
+<li><p>@RequestParam</p>
+<ul>
+<li>注解@RequestParam接收的参数是来自requestHeader中，即请求头  通常用于GET请求</li>
+<li>不加@RequestParam前端的参数名需要和后端控制器的变量名保持一致才能生效，即不加该注解也能生效，只是参数和传递的值必须相同，但是使用@RequestParam可以自定义参数<ul>
+<li>不加@RequestParam参数为非必传，加@RequestParam写法参数为必传。但@RequestParam可以通过@RequestParam(required &#x3D; false)设置为非必传</li>
+<li>@RequestParam可以通过@RequestParam(“userId”)或者@RequestParam(value &#x3D; “userId”)指定传入的参数名</li>
+</ul>
+</li>
+<li>语法：@RequestParam(value&#x3D;”参数名”,required&#x3D;”true&#x2F;false”,defaultValue&#x3D;” ”)<ul>
+<li>value：参数名</li>
+<li>required：是否包含该参数，默认为true，表示该请求路径中必须包含该参数，如果不包含就报错，反之改为false即不会报错</li>
+<li>defaultValue：默认参数值，如果设置了该值，required&#x3D;true将失效，自动为false,如果没有传该参数，就使用默认值</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43842189/article/details/112386012">mybatisplus wrapper 详细使用</a></p>
+<p>requirepass abc1234</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/SpringBoot笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/Docker%E5%AD%A6%E4%B9%A0/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E5%87%A4%E5%87%B0%E6%9E%B6%E6%9E%84%E7%AC%94%E8%AE%B0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

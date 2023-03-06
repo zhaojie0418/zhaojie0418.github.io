@@ -1,0 +1,917 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="输出参数的方式：1234System.out.println(&quot;你还有&quot;+(4-i)+&quot;次机会输入密码&quot;);&#x2F;&#x2F;通过“+”进行连接System.out.printf(&quot;%d\t&quot;, data);&#x2F;&#x2F;通过占位符进行连接  在Java中，如果对象没有对应的引用，就会被Java的垃圾回收机制清除 逆波兰表达式即为后缀表达式，波兰表达式即为前缀表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="输出参数的方式：1234System.out.println(&quot;你还有&quot;+(4-i)+&quot;次机会输入密码&quot;);&#x2F;&#x2F;通过“+”进行连接System.out.printf(&quot;%d\t&quot;, data);&#x2F;&#x2F;通过占位符进行连接  在Java中，如果对象没有对应的引用，就会被Java的垃圾回收机制清除 逆波兰表达式即为后缀表达式，波兰表达式即为前缀表">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\AppData\Roaming\Typora\typora-user-images\image-20210804172421026.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210926202341.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20211013185646.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\v2-58c02894bce9e580481c075efc35f226_r.jpg">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\v2-acc2de5f4d30d41a6b39b0c5a9b2dbbe_r.jpg">
+<meta property="article:published_time" content="2023-03-06T12:20:13.375Z">
+<meta property="article:modified_time" content="2021-12-07T08:35:27.798Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\AppData\Roaming\Typora\typora-user-images\image-20210804172421026.png">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          100 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="输出参数的方式："><a href="#输出参数的方式：" class="headerlink" title="输出参数的方式："></a>输出参数的方式：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">System.out.println(<span class="hljs-string">&quot;你还有&quot;</span>+(<span class="hljs-number">4</span>-i)+<span class="hljs-string">&quot;次机会输入密码&quot;</span>);<br><span class="hljs-comment">//通过“+”进行连接</span><br>System.out.printf(<span class="hljs-string">&quot;%d\t&quot;</span>, data);<br><span class="hljs-comment">//通过占位符进行连接</span><br></code></pre></td></tr></table></figure>
+
+<p>在Java中，如果对象没有对应的引用，就会被Java的垃圾回收机制清除</p>
+<p>逆波兰表达式即为后缀表达式，波兰表达式即为前缀表达式</p>
+<p>Java中的方法调用直接或者间接地通过类进行调用，所以方法必须要写在类中</p>
+<p>数组是预先分配空间的，数组的大小不能动态的增长</p>
+<p>前序遍历中序遍历后序遍历取决于父节点遍历的时候</p>
+<p>注意在不同类中写的同名方法，通过对象调用不同的方法</p>
+<h4 id="for循环的判断顺序和特殊形式"><a href="#for循环的判断顺序和特殊形式" class="headerlink" title="for循环的判断顺序和特殊形式"></a>for循环的判断顺序和特殊形式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">for</span>(A;B;C)&#123;   <span class="hljs-comment">//每次循环开始是 A -&gt; B</span><br>    D;        <span class="hljs-comment">//循环过程中则是 D -&gt; C -&gt; B</span><br>&#125;<br><span class="hljs-comment">/*for循环的特殊形式 */</span><br><span class="hljs-comment">/*for (循环变量类型 循环变量名称 : 要被遍历的对象) 循环体*/</span><br> <span class="hljs-type">int</span>[] integers = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;;<br> <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i : integers) &#123;<br>     System.out.println(i);<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="Java中处理多位数的方法"><a href="#Java中处理多位数的方法" class="headerlink" title="Java中处理多位数的方法"></a>Java中处理多位数的方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">keepNum</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;  <span class="hljs-comment">//keepNum本身是一个字符串</span><br>keepNum = keepNum + ch;  <span class="hljs-comment">//将字符串和后续的字符粘合</span><br><span class="hljs-keyword">if</span> (index == expression.length() - <span class="hljs-number">1</span>)<br>&#123;<br>    numStack.push(Integer.parseInt(keepNum));<br>    <span class="hljs-comment">//通过Integer本身自带的parseInt方法将字符串转化为int类型</span><br> &#125; <br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (operStack.isOper(expression.substring(index + <span class="hljs-number">1</span>, index + <span class="hljs-number">2</span>).charAt(<span class="hljs-number">0</span>)))<br>&#123;<br> numStack.push(Integer.parseInt(keepNum));<br> keepNum = <span class="hljs-string">&quot;&quot;</span>;<br>&#125;<br><span class="hljs-comment">//若所给的字符串本身带有空格的话则可以通过分割直接获得相应的数字</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;String&gt; <span class="hljs-title function_">getListString</span><span class="hljs-params">(String suffixExpression)</span><br>&#123;<br>    String[ ] split = suffixExpression.split(<span class="hljs-string">&quot; &quot;</span>);<br>    List&lt;String&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;String&gt;();<br>    <span class="hljs-keyword">for</span>(String ele : split)<br>    &#123;<br>    list.add(ele);<br>    &#125;<br>&#125;<br>    <br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>src里边存的是源文件（.java），即人能看懂的文件</li>
+<li>bin里边存的是字节码文件（.class），就是编译后的文件</li>
+</ul>
+<h4 id="方法参数是引用类型和基本类型的区别"><a href="#方法参数是引用类型和基本类型的区别" class="headerlink" title="方法参数是引用类型和基本类型的区别"></a>方法参数是引用类型和基本类型的区别</h4><ul>
+<li>方法参数是基本类型时，传递的是值。 </li>
+<li>方法参数是引用类型时，传递的是内存地址值</li>
+</ul>
+<h4 id="常见编码集的使用知识-编码集—解码和编码"><a href="#常见编码集的使用知识-编码集—解码和编码" class="headerlink" title="常见编码集的使用知识[编码集—解码和编码]"></a>常见编码集的使用知识[<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010359398/article/details/81045531">编码集—解码和编码</a>]</h4><h4 id="单向链表和环形链表的注意事项"><a href="#单向链表和环形链表的注意事项" class="headerlink" title="单向链表和环形链表的注意事项"></a>单向链表和环形链表的注意事项</h4><p>​                 <strong>front及 rear分别记录队列前后端的下标，front 会随着数据输出而改变，而 rear则是随着数据输入而改变</strong></p>
+<p><img src="C:\Users\小赵同学\AppData\Roaming\Typora\typora-user-images\image-20210804172421026.png" srcset="/img/loading.gif" lazyload alt="image-20210804172421026"></p>
+<ul>
+<li><p>单向链表中判断队列为空的条件是：front &#x3D;&#x3D; rear</p>
+</li>
+<li><p>单向链表中判断队列为满的条件是：rear  &#x3D;&#x3D; maxSize - 1 (单向队列中的只能使用一次)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//环形链表中的判断是否为空和是否为满</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span> maxSize; <span class="hljs-comment">// 表示数组的最大容量</span><br><span class="hljs-comment">//front 变量的含义做一个调整： front 就指向队列的第一个元素, 也就是说 arr[front] 就是队列的第一个元素 </span><br><span class="hljs-comment">//front 的初始值 = 0</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span> front; <br><span class="hljs-comment">//rear 变量的含义做一个调整：rear 指向队列的最后一个元素的后一个位置. 因为希望空出一个空间做为约定.</span><br><span class="hljs-comment">//rear 的初始值 = 0</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span> rear; <span class="hljs-comment">// 队列尾</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span>[] arr; <span class="hljs-comment">// 该数据用于存放数据, 模拟队列</span><br><br><span class="hljs-comment">// 判断队列是否满</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isFull</span><span class="hljs-params">()</span> &#123;<br>   <span class="hljs-keyword">return</span> (rear  + <span class="hljs-number">1</span>) % maxSize == front;<br>&#125;<br><br><span class="hljs-comment">// 判断队列是否为空</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span> &#123;<br>   <span class="hljs-keyword">return</span> rear == front;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="排序方法稳定性的解释"><a href="#排序方法稳定性的解释" class="headerlink" title="排序方法稳定性的解释"></a>排序方法稳定性的解释</h4><ul>
+<li>假定在待排序的记录序列中，存在多个具有相同的关键字的记录，若经过排序，这些记录的相对次序保持不变，即在原序列中，r[i]&#x3D;r[j]，且r[i]在r[j]之前，而在排序后的序列中，r[i]仍在r[j]之前，则称这种排序算法是稳定的，否则称为不稳定的</li>
+</ul>
+<p>有时为了调用方便，可能重新写一个重载（同名）方法，减少所需要的参数，达到简便的目的</p>
+<p>删除排序二叉树的左枝和右枝均可</p>
+<p>通过左右单旋转以及双旋转将非平衡二叉树转化成平衡二叉树（AVL树）</p>
+<p>树的度是其中结点的度数的最大值</p>
+<p>2-3树中只有两个数据的结点能有三个子结点，同理2-3-4树中只有三个数据的结点才能有四个子结点</p>
+<p>注意深度优先遍历和广度优先遍历都是目的是为了遍历图，所以只要将图中的所有节点遍历一遍即可</p>
+<p>往往关键词被横线划掉表示过时的用法</p>
+<p>可变长参数实际上传入的是一个数组</p>
+<p>队列是先进先出，栈是先进后出</p>
+<p>环形队列只能使用最大长度减一的容量，因为要使用一个多余的位置来保证当front &#x3D;&#x3D; rear时仍表示的是队列为空</p>
+<p>线性表要存放相同的数据类型</p>
+<p>C语言中需要手动调用free( )方法来进行释放内存，回收数据对象</p>
+<p>数组本身不能完成插入的操作，实际上数组的插入和删除需要手动编写代买来使得其余元素后移或前移</p>
+<p>线性表物理结构分类：1、顺序存储结构  2、链式存储结构</p>
+<p>栈的主要实现关键是用top指针来标记栈顶，压入数据和弹出数据都通过top实现</p>
+<p>多层循环之间的时间复杂度是相乘的关系，并且所谓对数阶指数阶的形成在于对循环变化条件的控制，若对于变量每次都是乘二倍，则所需要循环的次数即为对数阶</p>
+<p><strong>线性表长度和数组长度区别：</strong></p>
+<ul>
+<li>数组的长度是存放线性表的存储空间的长度</li>
+<li>线性表的长度是线性表中数据元素的个数</li>
+<li>在任意时刻，线性表的长度应该小于等于数组的长度</li>
+</ul>
+<h4 id="获取线性表第n个元素的方法是LOC-a-n-c"><a href="#获取线性表第n个元素的方法是LOC-a-n-c" class="headerlink" title="获取线性表第n个元素的方法是LOC(a)+n*c"></a>获取线性表第n个元素的方法是LOC(a)+n*c</h4><ul>
+<li>通过这个公式，你可以随时算出线性表中任意位置的地址，不管它是第一个还是最后一个，都是使用相同的时间。那么我们对每个线性表位置的存入或者取出数据都是相同的时间，即为一个常数，用算法复杂度的概念而言，它的存取时间性能是O(1)。我们通常把具有这一特点的存储结构称之为随机存取结构</li>
+</ul>
+<h3 id="线性表的优缺点："><a href="#线性表的优缺点：" class="headerlink" title="线性表的优缺点："></a>线性表的优缺点：</h3><p><strong>优点：</strong>无需为表示表中元素之间的逻辑关系而增加额外的存储空间；可以快速的存取表中任意位置的元素。</p>
+<p><strong>缺点：</strong>插入和删除操作需要移动大量元素；当线性表长度变化较大时，难以确定存储空间的容量；会造成存储空间的“碎片”</p>
+<h2 id="链表的使用："><a href="#链表的使用：" class="headerlink" title="链表的使用："></a>链表的使用：</h2><ul>
+<li>存储数据元素的信息称之为数据域</li>
+<li>存储直接后继位置的域称之为指针域</li>
+<li>指针域中存储的信息称之为指针或者链</li>
+<li>数据域和指针域构成数据元素的存储映像，称为结点</li>
+</ul>
+<p>每个结点中只包含一个指针域，称之为<strong>单链表</strong>，链表中第一个结点的存储位置称之为头指针，有时为了方便对链表进行操作，会在单链表的第一个结点前附设一个结点，称之为头结点。头结点的数据域可以不存储任何信息，但也可以存储如线性表的长度等附加信息，头结点的指针域存储指向第一个结点的指针；</p>
+<p><strong>C语言：</strong>具有指针，可以很容易的操作内存中的地址和数据，这比其他高级语言更为灵活方便</p>
+<p>**Java、C#:**不使用指针，但是启用了对象引用机制，从某种角度上也间接实现了指针的某些作用</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41028985/article/details/82859199">头插法和尾插法详解</a>  插入节点中没有实际分配内存的都可以看做是一个标记，看做是一个指针标记</p>
+<p><strong>递归调用规则：</strong></p>
+<ul>
+<li>当程序执行到一个方法时，就会开辟一个独立的空间(栈)，在栈区不断向上叠加</li>
+<li>每个空间的数据(局部变量)，是独立的.</li>
+<li>如果方法中使用的是引用类型变量(比如数组)，就会共享该引用类型的数据</li>
+<li>递归必须向退出递归的条件逼近，否则就是无限递归,出现StackOverflowError，即出现死递归</li>
+<li>当一个方法执行完毕，或者遇到return，就会返回，遵守谁调用，就将结果返回给谁，同时当方法执行完毕或者返回时，该方法也就执行完毕</li>
+</ul>
+<p><strong>度量一个程序(算法)执行时间的两种方法：</strong></p>
+<ul>
+<li>事后统计的方法：这种方法可行, 但是有两个问题：一是要想对设计的算法的运行性能进行评测，需要实际运行该程序；二是所得时间的统计量依赖于计算机的硬件、软件等环境因素, 这种方式，要在同一台计算机的相同状态下运行，才能比较那个算法速度更快</li>
+<li>事前估算的方法：通过分析某个算法的时间复杂度来判断哪个算法更优</li>
+</ul>
+<h4 id="树、数组、链表分析："><a href="#树、数组、链表分析：" class="headerlink" title="树、数组、链表分析："></a>树、数组、链表分析：</h4><p><strong>数组存储方式的分析：</strong></p>
+<p>优点：通过下标方式访问元素，速度快。对于有序数组，还可使用二分查找提高检索速度</p>
+<p>缺点：如果要检索具体某个值，或者插入值(按一定顺序)会整体移动，效率较低 </p>
+<p><strong>链式存储方式的分析：</strong></p>
+<p>优点：在一定程度上对数组存储方式有优化(比如：插入一个数值节点，只需要将插入节点，链接到链表中即可， 删除效率也很好)</p>
+<p>缺点：在进行检索时，效率仍然较低，比如(检索某个值，需要从头节点开始遍历) </p>
+<p><strong>树存储方式的分析：</strong></p>
+<p>能提高数据存储，读取的效率,  比如利用 二叉排序树(Binary Sort Tree)，既可以保证数据的检索速度，同时也可以保证数据的插入，删除，修改的速度</p>
+<h4 id="二叉树的分类："><a href="#二叉树的分类：" class="headerlink" title="二叉树的分类："></a>二叉树的分类：</h4><p><strong>满二叉树：</strong>如果该二叉树的所有叶子节点都在最后一层，并且结点总数&#x3D; 2^n -1 , n 为层数，则我们称为满二叉树</p>
+<p><strong>完全二叉树：</strong>如果该二叉树的所有叶子节点都在最后一层或者倒数第二层，而且最后一层的叶子节点在左边连续，倒数第二层的叶子节点在右边连续，我们称为完全二叉树</p>
+<p><strong>二叉树的所谓前序后序中序遍历</strong>是相对于父节点的遍历时间而言的的</p>
+<p><strong>单向链表和二叉树的特点：</strong>由于其二者的链表指针都是只能指向后继结点而不能指向前驱结点，所以当进行删除结点的操作时，都需要找到待删除结点的上一个结点而不是直接让指针指向待删除结点</p>
+<p><strong>顺序存储二叉树的特点:</strong> </p>
+<ul>
+<li>顺序二叉树通常只考虑完全二叉树 </li>
+<li>第 n 个元素的左子节点为 2 * n + 1</li>
+<li>第 n 个元素的右子节点为 2 * n + 2</li>
+<li>第 n 个元素的父节点为 (n-1) &#x2F; 2</li>
+<li>n : 表示二叉树中的第几个元素</li>
+</ul>
+<p><strong>大顶堆：</strong>每个结点的值都大于或等于其左右孩子结点的值，称为大顶堆</p>
+<p><strong>小顶堆</strong>：每个结点的值都小于或等于其左右孩子结点的值，称为小顶堆</p>
+<p><strong>注意 :</strong> 没有要求结点的左孩子的值和右孩子的值的大小关系，一般升序采用大顶堆，降序采用小顶堆</p>
+<p><strong>赫夫曼树(Huffman Tree)：</strong></p>
+<ul>
+<li><p>给定 n 个权值作为 n 个叶子结点，构造一棵二叉树，<strong>若该树的带权路径长度</strong>(wpl)达到最小，称这样的二叉树为 最优二叉树，也称为哈夫曼树、霍夫曼树 </p>
+</li>
+<li><p>赫夫曼树是带权路径长度最短的树，权值较大的结点离根较近</p>
+</li>
+<li><p><strong>路径和路径长度：</strong>在一棵树中，从一个结点往下可以达到的孩子或孙子结点之间的通路，称为路径。通路中分支的数目称为路径长度。若规定根结点的层数为 1，则从根结点到第 L 层结点的路径长度为 L-1 </p>
+</li>
+<li><p><strong>结点的权及带权路径长度：</strong>若将树中结点赋给一个有着某种含义的数值，则这个数值称为该结点的权</p>
+</li>
+<li><p><strong>结点的带权路径长度为</strong>：从根结点到该结点之间的路径长度与该结点的权的乘积 </p>
+</li>
+<li><p><strong>树的带权路径长度：</strong>树的带权路径长度规定为<strong>所有叶子结点的带权路径长度之和</strong>，记WPL(weighted path length) ,权值越大的结点离根结点越近的二叉树才是最优二叉树WPL 最小的就是赫夫曼树 </p>
+</li>
+<li><p>注意赫夫曼树只有叶子结点才是原来数组中存放的真实数据，其余非叶子结点均为叶子结点求和得到的“副产物”</p>
+</li>
+</ul>
+<h4 id="赫夫曼编码："><a href="#赫夫曼编码：" class="headerlink" title="赫夫曼编码："></a>赫夫曼编码：</h4><ul>
+<li>赫夫曼编码也翻译为 哈夫曼编码(Huffman Coding)是一种编码方式, 属于一种程序算法 </li>
+<li>赫夫曼编码是赫哈夫曼树在电讯通信中的经典的应用之一</li>
+<li>赫夫曼编码广泛地用于数据文件压缩。其压缩率通常在 20%～90%之间 </li>
+<li>赫夫曼码是可变字长编码(VLC)的一种。Huffman 于 1952 年提出一种编码方法，称之为最佳编码</li>
+<li>字符的编码都不能是其他字符编码的前缀，符合此要求的编码叫做前缀编码， 即不能匹配到重复的编码（赫夫曼编码满足前缀编码）</li>
+<li>（受相同权值的树放置位置前后不同）赫夫曼树根据排序方法不同，也可能不太一样，这样对应的赫夫曼编码也不完全一样，但是wpl 是一样的</li>
+</ul>
+<h4 id="赫夫曼编码压缩文件的注意事项："><a href="#赫夫曼编码压缩文件的注意事项：" class="headerlink" title="赫夫曼编码压缩文件的注意事项："></a>赫夫曼编码压缩文件的注意事项：</h4><ul>
+<li>如果文件本身就是经过压缩处理的，那么使用赫夫曼编码再压缩效率不会有明显变化, 比如视频,ppt </li>
+<li>赫夫曼编码是按字节来处理的，因此可以处理所有的文件(二进制文件、文本文件)</li>
+<li>如果一个文件中的内容，重复的数据不多，压缩效果也不会很明显.</li>
+</ul>
+<p><strong>二叉排序树：</strong>BST: (Binary Sort(Search) Tree), 对于二叉排序树的任何一个非叶子节点，要求左子节点的值比当前节点的值小，右子节点的值比当前节点的值大<br>特别说明：如果有相同的值，可以将该节点放在左子节点或右子节点</p>
+<p>所谓的前序中序后序线索化二叉树实际上其对应的前驱结点和后继结点是根据前序中序后序遍历后所得到的数组来确定</p>
+<p>由于使用了线索化二叉树的方式，导致正常的遍历二叉树的方法不适用于线索化二叉树，而且前序线索化二叉树要用前序二叉树的方法去遍历，中序线索化二叉树要用中序二叉树的遍历方法</p>
+<p><strong>斐波那契查找的优势：</strong>斐波那契查找的时间复杂度还是O(log 2 n )，但是 与折半查找相比，斐波那契查找的优点是它只涉及加法和减法运算，而不用除法，而除法比加减法要占用更多的时间，因此，斐波那契查找的运行时间理论上比折半查找小，但是还是得视具体情况而定</p>
+<p>对数组进行扩容，如果相邻的内存中没有位置了，则重新找到另一块完整大小的数组位置</p>
+<p>大O计数法实际上是指的是最糟糕情况下的速度</p>
+<p>D&amp;C指的是分而治之的思想算法</p>
+<p>函数调用也需要分配内存，并且调用另一个函数时，当前函数暂停并处于未完成状态</p>
+<p>栈包含未完成的函数调用，每个函数调用都包含还未检查完的数据，递归保存了这些未完成的函数调用的状态数据</p>
+<p>设计递归：1、找出简单的基线条件  2、确定如何缩小问题的规模，使其符合基线条件</p>
+<p>c是算法所需的固定时间量，被称为常量，在查找大量数据时，即使简单查找的常量小，二分查找的速度还是快得多，常量根本没有什么影响 但有时候，常量的影响可能很大，对快速查找和合并查找来说就是如此速查找的常量比合并查找小，因此如果它们的运行时间都为O(nlog n)，快速查找的速度将更快。实际上，快速查找的速度确实更快，因为相对于遇上最糟情况，它遇上平均情况的可能性要大得多</p>
+<p>关于递归函数调用的时间复杂度，需要考虑递归的函数层数，即调用的栈的高度，以及每层需要的时间，二者相乘所得到的时间复杂度即为对应的时间复杂度</p>
+<p>缓存是一种常用的加速方式，所有大型网站都使用缓存，而缓存的数据则存储在散列表中</p>
+<p>散列表适合的情况：仿真映射关系；防止重复；缓存&#x2F;记住数据，以免服务器再通过处理来生成它们</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信图片_20210926202341.png" srcset="/img/loading.gif" lazyload alt="微信图片_20210926202341"></p>
+<p><strong>散列表避免最糟糕情况需要的条件：</strong>较低的填装因子（散列表包含的元素数除以位置总数）；良好的散列函数</p>
+<p>装填因子越低，发生冲突的可能性越小，散列表的性能越高  一个不错的经验规则是：一旦填装因子大于0.7，就调整散列表的长度（调整长度的开销很大，要避免这样的操作）</p>
+<p>你几乎根本不用自己去实现散列表，因为你使用的编程语言提供了散列表实现，并且散列表非常适合用于防止重复</p>
+<p>广度优先搜索适用的范围：</p>
+<ul>
+<li>从节点A出发，有前往节点B的路径吗？（在你的人际关系网中，有芒果销售商吗？）</li>
+<li>从节点A出发，前往节点B的哪条路径最短？（哪个芒果销售商与你的关系最近？）</li>
+</ul>
+<p>广度优先的查找方法时注意查找过的元素注意标注为已查找（例如只有你和Bob两个人，在查找朋友的时候你们两个会来回查找，最后导致循环死循环）</p>
+<p>如果任务A依赖于任务B，在列表中任务A就必须在任务B后面。这被称为<strong>拓扑排序</strong></p>
+<p><strong>狄克斯特拉算法步骤：</strong></p>
+<ul>
+<li>找出最便宜的节点，即可在最短时间内前往的节点</li>
+<li>对于该节点的邻居，检查是否有前往它们的更短路径，如果有，就更新其开销</li>
+<li>重复这个过程，直到对图中的每个节点都这样做了</li>
+<li>计算最终路径</li>
+</ul>
+<p><strong>狄克斯特拉算法注意：</strong></p>
+<ul>
+<li>如果有负权边，就不能使用狄克斯特拉算法</li>
+<li>狄克斯特拉算法只适用于有向无环图</li>
+</ul>
+<p><strong>贪婪算法：</strong>每步都采取最优的做法，即每步都选择局部最优解，最终得到的就是全局最优解 。显然，贪婪算法并非在任何情况下都行之有效，但它易于实现，当只需找到一个能够大致解决问题的算法，此时贪婪算法正好可派上用场，因为它们实现起来很容易，得到的结果又与正确结果相当接近</p>
+<p><strong>NP问题的特点：</strong>元素较少时算法的运行速度非常快，但随着元素数量的增加，速度会变得非常慢</p>
+<ul>
+<li>涉及“所有组合”的问题通常是NP完全问题</li>
+<li>不能将问题分成小问题，必须考虑各种可能的情况 这可能是NP完全问题</li>
+<li>如果问题涉及序列（如旅行商问题中的城市序列）且难以解决，它可能就是NP完全问题</li>
+<li>如果问题涉及集合（如广播台集合）且难以解决，它可能就是NP完全问题</li>
+<li>如果问题可转换为集合覆盖问题或旅行商问题，那它肯定是NP完全问题</li>
+</ul>
+<p>背包（动态规划）问题的刻度取决于物体所占据的最小“重量”</p>
+<p>注意，虽然动态规划功能强大，它能够解决子问题并使用这些答案来解决大问题但<strong>仅当每个子问题都是离散的</strong>，即不依赖于其他子问题时，动态规划才适用</p>
+<p>动态规划问题所计算得到的最优解可能会使得背包的容量没有完全用完（有个3.5磅的超大钻石，背包4磅，其余最小的物体也得1磅）</p>
+<p>在C语言中数组必须静态分布，在创建的时候就要给定长度，java是定义数组的时候不能声明其大小，但是在使用new关键词的时候需要指明大小（确定开辟的内存大小）java当中不允许下标越界，否则会抛出下标越界异常</p>
+<p><strong>波兰表达式和逆波兰表达式有个好处，就算将圆括号去掉也没有歧义</strong></p>
+<p><strong>中缀表达式转后缀表达式：</strong>如果遇到数字就直接输出，如果遇到符号就判断其和栈顶符号的优先级，是右括号或者优先级不高于栈顶符号，则栈顶符号依次出栈并输出，<strong>然后将当前符号进栈</strong>，直到最终完全输出后缀表达式为止</p>
+<p>由于链表无法使用二分查找来找到待插入元素的所在位置，所以使用<strong>跳跃表</strong>（<a target="_blank" rel="noopener" href="https://blog.csdn.net/qpzkobe/article/details/80056807">跳跃表的原理及实现</a>）的形式来代替</p>
+<p>子串是必须连续的字符串，子序列是可以不连续的字符串</p>
+<p><strong>动态规划的特点：</strong></p>
+<ul>
+<li>需要在给定约束条件下优化某种指标时，动态规划很有用</li>
+<li>问题可分解为离散子问题时，可使用动态规划来解决</li>
+<li>每种动态规划解决方案都涉及网格</li>
+<li>单元格中的值通常就是你要优化的值</li>
+<li>每个单元格都是一个子问题，因此你需要考虑如何将问题分解为子问题</li>
+<li>没有放之四海皆准的计算动态规划解决方案的公式</li>
+</ul>
+<p><strong>OCR</strong>指的是<strong>光学字符识别</strong>（optical character recognition）</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信图片_20211013185646.png" srcset="/img/loading.gif" lazyload alt="微信图片_20211013185646"></p>
+<p>SHA是<strong>局部不敏感的</strong>，如果你修改其中的一个字符，再计算其散列值，结果将截然不同，有时候，你希望结果相反，即希望散列函数是局部敏感的。在这种情况下，可使用<strong>Simhash</strong>。如果你对字符串做细微的修改，Simhash生成的散列值也只存在细微的差别。这让你能够通过比较散列值来判断两个字符串的<strong>相似程度</strong>，这很有用！</p>
+<p>只有一个节点的树高度为1<br>后序遍历的遍历结果可以从叶子节点开始<br>先序遍历和后序遍历任意一个结合中序遍历即可还原出二叉树，而先序遍历和后序遍历</p>
+<p>虽然在<strong>单旋转</strong>过程中没有修改父节点的子节点，但是在<strong>双旋转</strong>的函数中修改了对应的子节点</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//单旋转过程中没有修改父节点的子节点</span><br>node* <span class="hljs-title function_">LL</span><span class="hljs-params">(node *root )</span>&#123;<br>    node *tmp;<br>    tmp = root -&gt; left;<br>    root -&gt; left = tmp -&gt; right;<br>    tmp -&gt; right = root;<br>    <span class="hljs-keyword">return</span>   tmp;  <br>&#125;<br><span class="hljs-comment">//双旋转的函数中修改了对应父节点的子节点</span><br>node* <span class="hljs-title function_">LR</span><span class="hljs-params">(node *root )</span>&#123;<br>    root -&gt; left = RR(root -&gt; left);<br>    <span class="hljs-keyword">return</span> LL(root);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>B树和B+树的区别：</strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/z_ryan/article/details/79685072">点击！</a></p>
+<p>Advantages of B+ trees:</p>
+<ul>
+<li>Because B+ trees don’t have data associated with interior nodes, more keys can fit on a page of memory. Therefore, it will require fewer cache misses in order to access data that is on a leaf node.</li>
+<li>The leaf nodes of B+ trees are linked, so doing a full scan of all objects in a tree requires just one linear pass through all the leaf nodes. A B tree, on the other hand, would require a traversal of every level in the tree. This full-tree traversal will likely involve more cache misses than the linear traversal of B+ leaves.</li>
+</ul>
+<p>Advantage of B trees:</p>
+<ul>
+<li>Because B trees contain data with each key, frequently accessed nodes can lie closer to the root, and therefore can be accessed more quickly.</li>
+</ul>
+<p>设计递归相关算法的时候首先写出递归出口的情况</p>
+<p><strong>AVL树的旋转分类：</strong></p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\v2-58c02894bce9e580481c075efc35f226_r.jpg" srcset="/img/loading.gif" lazyload alt="v2-58c02894bce9e580481c075efc35f226_r"></p>
+<p>LL型：之所以叫LL型即在出现高度问题的最低结点(n)左节点的左子树上出现了高度差距</p>
+<p>处理方式：对节点 <strong>n</strong> 右旋一次即可</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\v2-acc2de5f4d30d41a6b39b0c5a9b2dbbe_r.jpg" srcset="/img/loading.gif" lazyload alt="v2-acc2de5f4d30d41a6b39b0c5a9b2dbbe_r"></p>
+<p>LR型：之所以叫LR型即在出现高度问题的最低结点(n)左节点的右子树上出现了高度差距</p>
+<p>处理方式：先对 <strong>i</strong> 进行一次左旋再对 <strong>n</strong> 进行一次右旋</p>
+<p><strong>空间复杂度是对一个算法在运行过程中临时占用存储空间大小的一个量度，同样反映的是一个趋势，我们用 S(n) 来定义</strong></p>
+<p>大O表示法：算法的时间复杂度通常用大O符号表述，定义为 **T[n] &#x3D; O(f(n)) **。称函数T(n)以f(n)为界或者称T(n)受限于f(n)</p>
+<p>如果一个问题的规模是n，解这一问题的某一算法所需要的时间为T(n)。T(n)称为这一算法的“时间复杂度”</p>
+<p><strong>递归相关的时间复杂度计算：</strong>如果递归函数中，只进行一次递归调用，递归深度为depth；在每个递归的函数中，时间复杂度为T；<strong>则总体的时间复杂度为O(T * depth)</strong></p>
+<p><strong>平均情况时间复杂度计算：</strong>可以理解为求加权时间复杂度，然后化简求和式子即可</p>
+<p>均摊复杂度分析：例如对于容量为 n 的动态数组，前面添加元素需要消耗了 1 * n 的时间，扩容操作消耗  n 时间 ，总共就是 2 * n 的时间，因此均摊时间复杂度为 O(2n &#x2F; n) &#x3D; O(2)，也就是 O(1) 级别了  可得到结论：<strong>一个相对比较耗时的操作，如果能保证它不会每次都被触发，那么这个相对比较耗时的操作，它所相应的时间是可以分摊到其它的操作中来的</strong></p>
+<p>DAG：有向无环图</p>
+<ul>
+<li>拓扑排序产生一个DAG的节点排序，满足以上条件：如果存在u到v的路径，u应先访问</li>
+<li>有圈图的拓扑排序无定义</li>
+<li>DAG满足条件的拓扑排序不是唯一的</li>
+</ul>
+<p>根据front,rear,maxlength 求队列的长度：**(Q.rear-Q.front+maxlength)%maxlength**</p>
+<p>朴素算法中，当主串和模式串不匹配的时候，主串的 i &#x3D; i - j + 2（加2是因为不仅要回去上一次比较的位置，而且要重新开始比较，故应当往后移动一位）</p>
+<p>利用已经部分匹配的结果加快模式串的滑动速度</p>
+<p>结点的度：结点的子树数目</p>
+<p>树的度：树中各节点的度的最大值</p>
+<p>n度树：树中各节点的度的最大值</p>
+<p>满二叉树：字面意思</p>
+<p>完全二叉树：若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层所有的结点都连续集中在最左边</p>
+<p>java中的对象数组实际上可以用C语言中的结构体指针数组来实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span> *<span class="hljs-title">arr</span>[<span class="hljs-title">Length</span>]</span><br></code></pre></td></tr></table></figure>
+
+<p>构造二叉树时，都是通过二叉树的前序遍历或者后序遍历来判断谁是根结点，再结合中序遍历判断结点的左右关系</p>
+<p>由于单纯给出先序遍历创建出来的二叉树不是唯一的，所以需要用分隔符等来标记其空节点的位置来保证生成的二叉树是唯一的</p>
+<p>线索化二叉树分为先序线索化 中序线索化 后序线索化，所谓的前驱或者后继，是对应相关线索化后的前驱和后继，具体实现要取决于其遍历的方式</p>
+<p>为了避免两端的结点由于没有前驱结点和后继结点而导致的线索化二叉树过程中的空指向，增加一个头结点，用于接收多余的两个指针</p>
+<p>线索化二叉树时，对应的遍历方式并没有给出，是在线索化二叉树的过程中不断改变得到的</p>
+<p>在非完全二叉树的情况下，由于下标的数字关系不符合，故结点在存放数据以外还要存放其父节点</p>
+<p>在结点数目相同的二叉树中，完全二叉树是路径长度最短的树，但是注意相同结点路径长度最短的树不一定是完全二叉树（左边的结点移动到右边保持仍为路径长度最短）</p>
+<p>哈夫曼树即带权路径长度最短的树</p>
+<p>满二叉树不一定是哈夫曼树</p>
+<p>带权结点权值越大的离根结点的位置越近</p>
+<p>具有相同带权结点的哈夫曼树不唯一</p>
+<p>利用贪心算法：构造哈夫曼树时优先选择权值较小的叶子结点</p>
+<p>每一次构造结点的时候，把之前的两个最小结点生成的“和结点”也纳入考虑的范畴</p>
+<p>为什么哈夫曼编码能够保证是前缀无重复的编码？由于哈夫曼树中的对应符号都是叶子结点，故没有任意一个结点是另外一个结点的祖先，所以每个叶子结点的编码也就不可能是其它叶子结点编码的前缀</p>
+<p>网：边上有权值的图</p>
+<p>子图：结点是原图结点的子集，边也是原图边的子集则称之为子图</p>
+<p>强连通图是相对于有向图而言的</p>
+<p>有回路的有向图不存在拓扑排序</p>
+<p>非连通图，对每个连通分量依次遍历即可</p>
+<p>广度优先，每新增一个结点，就先把这个节点的所有邻接结点全部遍历完成</p>
+<p>利用队列和辅助数组存放是否访问过进行判断</p>
+<p>最短路径和最小生成树不同，最短路径上不一定包含n个顶点，也不一定包含n-1个边</p>
+<p>将无序二叉树转化为堆的方法：由于所有的叶子结点都已经可以看成是堆了，所以只需要从最后一个非叶子结点不断进行调整，依次向前进行调整即可（又由于完全二叉树的性质，最后一个叶子结点恰为n&#x2F;2）</p>
+<p>快速排序的最好情况是每一次分割都使得原数组分成左右两份</p>
+<p>算法知道的信息多，算法越高效，约束越大，适用范围也越有限，通用性越差</p>
+<p>外部排序和内存访问的特性差别极大：常量内存的直接寻址代价和代价极大的外存随机访问</p>
+<p>只有一个结点的二叉树高度为0</p>
+<p>建堆即对所有的非叶子结点依次进行下滤</p>
+<p>有圈图的拓扑排序无定义</p>
+<p>有向无环图满足条件的拓扑排序不是唯一的</p>
+<p>拓扑排序将有向无环图中的偏序关系转换为线性关系 </p>
+<p>贪婪算法选择的是局部最优或者是局部次优的，并不能保证一定是全局最优的，贪婪算法希望通过局部最优能够产生全局最优</p>
+<p>动态规划算法和贪婪算法常用于最优问题求解，当问题具有重叠子问题和最优子结构时可以采用</p>
+<p>欧几里得算法又称之为辗转相除法：</p>
+<p>求 10 ，25的最大公约数：<br>25 &#x2F; 10 &#x3D; 2 ······5<br>10 &#x2F; 5  &#x3D; 2 ······0<br>所以10，25的最大公约数为5</p>
+<p>利用栈求表达式求值的关键：当某个运算符将要入栈时，若待入栈的运算符优先级小于当前栈顶的运算符，则先弹出栈顶中的符号计算后，<strong>再</strong>将待入栈的运算符入栈</p>
+<p>中缀表达式转后缀表达式的求解和计算中缀表达式类似，但注意弹出符号栈运算符的条件是待入栈的运算符<strong>优先级小于或等于</strong>当前栈顶的运算符，而且只是弹运算符，并不涉及运算</p>
+<p>开放定址法实际上就是先调用hash函数，如果该位置有冲突，就依次根据设定好的序列向后探测（注意增加的值是加到原数据上），并且查找也是同理，调用hash函数后未能找到就依次向后探测</p>
+<p>再散列：当散列表太满，或者说如果装填因子为0.75（默认值），而表中超过75%的位置已经填入元素，就需要对散列表再散列，这个表就会用双倍的桶数自动地进行再散列。桶数是指用于收集具有相同散列值的桶的数目  </p>
+<p>再散列含义之二：提供多个散列函数，当其中一个散列函数获得的地址产生冲突时，使用第二个散列函数来进行获取地址</p>
+<p>公共溢出区：用于解决散列冲突的问题，当出现冲突时，将产生冲突的元素单独存放在公共溢出区中，查找同理，当查找不到时在公共溢出区中查找</p>
+<p>中序遍历如果不采用递归形式进行实现，则需要借助栈来实现</p>
+<p>由于包含n棵树的森林要经过n-1次合并才能形成哈夫曼树，共产生了n-1个结点，所以包含n个叶子结点的哈夫曼树中有2n-1个结点，并且哈夫曼树中的结点度数为0或2，没有度数为1的结点</p>
+<p>强连通图的强连通分量是其自身，但是有向非连通图的强连通分量有多个</p>
+<p>时间复杂度只和存储结构有关，和搜索方式无关</p>
+<p>4个有序子串的合并，叫4路归并。如果是n个有序子串的合并，就把它称为n路归并   n并非越大越好</p>
+<p>当给一棵本来就平衡的AVL树中插入一个新节点P的时候，从节点P到根节点的路径上，每个节点为根的子树的高度都可能增加1，即平衡因子发生改变，所以执行一次插入操作后，都需要沿路径向根节点回溯，修改各节点的平衡因子，而如果遇到了哪一个节点的bf变成2或-2的时候就要进行平衡化处理</p>
+<p>外部排序由于读写操作比较耗时所以要尽量减少IO的次数</p>
+<p>注意外部排序所需的最小IO树并不和哈夫曼树完全相同，最小IO树的分叉数量取决于多路合并的数量，如果是三路合并则分叉数量为3，产生的树即为最佳归并树</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/数据结构/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/java%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

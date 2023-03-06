@@ -1,0 +1,806 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从二叉树寻找父节点开始将代码逐渐转移到笔记中深化理解（难理解的贴代码，没那么难理解的还是在idea中看吧） 异或可以理解为无进位相加，或者相同则0，不相同则1 子问题是等量规模的则均可以使用master公式进行求解，即使子问题的求解规模有重复的部分，但只要子问题是等量的均可以使用master公式求解时间复杂度，只要确定了对应的a,b,d三者的值，进行比较就可以直接推导出对应时间复杂度 例如在合并排">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="从二叉树寻找父节点开始将代码逐渐转移到笔记中深化理解（难理解的贴代码，没那么难理解的还是在idea中看吧） 异或可以理解为无进位相加，或者相同则0，不相同则1 子问题是等量规模的则均可以使用master公式进行求解，即使子问题的求解规模有重复的部分，但只要子问题是等量的均可以使用master公式求解时间复杂度，只要确定了对应的a,b,d三者的值，进行比较就可以直接推导出对应时间复杂度 例如在合并排">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AC%94%E8%AE%B0\%E7%AE%97%E6%B3%95%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220417183034.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AC%94%E8%AE%B0\%E7%AE%97%E6%B3%95%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220416191202.png">
+<meta property="article:published_time" content="2023-03-06T12:20:13.442Z">
+<meta property="article:modified_time" content="2022-04-20T13:39:15.328Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AC%94%E8%AE%B0\%E7%AE%97%E6%B3%95%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220417183034.png">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          80 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>从二叉树寻找父节点开始将代码逐渐转移到笔记中深化理解（难理解的贴代码，没那么难理解的还是在idea中看吧）</p>
+<p>异或可以理解为无进位相加，或者相同则0，不相同则1</p>
+<p>子问题是等量规模的则均可以使用master公式进行求解，即使子问题的求解规模有重复的部分，但只要子问题是等量的均可以使用master公式求解时间复杂度，只要确定了对应的a,b,d三者的值，进行比较就可以直接推导出对应时间复杂度</p>
+<p>例如在合并排序中，merge方法即为子问题求解外的时间复杂度，其中由于其遍历了所有的数组，故将数组元素转到help数组的时间复杂度是$O(n)$，将help数组再次转换回原数组时间复杂度为$O(n)$</p>
+<p>时间复杂度为$O(n^2)$的排序算法效率差的原因是进行了过多的重复比较，浪费了比较行为，结合小和问题总结，即减少重复的比较次数，提高对已知结果的利用率</p>
+<p>如果不对自定义类进行重写比较方法却强行调用sort()，则系统会根据内存地址进行排序，得到的排序结果无意义</p>
+<p>想要自定义排序时，只需要重写对应比较器，然后在调用sort函数的第二个参数传入对应比较器即可</p>
+<p>在实际解决问题的过程中，可能会根据样本量的大小或其他角度来使用不同的排序算法</p>
+<p>实际上任何递归函数都可以转换成非递归函数，递归本身即系统对函数进行压栈，手动控制压栈即可以实现非递归改写</p>
+<ul>
+<li>输入规模角度：数据量大时使用快速排序进行分组，当组内数据量减少到一定量时不使用快排而是使用插入排序，避免进一步递归操作（在时间复杂度角度来看快排仍然占优势，但由于数据量减少到一定量时，不得不考虑时间复杂度的常数项系数的值，而插入排序的常数项系数值极低，效率更高）</li>
+<li>稳定性角度：当输入的数据属于不需要考虑稳定性时使用快速排序，而需要稳定性时使用归并排序</li>
+<li>实际上在各种语言的系统库中的排序函数都是很复杂的处理，兼容各种排序算法的优缺点进行操作</li>
+</ul>
+<p>当问题中出现元素<strong>独一无二</strong>的要求限定时，注意使用哈希表的特性来实现	</p>
+<h4 id="奇偶分侧问题："><a href="#奇偶分侧问题：" class="headerlink" title="奇偶分侧问题："></a><strong>奇偶分侧问题：</strong></h4><p>问题描述：将待操作数组中的奇数放在数组左边，偶数放在数组右边，并且要求原始的相对次序不变</p>
+<ul>
+<li>实际上可以将问题简化成01分侧问题，即将问题转化为实现快排的稳定性问题，即““01 stable sort”问题，可以实现但实际上很难，属于学术性问题</li>
+</ul>
+<h4 id="小和问题："><a href="#小和问题：" class="headerlink" title="小和问题："></a><strong>小和问题：</strong></h4><p>问题描述：在一个数组中，每一个数左边比当前数小的数累加起来，叫做这个数组的小和求一个数组的小和 </p>
+<p>例子:[1,3,4,2,5] 1左边比1小的数，没有; 3左边比3小的数，1; 4左 边比4小的数1、3; 2左边比2小的数，1; 5左边比5小的数，1、3、4、2; 所以小和为1+1+3+1+1+3+4+2&#x3D;16</p>
+<ul>
+<li>和merge操作不同在于，小和问题在遇到左右两数组数据相同时，首先拷贝<strong>右组</strong>数据，以此来保证能通过数组下标进行获取有几个比该数大的数字（注意由于其限定先拷贝右组数据，导致其丧失排序结果的稳定性）</li>
+</ul>
+<h4 id="荷兰国旗问题："><a href="#荷兰国旗问题：" class="headerlink" title="荷兰国旗问题："></a><strong>荷兰国旗问题</strong>：</h4><p>i为遍历的量，小于区域标志 p , 大于区域标志 q （快排思想）</p>
+<ul>
+<li>若a[i]≤num，则将a[i]和小于等于区域边界下一个数交换，p++,i++</li>
+<li>若a[i]&#x3D;num，则仅执行  i++</li>
+<li>若a[i]≥num，则将a[i]和大于等于区域边界上一个数交换，q–，i不变（因为新换过来的是没比较的）</li>
+<li>当i&#x3D;q时，终止运算（此时已经遍历完所有待比较的数据）</li>
+</ul>
+<h4 id="快排问题："><a href="#快排问题：" class="headerlink" title="快排问题："></a><strong>快排问题：</strong></h4><ul>
+<li>快排1.0：选取最后数组最后一个数num作为分隔，将之前的数据分为小于,大于两部分，最后将大于区域的第一个数和num进行交换，递归操作，最坏时间复杂度$O(n^2)$</li>
+<li>快排2.0：选取最后数组最后一个数num作为分隔，将之前的数据分为小于,等于,大于三部分，最后将大于区域的第一个数和num进行交换，递归操作（优化在于，当存在重复数据时将重复数据提出到中间部分，避免其又混入到递归层次中），最坏时间复杂度$O(n^2)$<ul>
+<li>前两种快排最坏时间复杂度原因是因为每次选取最后面的值作为分隔，可能每次操作都是逆序的，导致减少的规模过少</li>
+</ul>
+</li>
+<li>快排3.0：分隔数据选择随机一个数进行划分，然后和数组最后一个数交换，其余同上一种方法，时间复杂度为$O(N*logN)$，空间复杂度为$O(logN)$（注意即使使用非递归方式实现快排，空间复杂度还是无法省略）<ul>
+<li>与前面两种的区别在于避免了出现顺序的数组导致快排效率低，而是每次都进行随机化，从概率上避免最差情况（最后一个数实际上也是理论上随机的选取的，但是实际中往往由于顺序的，故容易出现最差的情况）</li>
+</ul>
+</li>
+</ul>
+<p><strong>大根堆：</strong>整棵树以及每一棵子树都是以根结点为最大值，而左右子树的大小关系不确定，小根堆同理</p>
+<h4 id="堆操作："><a href="#堆操作：" class="headerlink" title="堆操作："></a><strong>堆操作：</strong></h4><ul>
+<li>堆的高度：$O(logN)$</li>
+</ul>
+<p>​                 结点数：    1 2 3 4 5 6 7 ……</p>
+<p>​                 对应高度：1 2 2 3 3 3 3 ……</p>
+<ul>
+<li><p>结点插入（heapInsert）：添加到堆的末尾，不断和其父节点进行比较，满足条件则进行交换，heapsize++，对应时间复杂度为$O(logN)$</p>
+</li>
+<li><p>堆顶弹出（heapify）：弹出堆顶数据，将堆末尾的数据和堆顶数据交换，heapsize–，从新产生的堆顶不断向下进行比较，满足条件则进行交换（原堆末尾的数据是否擦除无影响，因为heapsize–已经将这个数据排除在堆限定范围内）对应时间复杂度为$O(logN)$</p>
+</li>
+<li><p>修改堆中的任意结点的值：根据变大还是变小选择使用结点插入（heapInsert）或  堆顶弹出（heapify）</p>
+</li>
+<li><p>堆排序：将堆顶数据弹出后进行heapify，再弹出，再heapify，重复操作</p>
+<ul>
+<li>时间复杂度$O(N*logN)$</li>
+<li>空间复杂度$O(1)$</li>
+</ul>
+</li>
+<li><p>普通树的堆化：从最后一个结点开始不断使用heapify，但实际上由于叶子结点本身没有子节点所以heapify叶子结点没有效果，故实际上是从第一个非叶子结点进行heapify，时间复杂度使用错位相减易得其时间复杂度为$O(n)$</p>
+</li>
+<li><p>注意堆结构即优先队列</p>
+</li>
+<li><p>实际上可以调用系统提供的heap类，只需要添加和弹出即可</p>
+</li>
+<li><p>中位数问题：</p>
+<ul>
+<li><p>问题描述：维持一个结构，在数据流中快速获取中位数</p>
+</li>
+<li><p>利用大根堆和小根堆来解决问题，通过以下步骤实现中位数</p>
+<ul>
+<li>遍历到的结点判断和是否小于当前大根堆的堆顶，如果小于则添加到大根堆中，如果大于则添加到小根堆中</li>
+<li>当大根堆和小根堆数量相差超过1时，将数量较大的堆弹出一个数据到另一个堆中</li>
+<li>重复上述操作，当所有数据都添加后两个堆的堆顶就是中位数</li>
+</ul>
+<p><img src="C:\Users\小赵同学\Desktop\计算机笔记\算法图片\微信图片_20220417183034.png" srcset="/img/loading.gif" lazyload alt="微信图片_20220417183034"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="基本有序问题（堆结构思想）："><a href="#基本有序问题（堆结构思想）：" class="headerlink" title="基本有序问题（堆结构思想）："></a><strong>基本有序问题（堆结构思想）：</strong></h4><p>题目简介：已知一个几乎有序的数组，几乎有序是指，如果把数组排好顺序的话，每个元素移动的距离可以不超过k，并且k相对于数组来说比较小  请选择一个合适的排序算法针对这个数据进行排序</p>
+<ul>
+<li>读取原数组的前k个数据构建小根堆</li>
+<li>弹出小根堆堆顶，再从原数组中heapInsert一个结点</li>
+<li>重复上一步操作，直至读取所有数据，弹出所有小根堆的数据</li>
+<li>时间复杂度为$O(N*logk)$，当k很小时，时间复杂度趋向于$O(N)$</li>
+</ul>
+<h4 id="桶排序："><a href="#桶排序：" class="headerlink" title="桶排序："></a><strong>桶排序：</strong></h4><ul>
+<li>桶排序不是基于比较的算法</li>
+<li>桶排序入桶和出桶的次数取决于待排序数据的最高位数</li>
+<li>可以对桶排序进行优化，不使用桶，而是使用词频表进行记录（详见视频）（其使用逆序遍历的方法模拟了出入桶后进先出的特性）</li>
+</ul>
+<h4 id="哈希表："><a href="#哈希表：" class="headerlink" title="哈希表："></a><strong>哈希表：</strong></h4><ul>
+<li>哈希表的寻址是常数级别，但是属于是较大的常数</li>
+<li>当值是值类型时复制对应数据到哈希表中，当值是引用类型时，则存放的是8个字节的一个对应对象的地址</li>
+</ul>
+<h4 id="链表："><a href="#链表：" class="headerlink" title="链表："></a><strong>链表：</strong></h4><ul>
+<li>快慢指针：都从头开始，快指针一步走两下，慢指针一步走一下，使得当快指针遍历结束后，慢指针正好在中间（具体实现注意练习，可能在奇偶的情况下需要进行微调）</li>
+<li>判断回文序列并且要求时间复杂度达到$O(N)$，额外空间复杂度达到$O(1)$<ul>
+<li>依旧使用快慢指针的方法，只是当获取到中点的指针后，慢指针指向的结点的后序结点指向空，快指针指向的结点开始逆向指向其父节点，直至指到中间结点（一根面条从中间拉起）</li>
+</ul>
+</li>
+<li>链表版荷兰旗问题：<ul>
+<li>暴力算法：将结点依次存放在对应node数组中，利用快排解决荷兰旗问题，但消耗了过多额外空间</li>
+<li>六变量算法：使用六个变量分别限定小于区域，等于区域，大于区域的头结点和尾节点，初始值均为null，从待解决链表的头结点依次遍历，将对应符合条件的结点放在对应的链表体系中，每次添加注意修改尾节点的指向，最终将形成的三条链表依次首尾相连</li>
+</ul>
+</li>
+<li>random结点链表问题：<ul>
+<li>问题描述：链表中的每一个结点都额外多一个名为rand的指针，随机指向该链表的任意位置（包含null），现要求完全复制一个新的链表和该链表相同（rand指向的结点也得相同）</li>
+<li>使用额外空间：使用哈希表进行对结点进行唯一化</li>
+<li>不使用额外空间：将原结点和新节点一次串起（1–&gt;1*–&gt;2–&gt;2*–&gt;3–&gt;3*–&gt;null），其中原结点的rand指针依旧指向其原本指向的结点，由于新旧结点成对出现，原结点的后一个结点一定是对应的新节点，成对处理，进行配置后删除原结点即可（相较于哈希表，通过成对出现的结构绑定了单独的映射关系）</li>
+</ul>
+</li>
+<li>双链表相交问题：<ul>
+<li>给定两个可能有环也可能无环的单链表，头节点head1和head2请实现一个函数，如果两个链表相交，请返回相交的 第一个节点。如果不相交，返回null 并要求如果两个链表长度之和为N，时间复杂度请达到O(N)，额外空间复杂度请达到O(1)</li>
+<li>使用额外空间：使用哈希表进行唯一性确定</li>
+<li>不使用额外空间：注意这还是个基本的链表结构，其结点只有一个next，所以实际上不存在中间打结的那种环，解决方法使用快慢指针，当快指针读取到null时，说明该链表中一定没有环，如果链表中有环，那么快指针和慢指针肯定会重合，因为两个指针终归会在一个环中绕圈圈，当快指针和慢指针重合时，快指针返回起点，慢指针不动，然后两个指针都一次走一步，最终二者重合的结点就是第一个入环的结点处（证明待查）</li>
+</ul>
+</li>
+</ul>
+<h4 id="图："><a href="#图：" class="headerlink" title="图："></a><strong>图：</strong></h4><ul>
+<li><p>图的BFS算法：</p>
+<ul>
+<li>&#96;&#96;&#96;java<br>public static void bfs(Node node) {<br>   if (node &#x3D;&#x3D; null) {<br>  return;<br>   }<br>   Queue<Node> queue &#x3D; new LinkedList&lt;&gt;();<br>   HashSet<Node> map &#x3D; new HashSet&lt;&gt;();<br>   queue.add(node);<br>   map.add(node);<br>   while (!queue.isEmpty()) {<br>  Node cur &#x3D; queue.poll();<br>  System.out.println(cur.value);<br>  for (Node next : cur.nexts) {<br>     if (!map.contains(next)) {<br>        map.add(next);<br>        queue.add(next);<br>     }<br>  }<br>   }<br>}<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><br>+ 图的DFS算法：<br><br>  + ```<span class="hljs-function">java</span><br><span class="hljs-function">    <span class="hljs-keyword">public</span> <span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(Node node)</span> </span>&#123;<br>       <span class="hljs-keyword">if</span> (node == null) &#123;<br>          <span class="hljs-keyword">return</span>;<br>       &#125;<br>       Stack&lt;Node&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;&gt;();<br>       HashSet&lt;Node&gt; set = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br>       stack.<span class="hljs-built_in">add</span>(node);<br>       set.<span class="hljs-built_in">add</span>(node);<br>       System.out.<span class="hljs-built_in">println</span>(node.value);<br>       <span class="hljs-keyword">while</span> (!stack.<span class="hljs-built_in">isEmpty</span>()) &#123;<br>          Node cur = stack.<span class="hljs-built_in">pop</span>();<br>          <span class="hljs-keyword">for</span> (Node next : cur.nexts) &#123;<br>             <span class="hljs-keyword">if</span> (!set.<span class="hljs-built_in">contains</span>(next)) &#123;<br>                stack.<span class="hljs-built_in">push</span>(cur);<br>                stack.<span class="hljs-built_in">push</span>(next);<br>                set.<span class="hljs-built_in">add</span>(next);<br>                System.out.<span class="hljs-built_in">println</span>(next.value);<br>                <span class="hljs-keyword">break</span>;<br>             &#125;<br>          &#125;<br>       &#125;<br>    &#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>图的拓扑排序：</p>
+<ul>
+<li>&#96;&#96;&#96;java<br>public static List<Node> sortedTopology(Graph graph) {<br>   HashMap&lt;Node, Integer&gt; inMap &#x3D; new HashMap&lt;&gt;();<br>   Queue<Node> zeroInQueue &#x3D; new LinkedList&lt;&gt;();<br>   for (Node node : graph.nodes.values()) {<br>  inMap.put(node, node.in);<br>  if (node.in &#x3D;&#x3D; 0) {<br>     zeroInQueue.add(node);<br>  }<br>   }<br>   List<Node> result &#x3D; new ArrayList&lt;&gt;();<br>   while (!zeroInQueue.isEmpty()) {<br>  Node cur &#x3D; zeroInQueue.poll();<br>  result.add(cur);<br>  for (Node next : cur.nexts) {<br>     inMap.put(next, inMap.get(next) - 1);<br>     if (inMap.get(next) &#x3D;&#x3D; 0) {<br>        zeroInQueue.add(next);<br>     }<br>  }<br>   }<br>   return result;<br>}<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><br><span class="hljs-bullet">+</span> 图的最小生成树：<br><br><span class="hljs-bullet">  +</span> K算法：从最小的边进行遍历，依次添加，如果添加后不产生环就添加，否则就不添加，至于判断是否有环是使用集合的进行操作，如果两个元素在同一个集合当中，就说明这两个元素添加边后产生回路<br><span class="hljs-bullet">  +</span> P算法（要求是无向图）：现在原本图中添加一个结点，并且将添加的结点所连接的边放入待添加范围内，每添加一个结点就将其相关联的边一并添加，并从待选择范围中选择最小的边进行添加（边使用最小堆进行存储，便于输出最小的边）<br><br><span class="hljs-bullet">+</span> 图的最短路径：<br><br><span class="hljs-bullet">  +</span> 迪杰特斯拉算法：不断判断是否随着过程推进，在原来的基础上是否产生了距离更短的，有则进行更新，注意其可以有负权值的边，但是不能有结果为负值的环<br><br><span class="hljs-section">#### <span class="hljs-strong">**前缀树：**</span></span><br><br>![<span class="hljs-string">微信图片_20220417152951</span>](<span class="hljs-link">C:\Users\小赵同学\Desktop\计算机笔记\算法图片\微信图片_20220417152951.png</span>)<br><br><span class="hljs-bullet">+</span> 前缀树元素说明：<br><span class="hljs-bullet">  +</span> 一般前缀树的值是存放在边上的，但为了提高前缀树的效率，可以在其结点上增加部分数据<br><span class="hljs-bullet">  +</span> P即pass，表示的是有多少次数据经过该节点（通过该数据可以知道以某个字符串为前缀的字符串有多少个）<br><span class="hljs-bullet">  +</span> E即end ，表示的是有多少次字符串以该节点进行结尾（通过该数据可以知道某一种特定字符串是否进行了添加，并且添加了多少次）<br><span class="hljs-bullet">+</span> 注意删除一个字符串和添加一个字符串是对应的，沿途p--，最后e--，并且在删除过程中只要有一个结点p--后p为0，则说明该节点以下的所有节点都需要删除，只需要将这个p值为0的结点设置为null即可，jvm会自动进行释放下面没有引用的元素<br><br><span class="hljs-section">#### <span class="hljs-strong">**贪心算法：**</span></span><br><br><span class="hljs-bullet">+</span> 贪心算法就是使用局部最优解来推得全局最优解<br><br><span class="hljs-bullet">+</span> 贪心算法面试技巧：<br><br><span class="hljs-bullet">  +</span> 实现一个不依靠贪心策略的解法X，可以用最暴力的尝试 <br><span class="hljs-bullet">  +</span> 然后脑补出贪心策略A、贪心策略B、贪心策略C... <br><span class="hljs-bullet">  +</span> 用解法X和对数器，去验证每一个贪心策略，用实验的方式得知哪个贪心策略正确 <br><span class="hljs-bullet">  +</span> 不要去纠结贪心策略的证明<br><span class="hljs-bullet">  +</span> [<span class="hljs-string">对数器的相关解析</span>](<span class="hljs-link">https://blog.csdn.net/weixin_39953502/article/details/79504879</span>)<br><br><span class="hljs-bullet">+</span> 会议室问题：<br><br><span class="hljs-bullet">  +</span> 问题描述：一些项目要占用一个会议室宣讲，会议室不能同时容纳两个项目的宣讲  给你每一个项目开始的时间和结束的时间(给你一个数 组，里面是一个个具体 的项目)，你来安排宣讲日程，要求会议室进行的宣讲的场次最多  返回这个最多的宣讲场次<br><span class="hljs-bullet">  +</span> 利用贪心算法思想，在每一次添加会议的选择范围内调用结束时间最早的会议<br><br><span class="hljs-bullet">+</span> 字符串字典序排序问题：<br><br><span class="hljs-bullet">  +</span> 问题描述：给定一个字符串类型的数组strs，找到一种拼接方式，使得把所有字符串拼起来之后形成的字符串具有最小的字典序<br><span class="hljs-bullet">  +</span> 字典序：就是字典中的排序方法，首先比较第一个字母（如果两个字符串的长度不同，则将短的字符串扩充成长字符串位数），如果第一个字母相同则顺次重复比较<br><span class="hljs-bullet">  +</span> 贪心策略A:根据字符串本身的字典序进行拼接，该种方式错误  eg:  &quot; b &quot;  ,  &quot; ba &quot; 进行拼接<br><span class="hljs-bullet">  +</span> 贪心策略B:将整个字符串进行&quot;排序&quot;，排序的规则是根据两个待比较的字符串尝试各自放在前面拼接，取拼接后字典序较小的放在前面（正确,但严格证明需要证明其传递性）<br><br><span class="hljs-bullet">+</span> 切金条问题：<br><br><span class="hljs-bullet">  +</span> 问题描述：一块金条切成两半，是需要花费和长度数值一样的铜板的。比如长度为20的金 条，不管切成长度多大的两半，都要花费20个铜板。 一群人想整分整块金条，怎么分最省铜板? 例如,给定数组&#123;10,20,30&#125;，代表一共三个人，整块金条长度为10+20+30=60。金条要分成10,20,30三个部分。 如果先把长度60的金条分成10和50，花费60； 再把长度50的金条分成20和30，花费50；一共花费110铜板。 但是如果先把长度60的金条分成30和30，花费60；再把长度30金条分成10和20， 花费30；一共花费90铜板。 输入一个数组，返回分割的最小代价<br><span class="hljs-bullet">  +</span> 实际上就是使用哈夫曼树进行处理<br><br><span class="hljs-bullet">+</span> 项目利益最大化问题：<br><br>  ![<span class="hljs-string">微信图片_20220417174545</span>](<span class="hljs-link">C:\Users\小赵同学\Desktop\计算机笔记\算法图片\微信图片_20220417174545.png</span>)<br><br><span class="hljs-bullet">+</span> 1<br><br><span class="hljs-bullet">+</span> 1<br><br><span class="hljs-bullet">+</span> <br><br><span class="hljs-section">#### <span class="hljs-strong">**二叉树：**</span></span><br><br><span class="hljs-bullet">+</span> 利用递归序列，简便递归输出（贪多嚼不烂啊，不能浮躁好不好，到时候再把二叉树重看一遍）<br><br>  ![<span class="hljs-string">微信图片_20220416151819</span>](<span class="hljs-link">C:\Users\小赵同学\Desktop\计算机笔记\算法图片\微信图片_20220416151819.png</span>)<br><br>  		先序遍历：第一次遇到这个数字的时候进行打印<br><br>​		  中序遍历：第二次遇到这个数字的时候进行打印<br><br> 		 后序遍历：第三次遇到这个数字的时候进行打印<br><br><span class="hljs-bullet">+</span> 非递归的遍历输出：利用栈进行模拟，从而实现二叉树的输出<br><br><span class="hljs-bullet">+</span> 特殊结点的定义：<br><br><span class="hljs-bullet">  +</span> 后继结点：中序遍历后，位于该节点后面的结点称之为后继结点<br><span class="hljs-bullet">  +</span> 前驱结点：中序遍历后，位于该节点前面的结点称之为前驱结点 <br><br><span class="hljs-bullet">+</span> 二叉树的宽度遍历（待查）<br><br><span class="hljs-bullet">+</span> 纸条折痕问题：<br><br><span class="hljs-bullet">  +</span> 问题描述：一段纸条竖着放在桌子上，然后从纸条的下边向上方对折1次，压出折痕后展开，此时折痕是凹下去的，即折痕突起的方向指向纸条的背面。如果从纸条的下边向上方连续对折2次，压出折痕后展开，此时有三条折痕，从上到下依次是下折痕、下折痕和上折痕。给定一个输入参数N，代表纸条都从下边向上方连续对折N次。请从上到下打印所有折痕的方向<br><br><span class="hljs-bullet">  +</span> 实际上打印折痕方向就是对对应构造出的二叉树进行中序遍历<br><br><span class="hljs-code">    ![微信图片_20220416192721](C:\Users\小赵同学\Desktop\计算机笔记\算法图片\微信图片_20220416192721.png)</span><br><span class="hljs-code"></span><br><span class="hljs-bullet">+</span> 求两个结点的最低公共父节点：<br><br><span class="hljs-bullet">  +</span> 基本方法：根据遍历依次进行查找<br><br><span class="hljs-bullet">    +</span> 遍历过程中使用哈希表记录所有节点的父节点<br><span class="hljs-bullet">    +</span> 根据对应哈希表获取A结点的所有父节点<br><span class="hljs-bullet">    +</span> 遍历获取B结点的父节点（每向上查找一次，就查询是否在A的父节点的集合中）<br><br><span class="hljs-bullet">  +</span> 升级方法：由于这两个结点只有两种情况，互相在彼此的父节点集合中或者为另外一个结点的子结点集中<br><br><span class="hljs-code">    ```java</span><br><span class="hljs-code">    //结合实际例子上进行分析</span><br><span class="hljs-code">    public static Node lowestAncestor(Node head, Node o1, Node o2) &#123;</span><br><span class="hljs-code">    		if (head == null || head == o1 || head == o2) &#123;</span><br><span class="hljs-code">    			return head;</span><br><span class="hljs-code">    		&#125;</span><br><span class="hljs-code">    		Node left = lowestAncestor(head.left, o1, o2);</span><br><span class="hljs-code">    		Node right = lowestAncestor(head.right, o1, o2);</span><br><span class="hljs-code">    		if (left != null &amp;&amp; right != null) &#123;</span><br><span class="hljs-code">    			return head;</span><br><span class="hljs-code">    		&#125;</span><br><span class="hljs-code">    		return left != null ? left : right;</span><br><span class="hljs-code">    	&#125;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>特殊后继结点查找：</p>
+<ul>
+<li><p>题目描述：现将原经典二叉树结点定义中增加一个数据parent用于指向其父节点</p>
+</li>
+<li><p>暴力解法：对所有节点进行中序遍历获取其后继结点，时间复杂度为$O(N)$</p>
+</li>
+<li><p>利用父节点的解法：实际上后继节点的关系只有两种</p>
+<ul>
+<li><p>情况1：该结点的右子树不为空，则该节点的后继结点是其右子树的最左边的结点</p>
+</li>
+<li><p>情况2：该结点的右子树为空，则从该结点开始不断向其父节点询问该结点是否为父节点的左子结点，如果条件满足则此时的父节点就是该节点的后继结点，如果条件不满足则将该节点的父节点重复向父节点的父节点进行询问</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Node <span class="hljs-title function_">getSuccessorNode</span><span class="hljs-params">(Node node)</span> &#123;<br>   <span class="hljs-keyword">if</span> (node == <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> node;<br>   &#125;<br>    <span class="hljs-comment">//情况1</span><br>   <span class="hljs-keyword">if</span> (node.right != <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> getLeftMost(node.right);<br>   &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-type">Node</span> <span class="hljs-variable">parent</span> <span class="hljs-operator">=</span> node.parent;<br>       <span class="hljs-comment">/*注意while的条件设置</span><br><span class="hljs-comment">       parent != null表示的是这个节点是整个二叉树中的最后一个结点，其对应的父节点就该是null，恰巧此时parent就	   是null*/</span><br>      <span class="hljs-keyword">while</span> (parent != <span class="hljs-literal">null</span> &amp;&amp; parent.left != node) &#123;<br>         node = parent;<br>         parent = node.parent;<br>      &#125;<br>      <span class="hljs-keyword">return</span> parent;<br>   &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Node <span class="hljs-title function_">getLeftMost</span><span class="hljs-params">(Node node)</span> &#123;<br>   <span class="hljs-keyword">if</span> (node == <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> node;<br>   &#125;<br>   <span class="hljs-keyword">while</span> (node.left != <span class="hljs-literal">null</span>) &#123;<br>      node = node.left;<br>   &#125;<br>   <span class="hljs-keyword">return</span> node;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>二叉树的序列化和反序列化：</p>
+<ul>
+<li>对该二叉树进行先序遍历，如果有值则以其结点值，如果为空则加入#，并且注意在每一次添加结点值时都需要在其后边添加”_”作为分隔符(实际上可以使用不同的方式进行遍历，效果相同)</li>
+<li><img src="C:\Users\小赵同学\Desktop\计算机笔记\算法图片\微信图片_20220416191202.png" srcset="/img/loading.gif" lazyload alt="微信图片_20220416191202"></li>
+</ul>
+</li>
+<li><p>二叉树类型的判断：</p>
+<ul>
+<li>判断是否为BST：BST即对于一棵树及其子树，其对应的左边的结点都比根结点小，右结点都比根结点大<ul>
+<li>方法一：使用中序遍历进行判断，如果中序遍历产生的序列是升序的就是BST</li>
+<li>方法二：使用递归的思想进行处理，使其对于任意结点均满足以下的条件<ul>
+<li>左子树是BST</li>
+<li>右子树是BST</li>
+<li>左子树的最大值小于该结点</li>
+<li>右子树的最小值大于该节点</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>判断是否为完全二叉树：对所有节点进行层序遍历，使其满足以下两个条件<ul>
+<li>如果一个结点有右子结点，那么该结点必须要有左子节点</li>
+<li>在上一个条件满足的情况下，当第一次遇见只有左节点的情况下，后序的所有节点必须都是叶子结点</li>
+</ul>
+</li>
+<li>判断是否为满二叉树：<ul>
+<li>获取该二叉树的最大深度和结点个数，根据其两者关系进行判断</li>
+</ul>
+</li>
+<li>判断是否为平衡二叉树：使其满足条件<ul>
+<li>左子树是平衡二叉树</li>
+<li>右子树是平衡二叉树</li>
+<li>左子树和右子树之间的高度差不超过1</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/算法笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/CustomerManage/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/thymeleaf%E7%AC%94%E8%AE%B0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

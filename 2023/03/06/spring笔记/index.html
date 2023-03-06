@@ -1,0 +1,744 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="内部设置bean相当于内部类的实例化，外部设置bean相当于在外面进行实例化然后再进行导入 配置bean相当于创建一个对象类	 使用bean进行设置时要注意需要对使用xml进行设置的属性配置对应的get和set方法 当配置后置处理器后，对于当前在xml文件中的所有bean都会进行添加后置处理器 1234567891011121314151617181920212223242526272829303">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/spring%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="内部设置bean相当于内部类的实例化，外部设置bean相当于在外面进行实例化然后再进行导入 配置bean相当于创建一个对象类	 使用bean进行设置时要注意需要对使用xml进行设置的属性配置对应的get和set方法 当配置后置处理器后，对于当前在xml文件中的所有bean都会进行添加后置处理器 1234567891011121314151617181920212223242526272829303">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-06T12:20:13.530Z">
+<meta property="article:modified_time" content="2022-06-30T09:29:20.575Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          61 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>内部设置bean相当于内部类的实例化，外部设置bean相当于在外面进行实例化然后再进行导入</p>
+<p>配置bean相当于创建一个对象类	</p>
+<p>使用bean进行设置时要注意需要对使用xml进行设置的属性配置对应的get和set方法</p>
+<p>当配置后置处理器后，对于当前在xml文件中的所有bean都会进行添加后置处理器</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">	开启组件扫描，扫描全类名以com.atguigu开头的所有文件下的注释 </span><br><span class="hljs-comment">--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span> = <span class="hljs-string">&quot;com.atguigu&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:component-scan</span>&gt;</span><br><br><br><span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">	通过自定义设置来选择扫描的内容</span><br><span class="hljs-comment"> 	use-default-filters=&quot;false&quot;  表示不使用默认的扫描格式而使用自定义的filter</span><br><span class="hljs-comment">    context:include-filter type 设置要扫描的内容</span><br><span class="hljs-comment">	以下这种方式表示的是扫描以base-package = &quot;com.atguigu&quot;为开头的所有controller注释</span><br><span class="hljs-comment">--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span> = <span class="hljs-string">&quot;com.atguigu&quot;</span> <span class="hljs-attr">use-default-filters</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">context:include-filter</span> <span class="hljs-attr">type</span> = <span class="hljs-string">&quot;annotation&quot;</span></span><br><span class="hljs-tag">                            <span class="hljs-attr">expression</span> = <span class="hljs-string">&quot;org.springframework.stereotype.Controller&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">context:component-scan</span>&gt;</span><br><br><br><span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">	注意上面的格式相区分</span><br><span class="hljs-comment">	使用这种格式表示的正好和上面的相反，表明除了所有controller注释都扫描</span><br><span class="hljs-comment">--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span> = <span class="hljs-string">&quot;com.atguigu&quot;</span> &gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">context:exclude-filter</span> <span class="hljs-attr">type</span> = <span class="hljs-string">&quot;annotation&quot;</span></span><br><span class="hljs-tag">                            <span class="hljs-attr">expression</span> = <span class="hljs-string">&quot;org.springframework.stereotype.Controller&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">context:component-scan</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">	@Qualifier是根据名称进行注入</span><br><span class="hljs-comment">--&gt;</span><br>@Qualifier  <span class="hljs-comment">&lt;!--表示使用默认值，即待注入值的首字母小写为名的数据 --&gt;</span><br>@Qualifier(value = &quot;abc&quot;)<span class="hljs-comment">&lt;!--表示使用指定的数据进行注入 --&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>包名为javax表示的是java原生拓展包</p>
+<p>使用newInstance( )类似的方法后往往需要对获得的实例进行强转后再进行赋值</p>
+<p>关于IOC的相关解析：<a target="_blank" rel="noopener" href="https://blog.csdn.net/ivan820819/article/details/79744797">浅谈IOC</a>      &amp;      <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC/1158025?fr=aladdin">控制反转</a>        &amp;      <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/335362570"> IOC是什么意思？</a></p>
+<p>关于依赖注入的相关解析：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32108444">如何用最简单的方式解释依赖注入？</a></p>
+<p>关于AOP的相关解析：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/AOP/1332219?fr=aladdin">AOP  面向切面编程</a>  &amp;   <a target="_blank" rel="noopener" href="https://blog.csdn.net/q982151756/article/details/80513340">AOP详解</a></p>
+<p><strong>控制反转</strong>的定义意思为，现存在A对象，A对象在运行期间发现需要使用B对象，故A对象会<strong>“主动”</strong>创建一个B对象并进行控制，而在引入IOC以后，当A对象需要使用B对象的时候，由IOC进行创建一个B对象然后将这个B对象注入给A对象，此时A对象对于B对象的获取变成了<strong>“被动”</strong>获取，即控制反转的本质是：<strong>获得依赖对象的过程被反转</strong></p>
+<p><strong>xmlns</strong>（XML Namespaces的缩写）是一个属性，是XML（标准通用标记语言的子集）命名空间。作用是赋予命名空间一个唯一的名称</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/xml/xml-namespaces.html">XML 命名空间 </a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/chenchunlin526/article/details/69939337">什么是JavaBean、bean? 什么是POJO、PO、DTO、VO、BO ? 什么是EJB、EntityBean？</a></p>
+<p><strong>WEB-INF</strong>是Java的WEB应用的安全目录。所谓安全就是客户端无法访问，只有服务端可以访问的目录。如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shenxiaoquan/p/5819359.html">Web项目的WEB-INF目录使用说明以及重定向与转发 </a></p>
+<p>**DAO(Data Access Object)**：为了建立一个健壮的J2EE应用，应该将所有对数据源的访问操作抽象封装在一个公共API中。用程序设计的语言来说，就是建立一个接口，接口中定义了此应用程序中将会用到的所有事务方法。在这个应用程序中，当需要和数据源进行交互的时候则使用这个接口，并且编写一个单独的类来实现这个接口在逻辑上对应这个特定的数据存储</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/design-pattern/data-access-object-pattern.html">数据访问对象模式</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.thymeleaf.org/">Thymeleaf</a>官方网站</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/servlet/servlet-intro.html">Servlet 简介 | 菜鸟教程 (runoob.com)</a></p>
+<p>当指定的HTML文件使用了thymeleaf对应的命名空间，就可以在该HTML文件中使用thymeleaf对应的语法规则</p>
+<p>在thymeleaf中，使用${ }所包裹的路径会自动添加上下文路径</p>
+<p>在HTML的属性前面添加th:前缀表示的是这个属性要被thymeleaf所解析并设置</p>
+<p>如果能使用springMVC本身提供的方法，就不要使用原生的API</p>
+<p>name属性是为了区分不同的控件，而value是控件具体的值</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ailunlee/article/details/90600174">HTTP请求的完全过程_</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37211608/article/details/81363121?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1.pc_relevant_aa&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1.pc_relevant_aa&utm_relevant_index=1">JavaWeb三大组件（Servlet、Filter、Listener）</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hjwublog/p/5051732.html">Thymeleaf 常用属性 )</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40845373/article/details/82015691"> Servlet三大域对象，Jsp四大域对象</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/codejas/article/details/79041006">Session 的钝化与活化</a></p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/JAR/919533?fr=aladdin">JAR百度百科</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kingofjava/p/10761679.html">转发和重定向区别</a></p>
+<p><strong>JAR包和WAR包的区别：</strong></p>
+<p><strong>1.jar包的介绍</strong></p>
+<p>JAR（Java Archive，Java 归档文件）是与平台无关的文件格式，它允许将许多文件组合成一个压缩文件。<strong>JavaSE程序可以打包成Jar包</strong>(J其实可以理解为Java了)。</p>
+<p>JAR 文件格式以流行的 ZIP 文件格式为基础。与 ZIP 文件不同的是，JAR 文件不仅用于压缩和发布，而且还用于部署和封装<strong>库</strong>、<strong>组件</strong>和<strong>插件程序</strong>，并可被像编译器和 JVM 这样的工具直接使用。在 JAR 中包含特殊的文件，如 manifests 和部署描述符，用来指示工具如何处理特定的 JAR。</p>
+<p>简单来说，jar包就是别人已经写好的一些类，然后对这些类进行打包。可以将这些jar包引入到你的项目中，可以直接使用这些jar包中的类和属性，这些jar包一般放在lib目录下。</p>
+<p><strong>2.war包的介绍</strong></p>
+<p>war是一个可以直接运行的web模块，通常用于网站，打成包部署到容器中。以Tomcat来说，将war包放置在其\webapps\目录下，然后启动Tomcat，这个包就会自动解压，就相当于发布了。</p>
+<p>war包是Sun提出的一种web应用程序格式，与jar类似，是很多文件的压缩包。war包中的文件按照一定目录结构来组织。根据其根目录下包含有html和jsp文件，或者包含有这两种文件的目录，另外还有WEB-INF目录。通常在WEB-INF目录下含有一个web.xml文件和一个classes目录，web.xml是这个应用的配置文件，而classes目录下则包含编译好的servlet类和jsp，或者servlet所依赖的其他类（如JavaBean）。通常这些所依赖的类也可以打包成jar包放在WEB-INF下的lib目录下。</p>
+<p>简单来说，<strong>war包是JavaWeb程序打的包</strong>，war包里面包括写的代码编译成的class文件，依赖的包，配置文件，所有的网站页面，包括html，jsp等等。一个war包可以理解为是一个web项目，里面是项目的所有东西。</p>
+<p><strong>3.区别：</strong>（<strong>WAR文件代表了一个Web应用程序，JAR是类的归档文件。</strong>）</p>
+<p>如果一个Web应用程序的目录和文件非常多，那么将这个Web应用程序部署到另一台机器上，就不是很方便了，这时可以将Web应用程序打包成Web 归档（WAR）文件，这个过程和把Java类文件打包成JAR文件的过程类似。利用WAR文件，可以把Servlet类文件和相关的资源集中在一起进行发布。在这个过程中，Web应用程序就不是按照目录层次结构来进行部署了，而是把WAR文件作为部署单元来使用。</p>
+<p>一个WAR文件就是一个Web应用程序，建立WAR文件，就是把整个Web应用程序（不包括Web应用程序层次结构的根目录）压缩起来，指定一个.war扩展名。</p>
+<p>要注意的是，虽然WAR文件和JAR文件的文件格式是一样的，并且都是使用jar命令来创建，但就其应用来说，WAR文件和JAR文件是有根本区别的。JAR文件的目的是把<strong>类和相关的资源</strong>封装到压缩的<strong>归档文件</strong>中，而对于WAR文件来说，一个WAR文件代表了一个<strong>Web应用程序</strong>，它可以包含 Servlet、HTML页面、Java类、图像文件，以及组成Web应用程序的其他资源，而不仅仅是类的归档文件。</p>
+<p>那么什么时候应该使用WAR文件呢？在开发阶段不适合使用WAR文件，因为在开发阶段，经常需要添加或删除Web应用程序的内容，更新 Servlet类文件，而每一次改动后，重新建立WAR文件将是一件浪费时间的事情。<strong>在产品发布阶段，使用WAR文件是比较合适的</strong>，因为在这个时候，几乎不需要再做什么改动了。</p>
+<p>在开发阶段，我们通常将Servlet源文件放到Web应用程序目录的src子目录下，以便和Web资源文件区分。在建立WAR文件时，只需要将src目录从Web应用程序目录中移走，就可以打包了。</p>
+<p><strong>4.部署war包到Tomcat</strong></p>
+<p>1）. 我这里工作中一般是开发打war包给测试，比如说现在测试拿到一个war包，名字叫test.war。</p>
+<p>2）. 打开Tomcat的安装路径 ，假设是“D:\Tomcat\apache-tomcat-7.0.68”，然后进入到 webapps文件夹中，把 test.war放到 webapps文件夹。</p>
+<p>3）. 启动Tomcat。</p>
+<p>如果不需要更改配置文件：到这一步就可以了。</p>
+<p>在浏览器输入“http:localhost:tomcat_port&#x2F;test即可打开test项目的 index.jsp页面（port是自己的端口号）。如果test项目没有index.jsp页面，那就需要打开其他相应的页面。</p>
+<p>如果需要更改配置文件：</p>
+<p>4）. 关闭 Tomcat。</p>
+<p>5）. 删除 test.war文件（如果在tomcat启动的状态下删去war包，解压好的文件夹也会被一并删除，所以需要在解压后停止tomcat， 然后删掉war包，这时再启动。这时项目文件夹就会被认为不是war解压而来。）。</p>
+<p>6）. 由于刚刚启动过Tomcat，Tomcat会自动解压缩test.war为 test文件夹。所以我们在webapps下面可以看到test文件夹。打开test文件夹更改配置文件即可。</p>
+<p>7）. 更新完配置之后，启动Tomcat。</p>
+<p>8）. 浏览器打开即可</p>
+<p><strong>设置Classpath的目的：</strong>告诉Java执行环境，在哪些目录下可以找到您所要执行的Java程序所需要的类或者包，事实上JDK 5.0默认就会到当前工作目录(上面的.设置)，以及JDK的lib目录(这里假设是C:\Program Files\Java\jdk1.5.0_06\lib)中寻找Java程序。所以如果Java程序是在这两个目录中，则不必设置Classpath变量也可以找得到，将来如果Java程序不是放置在这两个目录时，则可以按上述设置Classpath</p>
+<h4 id="servlet相关："><a href="#servlet相关：" class="headerlink" title="servlet相关："></a>servlet相关：</h4><p>service() 方法由容器调用，service 方法在适当的时候调用 doGet、doPost、doPut、doDelete 等方法。所以，不用对 service() 方法做任何动作，只需要根据来自客户端的请求类型来重写 doGet() 或 doPost() 即可</p>
+<p>GET 请求来自于一个 URL 的正常请求，或者来自于一个未指定 METHOD 的 HTML 表单（默认请求由doGet() 方法处理）</p>
+<p>当用户调用一个 Servlet 时，就会创建一个 Servlet 实例，每一个用户请求都会产生一个新的线程，适当的时候移交给 doGet 或 doPost 方法</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Jeely/p/11284005.html">servlet和servlet-mapping的作用 </a></p>
+<p>servlet和servlet-mapping都含有<servlet-name></servlet-name><br>主要原因是想通过servlet-name作为纽带，将servlet-class和url-pattern构成联系，从而使URL映射到类servlet-class所指定的类中</p>
+<p>Maven 生命周期的每一个阶段的具体实现都是由 Maven 插件实现的 Maven 实际上是一个依赖插件执行的框架，每个任务实际上是由插件完成</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--在构造函数自动装配模式下，spring容器通过最高参数化的构造函数注入依赖项--&gt;</span><br><span class="hljs-comment">&lt;!--如果一个类中的3个构造函数，零参数，一个参数和两个参数，然后通过调用两个参数构造函数执行注入--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.sssit.B&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.sssit.A&quot;</span> <span class="hljs-attr">autowire</span>=<span class="hljs-string">&quot;constructor&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/cookie/1119?fr=aladdin">cookie</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/896f1c47e34d">Session的销毁方式到底有哪些？</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44502804/article/details/93139550">拦截器与过滤器的区别_</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhangguangju/p/7027904.html">Idea–Tomcate配置中的On Upate Action 与 On Frame Deactivation </a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/linghuainian/article/details/82226416"> idea 中Update resources和Update classes and resources、Redeploy的区别和应用场景_</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qzw752890913/article/details/121777958"> 拦截器的配置_</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kelly921011/article/details/86558335"> Web项目的WEB-INF目录使用说明_</a></p>
+<p>springboot可以利用相关类的配置完成热部署，控制加载那些有变化的类来实现热部署</p>
+<p>对jsp的相关解析<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/42343690">浅谈JSP</a></p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs 1c">在yaml中<br><span class="hljs-meta">#  单引号会将 \n作为字符串输出   双引号会将\n 作为换行输出</span><br><span class="hljs-meta">#  双引号不会转义，单引号会转义</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>Classpath</strong>：设置的目的，在于告诉Java执行环境，在哪些目录下可以找到您所要执行的Java程序所需要的类或者包</p>
+<p><strong>@ComponentScan</strong>：主要就是定义扫描的路径从中找出标识了需要装配的类自动装配到spring的bean容器中。</p>
+<p><strong>@Controller和@RestController的区别：</strong></p>
+<ul>
+<li>@RestController修饰的类会将 return后面的内容字符串的形式返回到@Requestmapping的页面</li>
+<li>@Controller修饰的类会将return的字符串配合视图解析器InternalResourceViewResolver添加上前缀和后缀。跳转到对应的html页面</li>
+<li>@Controller和@ResponseBody配合作用和@RestController一样</li>
+</ul>
+<p>springboot实现了一套默认的配置，用户在不进行设定的前提下就默认使用这一配置，如果用户想要修改对应配置，只需要进行创建对应properties文件即可</p>
+<p><strong>前端无法直接访问到后端的文件所以使用静态资源映射来使得其能够访问到后台数据</strong></p>
+<ul>
+<li><pre><code class="java">@Slf4j
+@Configuration
+public class WebMvcConfig extends WebMvcConfigurationSupport &#123;
+    /**
+     * 设置静态资源映射
+     * 为了使得resources下的文件能够直接被访问到故创建一个配置类来指定对应的静态资源映射
+     */
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) &#123;
+        log.info(&quot;开始进行静态资源映射...&quot;);
+        // 将前面这个路径映射为后面的路径查询资源
+        registry.addResourceHandler(&quot;/backend/**&quot;).addResourceLocations(&quot;classpath:/backend/&quot;);
+        registry.addResourceHandler(&quot;/front/**&quot;).addResourceLocations(&quot;classpath:/front/&quot;);
+    &#125;
+</code></pre>
+</li>
+</ul>
+<p><strong>句柄：</strong></p>
+<ul>
+<li><p>句柄是Windows系统中对象或实例的标识，这些对象包括模块、应用程序实例、窗口、控制、位图、GDI对象、资源、文件等</p>
+</li>
+<li><p>从数据类型上来看，它只是一个16位的无符号整数。应用程序总是通过调用Windows API获得一个句柄，之后其他 Windows函数就可以使用该句柄，以引用和操作相应的内核对象。句柄可以像指针那样置空，那样句柄就没有任何意义，不代表任何内核对象</p>
+</li>
+<li><p>句柄在 Windows编程中是一个很重要的概念，在 Windows程序中并不是用物理地址来标识一个内存块、文件、任务或动态装入模块的。相反地，Windows API给这些项目分配确定的句柄，并将句柄返回给应用程序，然后通过句柄来进行操作 </p>
+</li>
+<li><p>句柄是一个标识符，是用来标识对象或者项目的。从数据类型上来看它只是一个16位的无符号整数。应用程序几乎总是通过调用一个Windows函数来获得一个句柄，之后其他的Windows函数就可以使用该句柄，以引用相应的对象。在 Windows编程中会用到大量的句柄</p>
+</li>
+<li><p>使用句柄的好处</p>
+<ul>
+<li>我们可以在实现中用尺寸大小固定的（constant-sized）对象来表示尺寸大小不定的（variable-sized）值</li>
+<li>我们可以在实现中用运行时绑定（run-time bounding）而不是编译时（compile-timebounding）绑定的方式来处理对象 </li>
+<li>对于实现的改变通常只会引起一次重新链接，而不是重新编译 </li>
+<li>我们可以对他人隐藏对象的实现</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/spring笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/Nginx/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/Docker%E5%AD%A6%E4%B9%A0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

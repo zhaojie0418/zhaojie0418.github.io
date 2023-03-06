@@ -41,6 +41,7 @@
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221118161659369.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221122165626261.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221118164538597.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230227221821339.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230108120131773.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221124184605349.png">
 <meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221118164514248.png">
@@ -59,7 +60,7 @@
 <meta property="og:image" content="https://uploadfiles.nowcoder.com/images/20220807/227364654_1659872108920/9F0FB4B766E3BFAF3E92FEAE0553DFC5">
 <meta property="og:image" content="https://uploadfiles.nowcoder.com/images/20220807/227364654_1659872090690/841D619AD8F9824776994757BB726DFB">
 <meta property="article:published_time" content="2023-02-20T01:36:51.787Z">
-<meta property="article:modified_time" content="2023-02-20T06:01:05.663Z">
+<meta property="article:modified_time" content="2023-03-06T11:44:47.365Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120141317504.png">
@@ -255,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          34k 字
+          36k 字
         
       </span>
     
@@ -266,7 +267,7 @@
         
         
         
-          286 分钟
+          304 分钟
         
       </span>
     
@@ -518,7 +519,7 @@
 </li>
 </ul>
 </li>
-<li><p>0哪些可以作为GC Roots？</p>
+<li><p>哪些可以作为GC Roots？</p>
 <ul>
 <li><p>总结：GC Roots即运行过程中必不可少的部分</p>
 <ul>
@@ -849,6 +850,7 @@
 </li>
 <li><p>布隆过滤器</p>
 <ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41125219/article/details/119982158">(53条消息) 布隆(Bloom Filter)过滤器——全面讲解，建议收藏_李子捌的博客-CSDN博客</a></li>
 <li><a target="_blank" rel="noopener" href="http://c.biancheng.net/redis/bloom-filter.html">Redis布隆过滤器（原理+图解） (biancheng.net)</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zK4y1h7pA/?spm_id_from=333.337.search-card.all.click&vd_source=9a4f938fc995660b06355915cb8675cb">程序员都必须会的技术，面试必备【布隆过滤器详解】，Redis缓存穿透解决方案_哔哩哔哩_bilibili</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV14K411c7Yo/?spm_id_from=333.999.0.0&vd_source=9a4f938fc995660b06355915cb8675cb">面试阿里，竟然给了我一窝鸟蛋，让我用鸟蛋讲布谷鸟过滤器，这是什么鬼？_哔哩哔哩_bilibili</a></li>
@@ -965,6 +967,59 @@
 <li><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221118164538597.png" srcset="/img/loading.gif" lazyload alt="image-20221117183934578"></li>
 </ul>
 </li>
+<li><p><strong>命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，PTY区别辨析</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000016129862">linux - 命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，傻傻分不清楚？ - PRIN 的专栏 - SegmentFault 思否</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000009082089">Linux TTY&#x2F;PTS概述 - Linux程序员 - SegmentFault 思否</a></li>
+</ul>
+</li>
+<li><p><strong>TLB和Cache的区别</strong></p>
+<ul>
+<li>[TLB 和 cache 辨析 | feng 言 feng 语 (feng-qi.github.io)](<a target="_blank" rel="noopener" href="https://feng-qi.github.io/2017/01/06/tlb-and-cache/#:~:text=TLB">https://feng-qi.github.io/2017/01/06/tlb-and-cache/#:~:text=TLB</a> 和 CPU cache 都是起到对系统的关键操作（或者说耗时操作）进行加速的作用， 具体来说就是： TLB,缓存了常用的页表项，减少了虚拟地址到物理地址转换的耗时。 CPU cache 缓存了常用的内存数据，减少了访问内存的耗时。 或者说它们都减少了相应的耗时操作。 从某些方面来说，他们都是一种缓存，只不过 它们缓存的是不同的东西。)</li>
+</ul>
+</li>
+<li><p>申请的内存并不会立马和物理内存产生映射，只有在需要使用时，才对使用的<strong>部分</strong>进行真实映射</p>
+<ul>
+<li>TODO判断是否是部分映射</li>
+</ul>
+</li>
+<li><p>并且如果在开启swap的情况下，即使申请了比物理内存更大的空间也可以申请成功</p>
+</li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230227221821339.png" srcset="/img/loading.gif" lazyload alt="image-20230227221821339"></p>
+<ul>
+<li><p>具体的磁盘调度算法可以在linux中进行修改</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhang123456456/article/details/82345712">(53条消息) linux之 修改磁盘调度算法_张冲andy的博客-CSDN博客_修改磁盘调度算法</a></li>
+</ul>
+</li>
+<li><p><strong>CPU频率相关</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30582175">讲了这么多年的CPU频率，到底是什么？ - 知乎 (zhihu.com)</a></li>
+<li>频率实际上就是一秒钟CPU的时钟周期数</li>
+<li>时钟周期可以看做是CPU世界里的基本事件衡量单位，为了便于人理解才换算成频率</li>
+</ul>
+</li>
+<li><p>SMP，NUMA相关</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/448678348">计算机基础知识：smp、numa、对称多处理系统 - 知乎 (zhihu.com)</a></li>
+</ul>
+</li>
+<li><p><strong>IO，NIO，BIO总结</strong></p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7184673497065455677?share_token=24e1c16d-c1a2-4dd0-b725-11209e12c146#heading-1">IO、NIO、BIO傻傻分不清吗，让我对象告诉你~~ - 掘金 (juejin.cn)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/23488863">Java NIO浅析 - 知乎 (zhihu.com)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1376675">Java核心（五）深入理解BIO、NIO、AIO - 腾讯云开发者社区-腾讯云 (tencent.com)</a></p>
+</li>
+<li><p>传统的BIO里面socket.read()，如果TCP RecvBuffer里没有数据，函数会一直阻塞，直到收到数据，返回读到的数据。</p>
+<p>对于NIO，如果TCP RecvBuffer有数据，就把数据从网卡读到内存，并且返回给用户；反之则直接返回0，永远不会阻塞。</p>
+<p>最新的AIO(Async I&#x2F;O)里面会更进一步：不但等待就绪是非阻塞的，就连数据从网卡到内存的过程也是异步的。</p>
+<p>换句话说，BIO里用户最关心“我要读”，NIO里用户最关心”我可以读了”，在AIO模型里用户更需要关注的是“读完了”。</p>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><ul>
 <li><p>TODO 网络数据传输解析全过程</p>
@@ -1019,6 +1074,9 @@
 </ul>
 </li>
 <li><p>数字证书使用了什么机制？  数字证书为什么可以被创建？</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV15P4y1S7Jw/?spm_id_from=333.337.search-card.all.click&vd_source=9a4f938fc995660b06355915cb8675cb">【科普】非对称加密技术（公钥体系）【公钥 私钥 数字签名 CA证书】_哔哩哔哩_bilibili</a></li>
+</ul>
 </li>
 <li><p>http的三次握手四次挥手</p>
 <ul>
@@ -1069,7 +1127,17 @@
 <li>不应该考虑如何在应用层实现TCP的特点（那样不如直接使用TCP），而是要强调UDP的特点</li>
 </ul>
 </li>
-<li><p>线性一致性是什么</p>
+<li><p>CDN相关</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1779335">什么是CDN？它解决了什么难题？5分钟让你明明白白！ - 腾讯云开发者社区-腾讯云 (tencent.com)</a></li>
+</ul>
+</li>
+<li><p>cookie，session，token相关</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63061864">彻底理解cookie，session，token - 知乎 (zhihu.com)</a></li>
+<li>类似session无法共享的问题都可以通过创建一个中间层如Redis，让所有的服务器在获取session的时候都向Redis请求</li>
+<li>token的作用并不是保证身份不会被盗用，而是保证传递的数据不能被修改，由于token中自带了对应的签名，当获取到token后，服务器端只需要再对token本身计算一次，如果计算结果和传递的token中的签名一致则说明数据没有被修改过</li>
+</ul>
 </li>
 </ul>
 <h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><ul>
@@ -1269,6 +1337,8 @@
 <li>通用的线程生命周期基本上可以用下图这个“五态模型”来描述。这五态分别是：<img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20221120175358122.png" srcset="/img/loading.gif" lazyload alt="image-20230108120131773"></li>
 </ul>
 </li>
+<li><p>线性一致性是什么</p>
+</li>
 </ul>
 <h2 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h2><ul>
 <li>并发和并行的区别<ul>
@@ -1356,6 +1426,12 @@
 </ul>
 </li>
 <li><p>安全等于可以用来判断null ， <code>&lt;=&gt;</code> 可以用来对 NULL 进行判断，两者都为 NULL 时返回值为 1</p>
+</li>
+<li><p><strong>orm框架相关</strong></p>
+<ul>
+<li><strong>对象关系映射（Object Relational Mapping，简称ORM）模式是一种为了解决面向对象与关系数据库存在的互不匹配的现象的技术</strong>。<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=ORM%E6%A1%86%E6%9E%B6&spm=1001.2101.3001.7020">ORM框架</a>是连接数据库的桥梁，只要提供了持久化类与表的映射关系，ORM框架在运行时就能参照映射文件的信息，把对象持久化到数据库中。</li>
+<li>当我们实现一个应用程序时（不使用O&#x2F;R Mapping），我们可能会写特别多数据访问层的代码，从数据库保存、删除、读取对象信息，而这些代码都是重复的。而使用ORM则会大大减少重复性代码。对象关系映射（Object Relational Mapping，简称ORM），主要实现程序对象到关系数据库数据的映射</li>
+</ul>
 </li>
 </ul>
 <h2 id="分布式相关"><a href="#分布式相关" class="headerlink" title="分布式相关"></a>分布式相关</h2><ul>
@@ -1557,18 +1633,27 @@
 </li>
 </ul>
 <h2 id="Linux相关"><a href="#Linux相关" class="headerlink" title="Linux相关"></a>Linux相关</h2><ul>
-<li><p><strong>linux epoll底层原理</strong></p>
-<ul>
+<li><strong>linux epoll底层原理</strong><ul>
 <li>fd 即 文件描述符</li>
 </ul>
 </li>
-<li><p>Linux文件系统</p>
+<li>Linux文件系统</li>
+<li>Linux中查询内存使用情况语句</li>
+<li>Linux常用语句</li>
+<li>epoll poll select讲讲（从底层linux源码机制到对比我都详细讲了）</li>
+<li>c和z的快捷键区别<ul>
+<li>ctrl+c是强制中断程序的执行,进程已经终止。</li>
+<li>ctrl+z的是将任务中止（暂停的意思）,但是此任务并没有结束,他仍然在进程中他只是维持挂起的状态,用户可以使用fg&#x2F;bg操作继续前台或后台的任务,fg命令重新启动前台被中断的任务,bg命令把被中断的任务放在后台执行.</li>
+</ul>
 </li>
-<li><p>Linux中查询内存使用情况语句</p>
-</li>
-<li><p>Linux常用语句</p>
-</li>
-<li><p>epoll poll select讲讲（从底层linux源码机制到对比我都详细讲了）</p>
+</ul>
+<h2 id="Nginx相关"><a href="#Nginx相关" class="headerlink" title="Nginx相关"></a>Nginx相关</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/XoqGvYBabW8YBl9xEeNYZw">Nginx详解，睡前十分钟啃完值了！ (qq.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34943332">8分钟带你深入浅出搞懂Nginx - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904129987526663">连前端都看得懂的《Nginx 入门指南》 - 掘金 (juejin.cn)</a></p>
+<ul>
+<li>Nginx也使用了IO多路复用的技术来实现高效<ul>
+<li>实际上其本身架构模式就即为Reactor 模式</li>
+</ul>
 </li>
 </ul>
 <h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><ul>
@@ -1675,6 +1760,10 @@
 <h2 id="主观问题总结"><a href="#主观问题总结" class="headerlink" title="主观问题总结"></a>主观问题总结</h2><ul>
 <li>挑战性项目</li>
 <li>诱导面试官提问自己熟悉的环节</li>
+</ul>
+<h2 id="细碎知识"><a href="#细碎知识" class="headerlink" title="细碎知识"></a>细碎知识</h2><p><strong>常见配置文件比较</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1683160">深入对比TOML，JSON和YAML - 腾讯云开发者社区-腾讯云 (tencent.com)</a></li>
 </ul>
 
                 

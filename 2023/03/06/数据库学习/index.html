@@ -1,0 +1,815 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="12345#注意表之间的连接是在from后声明了就可以使用这两个表之间的数据#where中的表达式只是用来显示两者满足该条件才输出的条件SELECT e.last_name, e.salary, j.grade_level FROM employees e, job_grades j WHERE e.salary BETWEEN j.lowest_sal AND j.highest_sal;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="12345#注意表之间的连接是在from后声明了就可以使用这两个表之间的数据#where中的表达式只是用来显示两者满足该条件才输出的条件SELECT e.last_name, e.salary, j.grade_level FROM employees e, job_grades j WHERE e.salary BETWEEN j.lowest_sal AND j.highest_sal;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/typoraPictureFiles/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JhaWR1XzE1OTUyMTAz,size_16,color_FFFFFF,t_70.jpeg">
+<meta property="article:published_time" content="2023-03-06T12:20:13.681Z">
+<meta property="article:modified_time" content="2022-11-16T06:34:59.801Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/typoraPictureFiles/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JhaWR1XzE1OTUyMTAz,size_16,color_FFFFFF,t_70.jpeg">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          80 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql">#注意表之间的连接是在<span class="hljs-keyword">from</span>后声明了就可以使用这两个表之间的数据<br>#<span class="hljs-keyword">where</span>中的表达式只是用来显示两者满足该条件才输出的条件<br><span class="hljs-keyword">SELECT</span> e.last_name, e.salary, j.grade_level <br><span class="hljs-keyword">FROM</span> employees e, job_grades j <br><span class="hljs-keyword">WHERE</span> e.salary <span class="hljs-keyword">BETWEEN</span> j.lowest_sal <span class="hljs-keyword">AND</span> j.highest_sal;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>内连接: 合并具有同一列的两个以上的表的行, <strong>结果集中不包含一个表与另一个表不匹配的行</strong></p>
+</li>
+<li><p>外连接: 两个表在连接过程中除了返回满足连接条件的行以外<strong>还返回左（或右）表中不满足条件的行 ，这种连接称为左（或右） 外连接</strong>  没有匹配的行时, 结果表中相应的列为空(NULL)</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sql">#左上图：左外连接<br><span class="hljs-keyword">SELECT</span> employee_id,last_name,department_name<br><span class="hljs-keyword">FROM</span> employees e <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> departments d<br><span class="hljs-keyword">ON</span> e.`department_id` <span class="hljs-operator">=</span> d.`department_id`;<br>#右上图：右外连接 <br><span class="hljs-keyword">SELECT</span> employee_id,last_name,department_name <br><span class="hljs-keyword">FROM</span> employees e <span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span> departments d <br><span class="hljs-keyword">ON</span> e.`department_id` <span class="hljs-operator">=</span> d.`department_id`;<br>#注意连接的方式只取决于<span class="hljs-number">1</span>、左连接还是右链接 <span class="hljs-number">2</span>、<span class="hljs-keyword">JOIN</span>的左右分布<br>#连接方式并不和左右“主语”有关<br></code></pre></td></tr></table></figure>
+
+<p>多表查询中出现重名字段出现歧义的时候，必须用表名进行指定相关的表名</p>
+<p>建议当出现重名字段时，可以在所有的重名字段前面都加上对应的表名，提高性能</p>
+<ul>
+<li>on限定的是待连接的两个表变为合并后  “待筛选表”  的筛选条件</li>
+<li>where限定的是合并后  “待筛选表”  进一步筛选出所需结果的筛选条件</li>
+</ul>
+<p>注意当筛选结果中存在  “关键词”  时，需要使用外连接对多表进行查询（若使用内连接，则若多表之间一个有数据，一个没数据，导致部分待筛选项缺漏）</p>
+<p>由于在数据库中查询表项本身就隐含 “循环” 的思想，故不需要使用循环相关的流程控制语句</p>
+<p>连续两个字段之间使用空格相连接即为“起别名”</p>
+<p>调用count（）方法中的参数，只有参数非null时才会进行计数</p>
+<p>ifnull函数不仅有判断的作用，而且可以将其理解为用程序员自定义的值替换原null值   </p>
+<p>例如IFNULL(name，0)的作用即为，若name是空，则使用0将其进行替代</p>
+<p>group by a,b   表示的是根据a,b两种表项的所有组合形式进行分组，至于a,b的顺序无关</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> department_id,job_id,<span class="hljs-built_in">AVG</span>(salary)<br><span class="hljs-keyword">FROM</span> employees<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> department_id;<br><br>#结论<span class="hljs-number">1</span>：<span class="hljs-keyword">SELECT</span>中出现的非组函数的字段必须声明在<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> 中反之，<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span>中声明的字段可以不出现在<span class="hljs-keyword">SELECT</span>中<br>#结论<span class="hljs-number">2</span>：<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> 声明在<span class="hljs-keyword">FROM</span>后面、<span class="hljs-keyword">WHERE</span>后面，<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> 前面、LIMIT前面<br>#结论<span class="hljs-number">3</span>：MySQL中<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span>中使用<span class="hljs-keyword">WITH</span> <span class="hljs-keyword">ROLLUP</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>当过滤条件中有聚合函数时，则此过滤条件必须声明在HAVING中</li>
+<li>当过滤条件中没有聚合函数时，则此过滤条件声明在WHERE中或HAVING中都可以  但是，建议大家声明在WHERE中</li>
+</ul>
+<p><strong>WHERE 与 HAVING 的对比：</strong></p>
+<ul>
+<li>从适用范围上来讲，HAVING的适用范围更广</li>
+<li>如果过滤条件中没有聚合函数：这种情况下，WHERE的执行效率要高于HAVING</li>
+</ul>
+<p>注意字段相应的使用范围和字段应该声明到的位置</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs sql">#<span class="hljs-keyword">sql</span>标准使用格式<br><br>#sql92语法：<br><span class="hljs-keyword">SELECT</span> ....,....,....(存在聚合函数)<br><span class="hljs-keyword">FROM</span> ...,....,....<br><span class="hljs-keyword">WHERE</span> 多表的连接条件 <span class="hljs-keyword">AND</span> 不包含聚合函数的过滤条件<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ...,....<br><span class="hljs-keyword">HAVING</span> 包含聚合函数的过滤条件<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ....,...(<span class="hljs-keyword">ASC</span> <span class="hljs-operator">/</span> <span class="hljs-keyword">DESC</span> )<br>LIMIT ...,....<br><br>#sql99语法：<br><span class="hljs-keyword">SELECT</span> ....,....,....(存在聚合函数)<br><span class="hljs-keyword">FROM</span> ... (<span class="hljs-keyword">LEFT</span> <span class="hljs-operator">/</span> <span class="hljs-keyword">RIGHT</span>)<span class="hljs-keyword">JOIN</span> ....<span class="hljs-keyword">ON</span> 多表的连接条件 <br>(<span class="hljs-keyword">LEFT</span> <span class="hljs-operator">/</span> <span class="hljs-keyword">RIGHT</span>)<span class="hljs-keyword">JOIN</span> ... <span class="hljs-keyword">ON</span> ....<br><span class="hljs-keyword">WHERE</span> 不包含聚合函数的过滤条件<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ...,....<br><span class="hljs-keyword">HAVING</span> 包含聚合函数的过滤条件<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ....,...(<span class="hljs-keyword">ASC</span> <span class="hljs-operator">/</span> <span class="hljs-keyword">DESC</span> )<br>LIMIT ...,....<br><br>#<span class="hljs-number">4.2</span> <span class="hljs-keyword">SQL</span>语句的执行过程：<br><br>#<span class="hljs-keyword">FROM</span> ...,...<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ON</span> <span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> (<span class="hljs-keyword">LEFT</span><span class="hljs-operator">/</span>RIGNT  <span class="hljs-keyword">JOIN</span>) <span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> <span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">HAVING</span> <span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DISTINCT</span> <span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span> LIMIT<br></code></pre></td></tr></table></figure>
+
+<p>一般来说单次查询消耗的时间要小于两次查询所消耗的时间</p>
+<p><strong>返回</strong>的数据只有一条时即称之为单行子查询，即所谓单行多行取决于返回的数值的个数</p>
+<p>子查询的编写可以选择从内往外写，先编写出所需数据的对应代码，再写出外部查询对应的代码，然后将子查询嵌入外部查询即可</p>
+<p>如果子查询结果是空，则子查询结果不返回任何数据</p>
+<p>单行函数可以嵌套使用，但是在mysql中聚合函数不是能嵌套使用</p>
+<p>子查询的实质是多次查询，将首次查询所得的数据项看成是新的待筛选范围，然后再进行筛选</p>
+<p>子查询所使用的位置丰富</p>
+<p>相关子查询指的是子查询在查询的过程中需要使用到外部查询的数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs sql">#在<span class="hljs-keyword">FROM</span>中声明子查询,查询员工中工资大于本部门平均工资的员工的last_name,salary和其department_id<br><span class="hljs-keyword">SELECT</span> e.last_name,e.salary,e.department_id<br><span class="hljs-keyword">FROM</span> employees e,(<br>		<span class="hljs-keyword">SELECT</span> department_id,<span class="hljs-built_in">AVG</span>(salary) avg_sal<br>		<span class="hljs-keyword">FROM</span> employees<br>		<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> department_id) t_dept_avg_sal<br><span class="hljs-keyword">WHERE</span> e.department_id <span class="hljs-operator">=</span> t_dept_avg_sal.department_id<br><span class="hljs-keyword">AND</span> e.salary <span class="hljs-operator">&gt;</span> t_dept_avg_sal.avg_sal<br>#实际上即为用<span class="hljs-keyword">from</span>内的查询结果视为是一个新的表进行处理<br><br><span class="hljs-keyword">SELECT</span> department_id, department_name <br><span class="hljs-keyword">FROM</span> departments d <br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-string">&#x27;X&#x27;</span> <span class="hljs-keyword">FROM</span> employees <span class="hljs-keyword">WHERE</span> department_id <span class="hljs-operator">=</span> d.department_id);<br>#<span class="hljs-keyword">EXISTS</span>或者 <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span>可以看做是一种用于判断布尔值的函数，其返回的结果只有真假而不存在数据<br><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> emp2 <br><span class="hljs-keyword">AS</span> <br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> employees <br><span class="hljs-keyword">WHERE</span> <span class="hljs-number">1</span><span class="hljs-operator">=</span><span class="hljs-number">2</span>; 、<br># 相当于通过筛选条件设置为任意一个不可能的条件，使得原表中的所有元素都不符合要求，使得创建一个只有现有表表项而没有现有表表数据的表<br># 创建的emp2是空表<br><br>#去除字段当中的空格可以用如下操作进行<br>#相当于使用空替代了空格<br><span class="hljs-keyword">SELECT</span> REPLACE(NAME,<span class="hljs-string">&#x27; &#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>)<br><span class="hljs-keyword">FROM</span> BOOKS;<br></code></pre></td></tr></table></figure>
+
+<p>一般对数据库进行命名时不要使用系统关键词进行命名，如果一定要使用关键词进行命名，在使用的时候要使用单引号括起来将其和关键词相区分</p>
+<p>数据库本身名字是无法进行修改名字的，部分操纵数据库的软件提供了修改名称的方法，实际上是通过创建一个新的库然后进行复制完成的</p>
+<p>数据库删除以后无法进行回滚（撤销）</p>
+<p>如果在使用调用数据表的过程中，对应的数据表不在同一个数据库下，只需要在被调用表前面写全对应的数据库名称  +  <strong>.</strong>  即可  </p>
+<p>desc tablenames（表名） 主要用来查看数据表的表结构</p>
+<p>update本身就存在批量进行修改的能力，和select一样，取决于where中的限定范围进行修改</p>
+<p>修改（删除同理）数据的过程中，是可能存在修改不成功的情况的，这种情况可能是因为约束的影响所造成的</p>
+<p><strong>数据库相关概念分析：</strong></p>
+<ul>
+<li><p>**DDL(data definition language)**数据定义语言</p>
+<p>创建表时用到的一些SQL语句，如：CREATE、ALTER、DROP等  DDL主要是用在定义表 或者 改变表的物理结构、数据类型表之间的链接和物理约束等初始化操作上</p>
+</li>
+<li><p>**DCL(Data Control Language)**数据控制语言</p>
+<p>用来设置或者更改数据库用户角色权限等的语句，如：grant、revoke语句</p>
+</li>
+<li><p><strong>DML(data manipulation language)</strong> 数据操纵语言</p>
+<p>常用的select、update、insert、delete 主要用来对数据库的数据进行的一些操作 即对数据的增删改查</p>
+</li>
+</ul>
+<p>创建数据库、数据表、字段时，均可以指明其对应的字符集，如果没有显式的指明对应的字符集，则取决于上一级所使用的字符集，如果数据库也没有指明对应字符集，则使用配置文件中默认的字符集</p>
+<p>当编码格式是utf8时，每个汉字占三个字节</p>
+<p>枚举类型变量（单选项 )在定义的时候就已经设置了对应能选择的枚举项，在输入的过程中可以使用索引或者使用原文字进行输入，但是不能输入设置好的选项以外的变量</p>
+<p>set数据类型类似多选项，其他特性类似枚举类型</p>
+<p>由于有时候需要删除约束，故需要对约束进行起名保证删除对应的约束</p>
+<p>唯一性约束保证属性的唯一性，特殊的可以有重复个null</p>
+<p>对两个字段组合建立唯一性约束指的是该组合限制唯一性，只要其中有一个不同即可</p>
+<p>只能有一个主键约束，但是可以将多列组合进行主键约束，注意此时只要多列中有一个为null则报错</p>
+<p>可以对一个字段同时进行主键约束和自增长约束（每次递增的编号）</p>
+<p>外部约束的建立和查询无关，外部约束影响的是数据库增删改操作</p>
+<p>由于主键是唯一的，所以没有必要对主键进行命名</p>
+<p>向视图提供数据内容的语句为select语句，可以将视图理解为<strong>存储起来的select语句</strong></p>
+<p>注意concat函数连接的不仅是表头的字段，同时字段对应的数据内容也会被连接</p>
+<p>视图本身不存储数据</p>
+<p>视图和基表两者之间改变会相互影响</p>
+<p>使用in限定的表示的是只用于输入的变量，使用out限定的表示的是只用于输出的变量，使用inout限定的是既输入也输出的变量</p>
+<p>由一个日期对象转化为字符串称之为格式化，将一个字符串转化成一个日期对象称之为解析</p>
+<p>会话变量不需要进行定义数据类型，但是局部变量在声明时需要指明数据类型</p>
+<p>在使用触发器的过程中可以通过使用，old和new来分别代指新添加的数据或者新删除的数据</p>
+<p>只要在from中对表进行起别名后就可以在where或者select中使用别名</p>
+<p>左外连接和右外连接中由左右二字所指向的表称之为主表，主表即相对于从表而言数据项更多的表</p>
+<p>实际上所谓从表和主表的本质并不是比较谁的元素少，而是通过比较查询结果</p>
+<p><strong>满外连接</strong>的结果 &#x3D; 左右表匹配的数据 + 左表没有匹配到的数据 + 右表没有匹配到的数据</p>
+<p>外连接的含义是尽可能的去保护主表中的数据不丢失，即使不满足筛选条件的主表数据也要显示</p>
+<p>从sql优化的角度，建议多表查询时，每个字段前都指明其所在的表</p>
+<p>如果给表起了别名，一旦在SELECT或WHERE中使用表名的话，则必须使用表的别名，而不能再使用表的原名</p>
+<p>注意：MySQL中，字符串的位置是从1开始的</p>
+<p>使用标准格式xxxx-xx-xx传入日期相关函数当成参数，就可以将其看做是一个创建的时间对象</p>
+<p>在时间相关运算中，如果传递的是数字，则数字的单位默认是秒</p>
+<p>起别名的操作在任意语句中都可以进行实现</p>
+<p>通过查询语句获取的数据项存储在一张新的表中称之为派生表</p>
+<p>使用派生表必须指定别名 因为，<code>FROM</code> 子句中的所有表都必须有一个名字</p>
+<p>聚合函数不能嵌套调用</p>
+<p>当使用ROLLUP时，不能同时使用ORDER BY子句进行结果排序，即ROLLUP和ORDER BY是互相排斥的</p>
+<p>不能在WHERE子句中使用聚合函数</p>
+<p>WHERE 和 HAVING 也不是互相排斥的，我们可以在一个查询里面同时使用 WHERE 和 HAVING。包含分组统计函数的条件用 HAVING，普通条件用 WHERE。这样，我们就既利用了 WHERE 条件的高效快速，又发挥了 HAVING 可以使用包含分组统计函数的查询条件的优点。当数据量特别大的时候，运行效率会有很大的差别</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs sql">#方式<span class="hljs-number">1</span>： <br><span class="hljs-keyword">SELECT</span> ...,....,...<br><span class="hljs-keyword">FROM</span> ...,...,.... <br><span class="hljs-keyword">WHERE</span> 多表的连接条件 <br><span class="hljs-keyword">AND</span> 不包含组函数的过滤条件<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ...,... <br><span class="hljs-keyword">HAVING</span> 包含组函数的过滤条件<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ... <span class="hljs-keyword">ASC</span><span class="hljs-operator">/</span><span class="hljs-keyword">DESC</span> <br>LIMIT ...,... <br><br>#方式<span class="hljs-number">2</span>： <br><span class="hljs-keyword">SELECT</span> ...,....,... <br><span class="hljs-keyword">FROM</span> ... <br><span class="hljs-keyword">JOIN</span> ... <span class="hljs-keyword">ON</span> 多表的连接条件 <br><span class="hljs-keyword">JOIN</span> ... <span class="hljs-keyword">ON</span> ... <br><span class="hljs-keyword">WHERE</span> 不包含组函数的过滤条件 <br><span class="hljs-keyword">AND</span><span class="hljs-operator">/</span><span class="hljs-keyword">OR</span> 不包含组函数的过滤条件 <br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ...,... <br><span class="hljs-keyword">HAVING</span> 包含组函数的过滤条件 <br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> ... <span class="hljs-keyword">ASC</span><span class="hljs-operator">/</span><span class="hljs-keyword">DESC</span> <br>LIMIT ...,... <br><br>#其中： <br>#（<span class="hljs-number">1</span>）<span class="hljs-keyword">from</span>：从哪些表中筛选 <br>#（<span class="hljs-number">2</span>）<span class="hljs-keyword">on</span>：关联多表查询时，去除笛卡尔积 <br>#（<span class="hljs-number">3</span>）<span class="hljs-keyword">where</span>：从表中筛选的条件 <br>#（<span class="hljs-number">4</span>）<span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span>：分组依据 <br>#（<span class="hljs-number">5</span>）<span class="hljs-keyword">having</span>：在统计结果中再次筛选 <br>#（<span class="hljs-number">6</span>）<span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span>：排序 <br>#（<span class="hljs-number">7</span>）limit：分页<br><br><br>#查询平均工资最低的部门id，注意使用<span class="hljs-keyword">all</span>修饰符之类<br><span class="hljs-keyword">SELECT</span> department_id <br><span class="hljs-keyword">FROM</span> employees <br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> department_id <br><span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">AVG</span>(salary) <span class="hljs-operator">&lt;=</span> <span class="hljs-keyword">ALL</span> <br>		( <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(salary) avg_sal <br>          <span class="hljs-keyword">FROM</span> employees <br>          <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> department_id );<br> <br>#注意使用<span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> 修饰符<br><span class="hljs-keyword">SELECT</span> last_name <br><span class="hljs-keyword">FROM</span> employees <br><span class="hljs-keyword">WHERE</span> employee_id <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> <br>	( <span class="hljs-keyword">SELECT</span> manager_id <span class="hljs-keyword">FROM</span> employees );<br>	<br>#查询departments表中，不存在于employees表中的部门的department_id和department_name<br><span class="hljs-keyword">SELECT</span> department_id, department_name <br><span class="hljs-keyword">FROM</span> departments d <br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-string">&#x27;X&#x27;</span> <br><span class="hljs-keyword">FROM</span> employees <br><span class="hljs-keyword">WHERE</span> department_id <span class="hljs-operator">=</span> d.department_id);<br><br>#使用查询语句的结果作为创建表的数据<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> dept80 <br><span class="hljs-keyword">AS</span><br><span class="hljs-keyword">SELECT</span> employee_id, last_name, salary<span class="hljs-operator">*</span><span class="hljs-number">12</span> ANNSAL, hire_date <br><span class="hljs-keyword">FROM</span> employees <br><span class="hljs-keyword">WHERE</span> department_id <span class="hljs-operator">=</span> <span class="hljs-number">80</span>; <br><br>#表示创建一个约束，该约束限制用户名和密码组合不能重复<br><span class="hljs-keyword">CONSTRAINT</span> uk_name_pwd <span class="hljs-keyword">UNIQUE</span>(NAME,PASSWORD)<br><br>#复合唯一，表示的是这种组合唯一<br><span class="hljs-keyword">unique</span> key(sid,cid)<br><br>#复合主键<br><span class="hljs-keyword">primary</span> key(sid,cid) <br><br>#主表 <br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> dept( <br>did <span class="hljs-type">int</span> <span class="hljs-keyword">primary</span> key, #部门编号 <br>dname <span class="hljs-type">varchar</span>(<span class="hljs-number">50</span>) #部门名称 <br>);<br>#从表<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> emp( <br>eid <span class="hljs-type">int</span> <span class="hljs-keyword">primary</span> key, #员工编号 <br>ename <span class="hljs-type">varchar</span>(<span class="hljs-number">5</span>), #员工姓名 <br>deptid <span class="hljs-type">int</span>, #员工所在的部门<br><span class="hljs-keyword">foreign</span> key (deptid) <span class="hljs-keyword">references</span> dept(did) #在从表中指定外键约束 <br>#emp表的deptid和和dept表的did的数据类型一致，意义都是表示部门的编号 <br>);<br>说明： <br>（<span class="hljs-number">1</span>）主表dept必须先创建成功，然后才能创建emp表，指定外键成功<br>（<span class="hljs-number">2</span>）删除表时，先删除从表emp，再删除主表dept<br><br>#外键的设置实际上是为了限制主表和从表中属性之间的映射关系<br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> dept <span class="hljs-keyword">values</span>(<span class="hljs-number">1001</span>,<span class="hljs-string">&#x27;教学部&#x27;</span>); <br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> dept <span class="hljs-keyword">values</span>(<span class="hljs-number">1003</span>, <span class="hljs-string">&#x27;财务部&#x27;</span>); <br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> emp <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;张三&#x27;</span>,<span class="hljs-number">1001</span>); #添加从表记录成功，在添加这条记录时，要求部门表有<span class="hljs-number">1001</span>部门<br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> emp <span class="hljs-keyword">values</span>(<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;李四&#x27;</span>,<span class="hljs-number">1005</span>); #添加从表记录失败<br></code></pre></td></tr></table></figure>
+
+<p>在 SELECT 语句执行这些步骤的时候，每个步骤都会产生一个 虚拟表 ，然后将这个虚拟表传入下一个步骤中作为输入。需要注意的是，这些步骤隐含在 SQL 的执行过程中，对于我们来说是不可见的</p>
+<p>注意count有时会不包含null，但是在计算的过程中是需要计算这些null值的，由于AVG &#x3D; SUM &#x2F; COUNT，所以有时要自己编写分子和分母的表达式</p>
+<p>单行操作符对应单行子查询，多行操作符对应多行子查询，所提供的数据数等于需要的数据数</p>
+<p>我们按内查询的结果返回一条还是多条记录，将子查询分为 单行子查询 、 多行子查询</p>
+<p>成对查询指的是返回的子查询是两条数据</p>
+<p>如果子查询的执行依赖于外部查询，通常情况下都是因为子查询中的表用到了外部的表，并进行了条件关联，因此每执行一次外部查询，子查询都要重新计算一次，这样的子查询就称之为 <strong>关联子查询</strong></p>
+<p>from型的子查询：子查询是作为from的一部分，子查询要用()引起来，并且要给这个子查询取别名， 把它当成一张“临时的虚拟的表”来使用</p>
+<p>注意子查询能够适用的语句关键词很多，要根据想使用的范围进行应用，总结来说，在SELECT中，除了GROUP BY 和 LIMIT之外，其他位置都可以声明子查询</p>
+<p><strong>自连接和子查询的比较：</strong>题目中可以使用子查询，也可以使用自连接。一般情况建议你使用自连接，因为在许多 DBMS 的处理过程中，对于自连接的处理速度要比子查询快得多  可以这样理解：子查询实际上是通过未知表进行查询后的条件判断，而自连接是通过已知的自身数据表进行条件判断，因此在大部分 DBMS 中都对自连接处理进行了优化</p>
+<p>key是为表添加索引，索引的作用是增加数据库的查询速度。MySQL的数据库引擎是InnoDB，它采用B+树和哈希两种数据结构的方式为表添加索引，同时还可以在key之前添加限定词，来扩充索引的作用</p>
+<p><strong>自增计数器的持久化：</strong>MySQL 8.0将自增主键的计数器持久化到 重做日志 中。每次计数器发生改变，都会将其写入重做日志中。如果数据库重启，InnoDB会根据重做日志中的信息来初始化计数器的内存值</p>
+<p><strong>键列：</strong>被设置为key的列</p>
+<p><strong>主表和从表关系：</strong></p>
+<ul>
+<li>约束关系是针对双方的</li>
+<li>添加了外键约束后，主表的修改和删除数据受约束</li>
+<li>添加了外键约束后，从表的添加和修改数据受约束</li>
+<li>在从表上建立外键，要求主表必须存在</li>
+<li>删除主表时，要求从表从表先删除，或将从表中外键引用该主表的关系先删除</li>
+</ul>
+<p>补充：</p>
+<p>创建多个mysql客户端实例实际上就是使用多个控制台打开数据库终端即可</p>
+<p>根据不同的需求，可以根据主键创建聚簇索引，也可以根据需要使用别的列的值创建聚簇索引</p>
+<p>关键词KEY 即用于创建索引使用的</p>
+<p>多表外连接的条件，实际上连接条件左边的数据相当于是变量，在对被驱动表操作的过程中就已经赋值了左边的数据，进行优化单表查询</p>
+<p>内连接和外连接都存在驱动表的定义，并且额外的，对于内连接的两个表，其驱动表和被驱动表是可以互换的</p>
+<p>子查询就是在查询结果中又进行一次查询，相当于进行递归查询，更好的理解是把子查询得到的结果看做是一个返回值，这个返回值可以存在于查询语句中的任意位置</p>
+<p>非聚簇索引实际上就是二级索引，一个表有且只有一个聚簇索引</p>
+<p>多次查找二级索引会导致查询效率不高，这种情况在InnoDB中有一定的优化，不是认为控制的，而是引擎实现的，通过二级索引查询多了，InnoDB会生成自适应的哈希索引</p>
+<p><img src="/typoraPictureFiles/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JhaWR1XzE1OTUyMTAz,size_16,color_FFFFFF,t_70.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>普通索引和唯一索引的区别：</strong></p>
+<ul>
+<li>没啥区别，唯一索引实际上就是使用唯一值作为索引，并且mysql能够对其进行一定优化</li>
+<li>使用唯一索引相较于普通索引的优势：<ul>
+<li>简化了MySQL对这个索引的管理工作，这个索引也因此而变得更有效率</li>
+<li>MySQL会在有新记录插入数据表时，自动检查新记录的这个字段的值是否已经在某个记录的这个字段里出现过了；如果是MySQL将拒绝插入那条新记录</li>
+<li>唯一索引可以保证数据记录的唯一性  事实上，在许多场合，人们创建唯一索引的目的往往不是为了提高访问速度，而只是为了避免数据出现重复</li>
+</ul>
+</li>
+</ul>
+<p><strong>函数和存储过程的区别</strong></p>
+<ul>
+<li>两者都拥有的优点<ul>
+<li>易用性：共同使用的代码可以只需要被编写一次，而被需要该代码的任何应用程序调用（.net,c++,java，也可以使DLL库）</li>
+<li>一致性：可以在各个开发者之间提供处理数据、控制流程、提示信息等方面的一致性</li>
+<li>高效性：节省内存空间。它们以一种压缩的形式被存储在外存中，当被调用时才被放入内存进行处理。而且多个用户在调用同一个存储过程或函数时，只需要加载一次即可</li>
+<li>安全性：高数据的安全性和完整性。通过把一些对数据的操作方到存储过程或函数中，就可以通过是否授予用户有执行该语句的权限，来限制某些用户对数据库进行这些操作</li>
+</ul>
+</li>
+<li>两者之间的区别<ul>
+<li>存储过程用户在数据库中完成特定操作或者任务（如插入，删除等），函数用于返回特定的数据</li>
+<li>存储过程声明用procedure，函数用function</li>
+<li>存储过程不需要返回类型，函数必须要返回类型</li>
+<li>存储过程可作为独立的pl-sql执行，函数不能作为独立的plsql执行，必须作为表达式的一部分</li>
+<li>存储过程只能通过out和in&#x2F;out来返回值，函数除了可以使用out，in&#x2F;out以外，还可以使用return返回值</li>
+<li>sql语句（DML或SELECT)中不可用调用存储过程，而函数可以</li>
+</ul>
+</li>
+<li>两者适应场景的区别：<ul>
+<li>如果需要返回多个值和不返回值，就使用存储过程；如果只需要返回一个值，就使用函数</li>
+<li>存储过程一般用于执行一个指定的动作，函数一般用于计算和返回一个值</li>
+<li>可以再SQL内部调用函数来完成复杂的计算问题，但不能调用存储过程</li>
+</ul>
+</li>
+<li>区别和联系<ul>
+<li>相同点：<ul>
+<li>创建语法结构相似，都可以携带多个传入参数和传出参数</li>
+<li>都是一次编译，多次执行</li>
+</ul>
+</li>
+<li>不同点：<ul>
+<li>存储过程定义关键字用procedure，函数定义用function</li>
+<li>存储过程中不能用return返回值，但函数中可以，而且函数中必须有return子句</li>
+<li>执行方式略有不同，存储过程的执行方式有两种（1.使用execute2.使用begin和end），函数除了存储过程的两种方式外，还可以当做表达式使用，例如放在select中（select f1() form dual;）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>WITH CHECK OPTION</strong>的作用：</p>
+<ul>
+<li>保证在使用任意语句后修改后的结果依旧符合视图的筛选要求<ul>
+<li>像第一种情况，WHERE的条件是className的首字符是含有“注册会计”的。那么，视图进行UPDATE修改时，不能把这个条件给改没了</li>
+</ul>
+</li>
+<li>即它会阻止可见行更新为不可见的行</li>
+</ul>
+<p>不能在视图上创建触发器</p>
+<ul>
+<li><strong>关于主从复制相关</strong></li>
+</ul>
+<p>在Mixed模式下，一般的语句修改使用statment格式保存binlog。如一些函数，statement无法完成主从复制的操作，则采用row格式保存binlog。（因为statement模式下是基于语句进行的，而并不是基于行，部分函数调用可能出现问题）</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/数据库学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/jyy%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

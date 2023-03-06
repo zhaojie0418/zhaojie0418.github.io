@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="注释之间不能进行嵌套 属性可以写在开始标签或者自结束标签中，还可以设置属性，属性是个键值对的形式，具体的属性名和属性值取决于文档的编程规范，其中有些属性是没有值的，键值对之间使用空格进行分隔 文档声明(doctype)用于告诉浏览器当前网页的版本，位于第一行  例如： 不区分大小写 meta标签用来设置网页的元数据可以通过meta标签来设置网页的字符集，避免出现乱码问题，meta标签写在head中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/html&css%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="注释之间不能进行嵌套 属性可以写在开始标签或者自结束标签中，还可以设置属性，属性是个键值对的形式，具体的属性名和属性值取决于文档的编程规范，其中有些属性是没有值的，键值对之间使用空格进行分隔 文档声明(doctype)用于告诉浏览器当前网页的版本，位于第一行  例如： 不区分大小写 meta标签用来设置网页的元数据可以通过meta标签来设置网页的字符集，避免出现乱码问题，meta标签写在head中">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-06T12:20:13.326Z">
+<meta property="article:modified_time" content="2021-10-24T13:10:04.471Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>注释之间不能进行嵌套</p>
+<p>属性可以写在开始标签或者自结束标签中，还可以设置属性，属性是个键值对的形式，具体的属性名和属性值取决于文档的编程规范，其中有些属性是没有值的，键值对之间使用空格进行分隔</p>
+<p>文档声明(doctype)用于告诉浏览器当前网页的版本，位于<strong>第一行</strong>  例如：<!doctype html> 不区分大小写</p>
+<p>meta标签用来设置网页的元数据可以通过meta标签来设置网页的字符集，避免出现乱码问题，meta标签写在head中</p>
+<p>html是文件的根标签，网页中的所有元素都要出现在根元素的里面</p>
+<p>head是网页的头部，head中的内容不会在网页中直接出现，主要用来帮助浏览器或搜索引擎来解析网页</p>
+<p>title中的内容会显示在浏览器的标题栏，搜索引擎会根据title中的内容来判断页面的主要内容</p>
+<p>body是html的子元素，表示网页的主题，网页中所有的可见内容都该放在body中，其中所有的内容都用户可见</p>
+<p>例如空格或者&lt; 、&gt;该类的符号会被浏览器解析为别的意思，故需要使用实体来进行表示</p>
+<p>使用meta中的属性进行命名时，注意对应的变量名是固定好的，而并不是自己随意添加的</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;keywords&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;HTML,ASP,PHP,SQL&quot;</span>&gt;</span>  <span class="hljs-comment">&lt;!--name属性中可以赋值多个关键字，关键字之间用,隔开&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>lang元素指的是使用的语言</p>
+<p>在网页中html专门用来负责页面的结构，所以在使用html标签时<strong>，应该关注的是标签的语义而不是标签的格式</strong></p>
+<p>不同的标题等级表示的是重要级，一般来说h1在网页中的重要性仅次于title，一般来说一个页面只会有一个h1，由于一般使用标题标签只会最多用到h3，剩下的很少用，因为其标注的重要性太低了</p>
+<p>在页面中独占一行的元素称之为块元素(block element)</p>
+<p>在页面中不会独占一行的元素称之为行内元素(inline element)</p>
+<p>hgroup指的是标题组，用来为标签分组，可以将一组相关的标题放入同一个标题组</p>
+<p>em标签用于表示语音语调的一个加重</p>
+<p>strong表示的是强调的重要内容</p>
+<p>q表示是一个短引用</p>
+<p>blockquote是一个长引用</p>
+<p>在网页中一般通过块元素对页面进行宏观的一些布局，而行内元素是主要用来包裹文字来实现特殊的效果，一般是在块元素中放置行内元素，而不会在行内元素中放块元素，并且p元素中不能放任何块元素</p>
+<p>浏览器会在解析网页的时候，会自动对网页中不符合规范的内容进行修正，比如：将标签写在了根元素的外部、p元素中嵌套了块元素、根元素中出现了除了head和body以外的子元素</p>
+<p>header表示网页的头部(可以有多个头部)</p>
+<p>main表示网页的主题部分(一个页面中只会有一个main)</p>
+<p>footer表示网页的底部</p>
+<p>nav表示网页的导航</p>
+<p>aside表示和网页主题相关的其他内容(侧边栏)</p>
+<p>article表示的是一个独立的文章</p>
+<p>section表示的是独立的区块，当以上的标签没办法合理的表示时，用section</p>
+<p>div没有语义，就用来表示的是一个区块，目前往往还是div是页面的主要布局元素</p>
+<p>span没有语义，是一个行内元素，一般用于网页中选中文字</p>
+<p>ul表示的创建无序列表，使用li来表示列表项</p>
+<p>ol表示的创建有序列表，用li表示列表项</p>
+<p>dl表示定义列表，使用dt来表示定义的内容，使用dd来对内容进行解释说明</p>
+<p>最常使用的是ul标签，并且列表之间可以互相嵌套</p>
+<p>超链接也是一个行内元素，在a标签中可以嵌套除了它自身类型以外的任意元素</p>
+<p>超链接的href可以指定外部的网站的地址，也可以写一个内部页面的地址，当我们需要跳转到一个服务器内部的页面时，一般我们都会使用相对路径，相对路径都会使用.&#x2F;或者..&#x2F;开头，如果没有以这两个开头，则会默认添加一个.&#x2F;</p>
+<ul>
+<li><p>.&#x2F;  表示的是文件所在目录</p>
+</li>
+<li><p>..&#x2F; 表示的是当前文件所在目录的上一级目录</p>
+</li>
+</ul>
+<p>.&#x2F;inner&#x2F;123.html表示的是返回所在文件的目录下寻找inner文件夹进一步寻找123.html文件，所有文件都可以通过这样的方法往上往下寻找到的</p>
+<p>可以将超链接的href属性设置为只有一个#，这样点击这个超链接以后，页面不会进行跳转，而是转到当前页面的顶部位置</p>
+<p>id表示的是该元素的特定标识，每一个标签都可以添加一个id属性，同一个页面不能出现重复的id属性，id属性是字母开头</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#p3&quot;</span>&gt;</span>这里是一个超链接<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>当点击这个超链接的时候会跳转到当前页面下id值为p3的标签位置<br></code></pre></td></tr></table></figure>
+
+<p>img元素中的src属性指定的是外部图片的路径，这个路径可以是你存储的图片位置（路径的调用规则是一样的），也可以是网上图片的网络地址，img的alt属性表示的是对图片的描述，这个描述是在默认情况下不会显示，有些浏览器会在图片无法加载时显示，搜索引擎会根据这个属性进行识别图片</p>
+<p>img属性中的width和height属性的单位是像素，如果只是改变两个其中一个则另外属性会跟着等比例变化，但是如果两个属性都赋值改变了则根据你赋值的值进行缩放，在pc端往往不改变图片的这两个属性，美工会裁剪好使用的图片，减少性能开销</p>
+<p>常见的图片格式：</p>
+<ul>
+<li>jpeg(jpg)：支持的颜色比较丰富，不支持透明效果，不支持动图，一般用来显示照片</li>
+<li>gif：支持的颜色比较少，支持简单透明和动图，一般用于单一的图片、动图</li>
+<li>png:支持的颜色丰富，支持复杂透明，不支持动图，往往用网页部分</li>
+<li>webp：该格式是谷歌新推出的专门用于表示页面中的图片格式，它具备其他三种格式的所有优点，而且文件还特别的小，但是缺点是其兼容性不好，有些老浏览器没办法兼容</li>
+<li>base64：将图片使用base64编码，这样可以将图片转化成字符来引用页面中，一般是一些需要和页面一起加载的图片才会使用base64（直接将这个编码复制到img元素中的src内中）</li>
+</ul>
+<p>iframe表示创建一个内联框架，相当于在当前页面内创建了一个小分块来显示外部网页，其中也是使用src进行标注要显示的页面，可以通过改变iframe标签的属性来改变分块的大小</p>
+<p>audio标签用于向页面引入一个外部的音频文件，音视频文件引入时默认情况不允许用户自己播放停止</p>
+<p><strong>audio属性：</strong></p>
+<ul>
+<li>controls 是否允许用户控制播放(标注即可无需赋值)</li>
+<li>autoplay音频文件是否自动播放(标注即可无需赋值)<ul>
+<li>如果设置了autoplay则音乐会在打开文件的时候自动播放，但是目前大部分情况下是不允许其自动播放的</li>
+</ul>
+</li>
+<li>loop属性表示的是循环播放(标注即可无需赋值)</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 除了通过src来指定外部文件的路径以外，还可以通过source来指定文件的路径 --&gt;</span><br><span class="hljs-comment">&lt;!--使用source来指定文件的路径可以提高兼容性，比如有些浏览器不支持解析audio标签，则若使用较低版本浏览器解析以下代码，则会浏览器无法识别audio，source等，只显示出“对不起，您的浏览器不支持播放音频！请升级浏览器！” --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">audio</span> <span class="hljs-attr">controls</span>&gt;</span><br>        对不起，您的浏览器不支持播放音频！请升级浏览器！<br>        <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./source/audio.mp3&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./source/audio.ogg&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">embed</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./source/audio.mp3&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;audio/mp3&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;300&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;100&quot;</span>&gt;</span><span class="hljs-comment">&lt;!-- embed是一个比较老的标签用于兼容老的浏览器 --&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">audio</span>&gt;</span><br><span class="hljs-comment">&lt;!-- </span><br><span class="hljs-comment">        使用video标签来向网页中引入一个视频</span><br><span class="hljs-comment">            - 使用方式和audio基本上是一样的</span><br><span class="hljs-comment"> --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">controls</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./source/flower.webm&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./source/flower.mp4&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">embed</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./source/flower.mp4&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;video/mp4&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>内联样式相当于将html和css复合起来了，使得其耦合，这样的样式不合理</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs html"> <span class="hljs-comment">&lt;!--注意在style标签内部的部分不再属于html的部分，该标签中的命名格式和逻辑不符合html的逻辑，应该遵循的是Css的规范--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"> </span><br><span class="language-css">      <span class="hljs-selector-tag">p</span>&#123;</span><br><span class="language-css">          <span class="hljs-attribute">color</span>: green;</span><br><span class="language-css">          <span class="hljs-attribute">font-size</span>: <span class="hljs-number">50px</span>;</span><br><span class="language-css">      &#125;</span><br><span class="language-css"> </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<p>由于id具有独特性，不能有重复的元素，所以html中有class来保证相似元素的类型设置，对应的有id选择器和class选择器，一般在开发中往往使用class选择器，同时可以对一个元素指定多个class，多个class之间使用空格隔开</p>
+<p><strong>选择器分类：</strong>元素选择器、id选择器、类选择器、通配选择器（所有元素都用这个格式）</p>
+<p>块元素也有对应的title属性，当光标放置在这个属性上时，会显示出来对应的title</p>
+<p>通过css添加的文字无法用光标进行选择</p>
+<p>由于内联样式的设定的优先级最高，所以一般不建议使用内联样式去决定元素的样式，一旦使用内联样式去指定元素的样式会使得该元素无法被修改</p>
+<p>当样式编写后没有被生效，可能是因为选择器的权重没有被记录</p>
+<p>当子元素相加的元素加起来不等于父元素内容区的宽度，则称之为过度约束，即等式会自动进调整使得等式保持满足</p>
+<p>如果父元素没有设置高度，则其高度取决于子元素的高度大小（子元素将父元素所撑开）</p>
+<p>如果父元素设置了高度，则父元素的高度取决于其自身所定义的高度</p>
+<p>可以使用overflow属性来设置父元素如何处理溢出的子元素</p>
+<p>相邻的垂直方向外边距会发生重叠现象，兄弟元素之间的响铃垂直外边距会取两者之间的较大值（两者都是正值，如果相邻的外边距一正一负，则取二者的和，如果相邻的外边距都是负值，则取两者中绝对值较大的）</p>
+<p>display可以用来设置成元素显示的类型</p>
+<p>在开发中由于浏览器自带样式，并且每一款浏览器所自带的样式不同，为统一浏览器样式，需要对浏览器的默认样式进行清除</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 去除浏览器本身的默认样式--&gt;</span><br><span class="hljs-comment">&lt;!-- 方法一：使用通配选择器来清除浏览器默认样式--&gt;</span><br>*&#123;<br>    margin: 0;<br>    padding: 0;<br> &#125;<br><span class="hljs-comment">&lt;!-- 方法二：使用经典的重置样式表css文件进行清除--&gt;</span><br><span class="hljs-comment">&lt;!-- </span><br><span class="hljs-comment">        重置样式表：专门用来对浏览器的样式进行重置的</span><br><span class="hljs-comment">            reset.css     直接去除了浏览器的默认样式</span><br><span class="hljs-comment">            normalize.css 对默认样式进行了统一</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> --&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>在设置导航条的时候，如果所需的导航条是横向的，则需要将元素设置为<strong>浮动</strong></p>
+<p>可以将公共的样式重写到另外一个<strong>单独的选择器</strong>中，简化代码</p>
+<p>需要水平放置在同一行的需要对放置在同一行的所有元素都设置为<strong>水平浮动</strong></p>
+<p>往往父元素的高度是不能显性赋值的，避免当内容过多时导致内容溢出等异常情况</p>
+<p>行内块元素不适合作为外部元素</p>
+<p>若元素上方有浮动元素，其下方的元素会自动上移，而文字不会上移，文字会自动环绕在浮动元素之上</p>
+<p>伪元素是css内置好的而不能进行自定义，只能修改和调用定义好的伪元素</p>
+<p>浮动会使得元素脱离文档流，造成高度塌陷的问题</p>
+<p>相对定位的位置是相对于其他元素之外的，可以理解成浮在其他元素之上，相对定位理解成“灵魂出窍”，虽然元素的确发生了移动，但是该元素浮在其他元素之上，而其之前的“身体”仍然占据着位置</p>
+<p>只要position的值不是static即为开启了定位</p>
+<p>粘滞定位由于其兼容性的影响，往往不常使用</p>
+<p><strong>对于开启了定位的元素</strong>，并且和绝对定位或者相对定位等设置无关，可以通过z-index属性来指定元素的层级，index需要一个整数作为参数，且值越大表示的是元素的层级越高，元素的层级越高越优先显示，当该参数的值大小相同时，根据HTML代码中出现的顺序来决定元素的层级，<strong>祖先元素的层级再高也不会盖住后代元素</strong></p>
+<p> 字体文件本身是一种矢量图，无论如何进行放大缩小都不会失真</p>
+<p>常见使用的图标字体库是现成的，不需要通过自己创建</p>
+<p>all.min.css和all.css的区别在于前者是压缩过的，前者的大小相对而言更小一点</p>
+<p>使用字符实体进行设置图标字体时注意得先通过link标签来引入相关css文件</p>
+<p>注意父元素浮动和子元素浮动是有区别的，同时注意可以设置让父元素向左浮动，让子元素向右浮动，呈现的效果是整体向左移，在父元素的格子里面的子元素整体向右移</p>
+<p>为了避免子元素高度的改变导致父元素高度的变化，可以将父元素的高度显式赋值，避免其高度受影响</p>
+<p>使用overflow属性来规定当内容溢出元素框时的处理方式</p>
+<p>简写属性是不存在顺序要求的（写一大串就可以）</p>
+<p>创建一个组件的时候注意首先创建一个对整个组件进行作用的<strong>外部容器</strong></p>
+<p>组件的大小需要依据其包含的具体内容确定时，不能设置其具体的大小</p>
+<p>由于图片是存放在容器里面的，所以图片本身也需要使用容器包含其中，同理文字也需要使用专门的容器进行存放</p>
+<p>给元素的width属性进行赋值时，如果单位是%则表示其定义基于包含块（父元素）宽度的百分比宽度</p>
+<p>在网页也可以使用表单，网页中的表单用于将本地的数据提交给远程的服务器</p>
+<p>向右或者向左浮动的元素的排序取决于在html中代码出现的先后顺序</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/html&amp;css笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/Java%E7%AC%94%E8%AE%B0Part1/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E8%B6%A3%E5%91%B3%E7%9F%A5%E8%AF%86/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

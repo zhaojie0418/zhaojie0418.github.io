@@ -1,0 +1,946 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="汇编语言的主体是汇编指令，汇编指令是机器指令的助记符 寄存器是CPU中存储数据的器件，一个CPU中有多个寄存器 汇编语言组成部分：汇编指令（机器码的助记符），伪指令（由编译器处理），其他字符（由编译器处理） 汇编语言的核心是汇编指令，它决定了汇编语言的特性 磁盘不同于内存，磁盘中的数据或程序如果不读到内存中，就无法被CPU所使用 在内存或者磁盘上，指令和数据没有任何区别，都是二进制信息，同一条信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="汇编语言的主体是汇编指令，汇编指令是机器指令的助记符 寄存器是CPU中存储数据的器件，一个CPU中有多个寄存器 汇编语言组成部分：汇编指令（机器码的助记符），伪指令（由编译器处理），其他字符（由编译器处理） 汇编语言的核心是汇编指令，它决定了汇编语言的特性 磁盘不同于内存，磁盘中的数据或程序如果不读到内存中，就无法被CPU所使用 在内存或者磁盘上，指令和数据没有任何区别，都是二进制信息，同一条信息">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\1636943426.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\1636944068(1).png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\1636944110(1).png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20211204134028.jpg">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106153320.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106153849.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106161056.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106161351.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106170519.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106171822.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106171707.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106172219.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106172229.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106190529.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106190928.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106192002.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106192645.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106192636.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106194041.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106193813.png">
+<meta property="og:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220106194123.png">
+<meta property="article:published_time" content="2023-03-06T12:20:13.389Z">
+<meta property="article:modified_time" content="2022-01-07T05:49:54.969Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:\Users\%E5%B0%8F%E8%B5%B5%E5%90%8C%E5%AD%A6\Desktop\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\1636943426.png">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          83 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>汇编语言的主体是汇编指令，汇编指令是机器指令的助记符</p>
+<p>寄存器是CPU中存储数据的器件，一个CPU中有多个寄存器</p>
+<p>汇编语言组成部分：汇编指令（机器码的助记符），伪指令（由编译器处理），其他字符（由编译器处理）</p>
+<p>汇编语言的核心是汇编指令，它决定了汇编语言的特性</p>
+<p>磁盘不同于内存，磁盘中的数据或程序如果不读到内存中，就无法被CPU所使用</p>
+<p>在内存或者磁盘上，指令和数据没有任何区别，都是二进制信息，同一条信息可以被两种解释</p>
+<p>存储器被划分为若干个存储单元</p>
+<p>CPU想要对数据进行读写，必须和外部器件（标准的说法是芯片），进行三种信息的交互：</p>
+<ul>
+<li>存储单元的地址（地址信息）</li>
+<li>器件的选择，读或写命令（控制信息）</li>
+<li>读或写的数据（数据信息）</li>
+</ul>
+<p>连接CPU和其他芯片的导线称之为总线，逻辑上分为：地址总线，控制总线，数据总线</p>
+<p>64位指的是：CPU，操作系统，软件，均为64位</p>
+<p>一个CPU有N条地址总线，则可以说这个CPU的地址总线的宽度为N，这样的CPU最多可以寻找2的N次方个内存地址</p>
+<p>数据总线的宽度决定了CPU和外界的数据传送速度</p>
+<p>从低到高索引：10010，低位为0，高位为1</p>
+<p>CPU对外部的控制是通过控制总线进行的，控制总线是一些不同控制线的集合，有多少根控制总线，就意味着CPU对外部器件有多少种控制，所以控制总线的宽度决定了CPU对外部器件的控制能力</p>
+<p>读和写操作实际上是有几根控制线综合发出的</p>
+<p>每一种CPU都有自己的汇编指令集</p>
+<p>CPU可以直接使用的信息在存储器中存放</p>
+<p>一个存储单元可以存储8个bit，即8个二进制数</p>
+<p>地址总线的宽度决定了cpu的寻址能力</p>
+<p>数据总线的宽度决定了CPU和其他器件的数据传输一次的传输数据量</p>
+<p>一个CPU的地址线宽度为10即表明其可以寻址1024个内存单元，这1024个可寻的内存单元就构成这个CPU的内存地址空间</p>
+<p>在每一台pc中，都有一个主板，上面有核心器件和一些主要器件，这些器件通过总线（地址总线，数据总线，控制总线）相连</p>
+<p>CPU对外部设备不能进行直接控制，直接控制这些设备进行工作的是插在扩展插槽上的接口卡</p>
+<p>BIOS是由主板和各类接口卡（显卡，网卡等）厂商提供的软件系统，可以通过它利用该硬件设备进行最基本的输入输出，在主板和某些接口卡上插有存储相应BIOS的ROM</p>
+<p>从读写属性上存储器芯片分为两类：</p>
+<ul>
+<li>随机存储器（RAM）</li>
+<li>只读存储器（ROM）</li>
+</ul>
+<p>从功能和连接上进行分类：</p>
+<ul>
+<li>随机存储器RAM</li>
+<li>装有BIOS（basic input output system基本输入输出系统）的ROM</li>
+<li>接口卡上面的RAM</li>
+</ul>
+<img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\1636943426.png" srcset="/img/loading.gif" lazyload alt="1636943426" style="zoom: 80%;" />
+
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\1636944068(1).png" srcset="/img/loading.gif" lazyload alt="1636944068(1)"></p>
+<p>不同存储器的相同点：</p>
+<ul>
+<li>都和CPU的总线相连</li>
+<li>CPU对他们进行读写操作的时候都通过控制线发出内存读写命令</li>
+</ul>
+<p>逻辑存储器：</p>
+<ul>
+<li>所有的物理存储器被看作是一个由若干个存储单元所组成的逻辑存储器，即各类存储器看做是一个逻辑存储器</li>
+<li>每个物理存储器在这个逻辑存储器中占有一个地址段，即一段地址空间</li>
+<li>CPU就是在这段地址空间上进行读写数据，实际上就是在相对应的物理存储器中读写数据</li>
+</ul>
+<p>不同的CPU对于内存地址空间的分类不同</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\1636944110(1).png" srcset="/img/loading.gif" lazyload alt="1636944110(1)"></p>
+<p>一个典型的CPU是由运算器、控制器、寄存器等器件组成，这些器件靠内部总线进行相连</p>
+<ul>
+<li>内部总线用于实现CPU内部的各个器件之间的联系</li>
+<li>外部总线实现CPU和主板上其他器件的联系</li>
+</ul>
+<p>8086CPU中有14个寄存器，各有不同的命名AX，BX等</p>
+<p>8086CPU所有的寄存器都是16位的，可以用于存放两个字节</p>
+<p>AX，BX，CX，DX通常用于存放一般性的数据，故被称之为通用寄存器</p>
+<p>数据在寄存器中的存储高位进行补0</p>
+<p>16位寄存器最多可以存放2的16次方减一（从0开始计数）</p>
+<p>由于8086上一代CPU中的寄存器都是8位的，为了保证兼容性，这四个寄存器都可以分成两个独立的8位寄存器使用</p>
+<p>AX可以左右分成低位存储器AL，高位存储器AH</p>
+<p>16位称之为一个字，一个字自然可以存放在一个16位寄存器中，这个字的高位字节和低位字节自然就存放在这个寄存器的高8位寄存器和低8位寄存器中</p>
+<p>16进制的一位对应2进制的四位，同理8进制的一位对应2进制的三位</p>
+<p>汇编指令不区分大小写</p>
+<p>数字后面标注H表示的是：该数是一个16进制数</p>
+<p>由于寄存器只能存放16位数字，故超过16位的数字的高位部分会被放入进制位中，但是寄存器中存储的只能是低位的16位部分，例10023H会被抛弃成0023H</p>
+<p>16位结构描述的是一个CPU具有以下几个方面的特征：</p>
+<ul>
+<li>运算器一次最多可以处理16位的数据</li>
+<li>寄存器的最大宽度为16位</li>
+<li>寄存器和运算器之间的通路是16位的</li>
+</ul>
+<p>8086CPU有20位地址总线，可以传送20位的地址，寻址能力为1M，而8086内部为16位结构，它只能传送16位的地址，表现出来的寻址能力只有64k</p>
+<p>8086CPU在读写内存时，相关操作如下</p>
+<ul>
+<li>CPU中的相关部件提供两个16位的地址，其中一个称之为段地址，另一个称之为偏移地址</li>
+<li>段地址和偏移地址通过内部总线送入一个称为地址加法器的部件</li>
+<li>地址加法器将两个16位的地址合并成一个20位的地址</li>
+</ul>
+<p>地址加法器合成物理地址的方法：</p>
+<p><strong>物理地址 &#x3D; 段地址 X 16 + 偏移地址</strong></p>
+<p>不要理解错段地址的概念，内存并没有被划分成一个一个的段，每一个段都有一个段地址，内存中段的划分来自于CPU，由于8086采取如上图的方式给出内存单元的物理地址，使得我们能够以分段的方式进行管理内存</p>
+<p>由于存在段的概念，故可以在根据需要的情况下将若干个地址连续的内存单元看成是一个段，用段地址 X 16定位段的起始地址（基础地址），而用偏移地址定位段中的内存单元</p>
+<ul>
+<li>段地址 X 16 必然是16的倍数，所以一个段的起始地址也一定是16的倍数</li>
+<li>偏移地址为16位，并且16位的寻址能力为64k，所以一个段的长度最大为64k</li>
+<li>CPU访问内存单元时，必须向内存提供内存单元的物理地址</li>
+<li>8086CPU在内部使用段地址和偏移地址移位相加的方法最终形成物理地址</li>
+<li>由于物理地址是有段地址和偏移地址共同形成的，所以CPU可以使用不同的段地址和偏移地址进而形成同一个物理地址</li>
+</ul>
+<p>“数据在21F60H内存单元中”，该表示对于8086的两种描述</p>
+<ul>
+<li>数据存储在内存为2000:1F60中</li>
+<li>数据存在内存2000段中的1F60H单元中</li>
+</ul>
+<p>可根据需要，将地址连续、起始地址为16的倍数的一组内存单元定义为一个段</p>
+<p>由于偏移地址为16位，变化范围为0~FFFFH，仅使用偏移地址来寻址最多可寻找到64K个内存单元</p>
+<p>比如给定段地址1000H，用偏移地址寻址，CPU的寻址范围为：10000H ~1FFFFH</p>
+<p>段寄存器是用于提供段地址的，其中在8086CPU中有4个段寄存器</p>
+<p>当8086CPU要访问内存时，由这四个段寄存器提供内存单元的段地址</p>
+<p>CS是代码段寄存器，IP是指针指令寄存器，这两个寄存器是CPU中最关键的寄存器，他们指示了CPU当前要读取指令的地址</p>
+<p>在8086CPU加电启动或者复位后（即当CPU刚刚开始工作时）CS和IP被设置为CS&#x3D;FFFFH，IP &#x3D; 0000H，即在PC机刚启动时，CPU会从内存FFFFH中读取指令执行，在FFFF0H内存单元中的指令是开机时执行的第一条指令</p>
+<p>在任何时候，CPU将CS、IP中的内容当做是指令的段地址和偏移地址，用它们合成指令的物理地址，到内存中读取指令码并执行</p>
+<p>如果内存中的一段信息曾经被CPU执行过，那么他所在的内存单元必定被CS:IP所指定过</p>
+<p>由于在CPU操作过程中，程序员能够用指令读写的部件只有寄存器，程序员可以通过改版寄存器中的内容完成对CPU的控制</p>
+<p>CPU从何处执行指令是由CS、IP中的内容所决定的，程序员通过改变CS、IP中的内容来控制CPU执行目标指令</p>
+<p>使用jmp同时修改CS和IP的值： jmp  段地址 ： 偏移地址   jmp 2AE3:3<img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信图片_20211204134028.jpg" srcset="/img/loading.gif" lazyload alt="微信图片_20211204134028"></p>
+<p>段寄存器就是用于提供段地址的，8086CPU有四个段寄存器CS、DS,SS,ES</p>
+<p>当8086CPU要访问内存时，就从这四个段寄存器中提供内存单元的段地址</p>
+<p>8086CPU工作过程简述：</p>
+<ul>
+<li>从CS：IP指向内存读取指令，读取到的指令进入指令缓冲器</li>
+<li>IP &#x3D; IP  +  所读取的指令的长度，从而指向下一条指令</li>
+<li>执行指令，并且重复步骤1和2</li>
+</ul>
+<p>可以仅修改IP的内容：  jmp 某一合法的寄存器  jmp ax ，其作用为：用寄存器中的值修改IP的值</p>
+<p>我们将一段内存当做代码段，仅仅是我们在编程过程中的一种安排，CPU并不会由于这种安排就自动将我们定义的代码块中的指令当做指令来执行，CPU只会将CS：IP所指向的内存单元中的内容看作为指令，所有要将CS：IP指向所定义代码块中的第一条指令的首地址</p>
+<p>CS存放的是指令的段地址</p>
+<p>IP存放的是指令的偏移地址</p>
+<p>两个十六进制位是一个字节</p>
+<p>字型数据是指占有两个字节的数据，并且注意起始位置存储的是数据的低位数据，而第二位存储的才是数据的高位数据</p>
+<p>CPU要读取一个内存单元的时候，必须先给出这个内存单元的地址</p>
+<p>在8086内存地址是由段地址和偏移地址所组成的</p>
+<p>8086CPU中有一个DS寄存器，通常用于存放要访问的数据的段地址</p>
+<p>寄存器能够完成的作用：</p>
+<ul>
+<li>将数据直接传送入寄存器</li>
+<li>将一个寄存器中的内容传送到另一个寄存器中</li>
+<li>将一个内存单元中的内容送入一个寄存器（mov al,[0]）表示将偏移地址为0的数据传送到al中</li>
+</ul>
+<p>例如：以下程序段用于将10000H(1000:0)中的数据读取到al中，并且将ax中的数据传送给10000H(1000:0)的内存单元中，其中偏移地址是[ ]中的数据，而段地址是默认ds，并且不能对ds（段寄存器）进行赋值，必须借用通用寄存器进行赋值，但是段寄存器可以对通用寄存器进行赋值</p>
+<p>mov bx ,1000H</p>
+<p>mov ds , bx</p>
+<p>mov al , [0]  &#x2F;&#x2F;传送的是8位数据</p>
+<p>mov [0] ,ax  &#x2F;&#x2F;传送的是16位数据</p>
+<p>由于8086是16位结构，有16根数据线，所以能够一次性传送16位的数据，即一次性传送一个字</p>
+<p>输入默认是16进制，但是书上可能后边标有H的是十六进制，而没有标h的则为十进制</p>
+<p>[1]表示的是偏移地址是8位</p>
+<p>注意SS:SP指向的是栈空间最高地址单元的下一个单元，即栈底的下一个单元</p>
+<p>pop后，原栈中的元素并不是被移动 ，而是被复制，原来栈空间中仍然存放着该元素</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs c">assume cs:code,ds:data，ss:<span class="hljs-built_in">stack</span><br>data segment<br><br>        db <span class="hljs-string">&#x27;ibm             &#x27;</span> <br>        db <span class="hljs-string">&#x27;dec             &#x27;</span><br>        db <span class="hljs-string">&#x27;dos             &#x27;</span><br>        db <span class="hljs-string">&#x27;vax             &#x27;</span><br><br>data ends<br><span class="hljs-built_in">stack</span> segment<br><br>    dw <span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>      ;定义一个段，用来做栈段，容量为<span class="hljs-number">16</span>个字节   <br><br><span class="hljs-built_in">stack</span> ends<br><br><br>code segment<br><br>start:  mov ax,<span class="hljs-built_in">stack</span><br>        mov ss,ax<br>        mov sp,<span class="hljs-number">16</span>         ;设置栈顶ss:sp指向<span class="hljs-built_in">stack</span>:<span class="hljs-number">16</span>  堆栈使用的时候要指向栈顶<br><br>        mov ax,data       <br>        mov ds,ax        ;数据的ds数据段指向上面定义的数据段<br>        mov bx,<span class="hljs-number">0</span><br><br>        mov cx,<span class="hljs-number">4</span><br><br>    s0: push cx     ;将外层循环的cx压栈<br>        mov si,<span class="hljs-number">0</span><br><br>        mov cx,<span class="hljs-number">3</span>    ;将cx设置成内层循环的次数<br><br>    s:  mov al,[bx+si]<br>        and al,<span class="hljs-number">11011111b</span><br>        mov [bx+si],al<br>        inc si<br>        loop s<br><br>        add bx,<span class="hljs-number">16</span><br>        pop cx       ;从栈顶将cx的值进行恢复<br>        loop s0      ;外层循环的loop指令将cx中的计数值cx中的计数值减<span class="hljs-number">1</span><br>            <span class="hljs-comment">//注意在外层循环中先将cx中标记的值减一，然后又压到栈中避免被覆盖</span><br>        ;执行过程   loop是先将 cx减<span class="hljs-number">1</span>   再判断  cx是否为<span class="hljs-number">0</span>  若不为<span class="hljs-number">0</span>则进行循环直到cx为零的时候为止<br><br>        mov ax, <span class="hljs-number">4</span>c00H<br>        <span class="hljs-type">int</span> <span class="hljs-number">21</span>H<br>code ends<br>end start<br><span class="hljs-comment">//注意观察双重循环的循环变量的使用</span><br></code></pre></td></tr></table></figure>
+
+<p>在运行当前指令之前，IP就已经先向下进行移动的，故为先移动IP再执行代码</p>
+<p>MOVSB（MOVe String Byte）：即字符串传送指令，这条指令按字节传送数据（MOVSW为以字为单位传送字符串）。通过SI和DI这两个寄存器控制字符串的源地址和目标地址，比如DS:SI这段地址的N个字节复制到ES:DI指向的地址，复制后DS:SI的内容保持不变</p>
+<p>而REP（REPeat）指令就是“重复”的意思，术语叫做“重复前缀指令”。既然是传递字符串，如果程序设计者写成一个字（节）一个字（节）地传送，会显得相当繁琐。因此有必要用一个寄存器来控制串长度，用少量的代码达到一次性传送的目的。这个寄存器就是CX，指令每次执行前都会判断CX的值是否为0（为0结束重复，不为0，CX的值减1），以此来设定重复执行的次数。因此设置好CX的值之后就可以用REP MOVSB了</p>
+<p>CLD（CLear Direction flag）则是清方向标志位，也就是使DF的值为0，在执行串操作时，使地址按递增的方式变化，调整当前指针的执行方向。这条指令与STD（SeT Direction flag）的执行结果相反（指针方向递减），即置DF的值为1</p>
+<h4 id="ADD和ADC的区别："><a href="#ADD和ADC的区别：" class="headerlink" title="ADD和ADC的区别："></a>ADD和ADC的区别：</h4><p>ADD是普通的加法指令，ADC是带进位的加法指令</p>
+<p>两者的格式都为：ADD&#x2F;ADC source，destination<br>将源操作数的值与目标操作数的值相加，并将运算结果放在目标操作数指示的位置。并根据相加结果设置标志寄存器CF,PF,AF,ZF,SF,OF<br>唯一的不同是，ADC执行加法运算时，会将CF位的值一起加到目标操作数中。所以ADC常用于处理以下情况：<br>如果必须处理非常大的、不能存放到双字数据长度（ADD可以使用的最大长度）中的整数，可以把值分割为多个双字数据元素，并且对每个元素执行独立的加法操作。<br>为了正确完成这个操作，必须检测每个加法操作的进位标志，如果进位标志被设置为1，就必须进位到下一对相加的数据元素。<br>ADC指令执行两个无符号或者带符号整数值的加法，并且把前一个ADD指令产生的进位标志的值包含在其中。ADC指令也按照操作结果正确地设置进位和溢出标志</p>
+<p>8086CPU不保证对栈的操作不会越界，需要用户自己管理</p>
+<p>操作数的偏移地址存放在寄存器当中，并且只有SI,DI,BX,BP可作为间接寻址寄存器</p>
+<p>8086CPU对于段使用的默认约定：</p>
+<ul>
+<li>取指令时只能使用CS段</li>
+<li>压栈和出栈只能使用SS段</li>
+<li><strong>串操作中的目的串只能使用ES段</strong></li>
+<li>只要有BP寄存器出现，操作室就在当前的堆栈段，使用堆栈段寄存器SS</li>
+<li>只要有BS，SI，DI，操作数就在当前数据段，使用数据段寄存器DS</li>
+</ul>
+<p>包含在两个单引号之间的一连串ASCII字符即为字符串常量</p>
+<p>使用add等运算指令会影响标志位，但是使用算术运算符不会影响标志位</p>
+<p>逻辑运算符和逻辑指令助记符形式相同但是表达的含义不相同</p>
+<p>注意看PPT中的运算符各种优先级</p>
+<p>注意定义变量时，变量的存储实际长度要和定义的长度保持一致</p>
+<p>如果字符串的长度超过两个字符，那么数据定义的伪指令只能使用DB</p>
+<p>地址变量定义伪指令只能使用DW和DD</p>
+<p>data segement use16这句指的是，数据段采取16位来存取数据段中的数据。如果use32则是指用32位来存取数据段中的数据。具体的16还是32，根据你编程面向的cpu类型是16位的还是32位的</p>
+<p>如果两个数据的类型不匹配，则需要使用PTR进行强制转换</p>
+<p>在8086中除了寄存器以外，存储器操作数（等价为存储器地址（存储单元地址））指的是，相关的存储单元没有名称，只有相应地址</p>
+<p>目的操作数和源操作数不能同时是存储器操作数</p>
+<p>立即数不能用于乘法指令</p>
+<p>一个存储单元是一个字节</p>
+<p>数码0～9：30H～39H</p>
+<p>大写字母A～Z：41H～5AH</p>
+<p>小写字母a～z：61H～7AH</p>
+<p>ASCII码为0dh、0ah分别对应回车和换行控制字符</p>
+<p>在8086处理器中，对应每个物理存储单元都有一个唯一的20位编号，就是物理地址，从00000H～FFFFFH</p>
+<p>在8086内部和用户编程时，采用的（段基地址 : 段内偏移地址）的形式称为逻辑地址</p>
+<p>代码段CS（Code Segment）用来存放程序的指令序列。处理器利用CS : IP取得下一条要执行的指令。</p>
+<p>堆栈段SS（Stack Segment）确定堆栈所在的主存区域。处理器利用SS : SP操作堆栈中的数据。</p>
+<p>数据段DS（Data Segment）存放当前运行程序所用的数据。处理器利用DS : EA存取数据段中的数据。</p>
+<p>附加段ES（Extra Segment）是附加的数据段，也用于数据的保存。处理器利用ES : EA存取数据段中的数据</p>
+<p>数据的默认段是安排在数据段，也经常安排在附加段，尤其是串操作的目的区必须是附加段，允许其它段存放数据，数据的存放比较灵活的，实际上可以存放在任何一种逻辑段中，这时，只要明确指明是哪个逻辑段就可以了</p>
+<p>操作码说明计算机要执行哪种操作，它是指令中不可缺少的组成部分，操作数是指令执行的参与者，也是各种操作的对象，我们把寻找数的方式叫做操作数的寻址方式</p>
+<p>DS存放数据段的段地址，存储器中操作数的偏移地址则由各种主存方式得到，称之为有效地址EA。8086的操作数如果在主存中，可以存取它的寻址方式有直接寻址方式、寄存器间接寻址方式、寄存器相对寻址方式、基址变址寻址方式、相对基址变址寻址方式</p>
+<h4 id="常见错误总结："><a href="#常见错误总结：" class="headerlink" title="常见错误总结："></a>常见错误总结：</h4><p>两操作数类型不匹配，cx是字，dl是字节</p>
+<p>IP指令指针禁止用户访问</p>
+<p>立即数不允许传给段寄存器，只能先把立即数传给通用寄存器AX，AX再传给段寄存器</p>
+<p>段寄存器之间不允许传送，即段存储器之间不能相互赋值，只能通过通用寄存器AX中转传送</p>
+<p>两操作数类型不匹配，300是十进制数，转成二进制是字</p>
+<p>目的操作数应为[ SI ]，sp只能配合SS使用，不能作偏移地址指示  mov [sp], ax(7) </p>
+<p>源操作数应为 [BX+DI]  mov ax, bx+di 单纯给出地址值不是具体的数</p>
+<p>立即数不能作目的操作数</p>
+<p>xchg的操作数不能是立即数，其能进行的操作格式为如下</p>
+<p>XCHG CH,AL寄存器之间相互交换，字节操作</p>
+<p>XCHG BX,SI寄存器之间相互交换，字操作</p>
+<p>XCHG [SI],CX 寄存器与寄存器之间交换，字操作 （两个存储单元之间不能进行操作，但是一个存储单元和一个寄存器是可以进行交换的）</p>
+<p>两个操作数不能都是存储单元     SUB  [SI], [DI]</p>
+<p>堆栈的操作数不能是字节量 堆栈的pop或者push量只能是字型数据</p>
+<p>adc的操作数不能是段寄存器   ADC AX, DS（但是ADD AX, DS 是正确的 ）</p>
+<p>DS不能参与算术（+ - 等）运算</p>
+<p>段寄存器之间不能进行运算</p>
+<p>没有确定是字节还是字操作   ADD [SI], 80H</p>
+<p>没有确定是字节还是字操作, 正确形式为SHL BYTE PTR [SI], 1或SHL WORD PTR [SI], 1</p>
+<p>SHL [SI], 1是错误的形式</p>
+<p>当移位位数大于1时，则用CL寄存器值表示</p>
+<p>溢出的判断：正数+正数&#x3D;负数  负数+负数&#x3D;正数</p>
+<ul>
+<li>在不使用段超越前缀的情况下</li>
+</ul>
+<ol>
+<li>如果有效地址中含有BP，则其缺省的段寄存器为SS</li>
+<li>如果有效地址中不含有BP，则其缺省的段寄存器为DS</li>
+</ol>
+<p>短转移：指段内－128～127之间的转移，位移量用一个字节表示</p>
+<p>近转移：指段内±32K之间的转移，位移量用一个字表示</p>
+<p>远转移：指段间1MB范围的转移</p>
+<p>段内转移：指在同一个代码段内的转移，可以是短转移或者近转移</p>
+<p>段间转移：指转移到另外一个代码段，就是远转移</p>
+<p>8086&#x2F;8088CPU的JMP、CALL和INT n指令可以实现段间转移</p>
+<p>寄存器中存放的数据是01序列，不存在电脑自身知道其为无符号数还是有符号数，取决于人为如何规定</p>
+<p>一条指令的源操作数和目的操作数不能同时使用存储器方式进行表示，即源操作数和目的操作数不能都是内存中的数据  易错：ADD [ SI ]  COUNT ，也相当于是两个存储器表示，标号实际上也是在两个存储器中进行操作  标号实际上的存储也是存储器中存储的</p>
+<p>一般不会在[ ] 中存放段名或者变量的方式</p>
+<p>  <img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106153320.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106153320"></p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106153849.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106153849"></p>
+<p>注释：以上图片表明，给出的地址值只是给出了数据的最低位的数据所在的地址值，而具体要往高位延续多少取决于该数据的类型</p>
+<p>正数的补码是其本身，负数的补码：先求其绝对值，然后对该绝对值数的二进制进行逐位求反，最后加一</p>
+<p>8位补码能表示的范围是（-128,127）  16位补码能表示的范围是（-32768,32767）</p>
+<p>有符号数（补码形式）的大小比较，注意8000H是分界线，小于该分界线都是正数，大于该分界线的都是负数，正数一定大于负数，正数和正数正常比较，负数和负数可以将负数看成是正数进行比较</p>
+<p>计算机的存储器是以字节为单位的，每个字节能够存储8位的二进制数据</p>
+<p>整数的存储方式为：整数的低位字节存储在存储器的低地址处，高位字节存储在存储器的高地址处</p>
+<p>用于保存CPU状态信息的寄存器称之为标志寄存器</p>
+<p>16位CPU中的标志寄存器是16位，称FLAGS；</p>
+<p>32位CPU中的标志寄存器是32位，称EFLAGS； </p>
+<p>32位的EFLAGS包含了16位FLAGS的全部标志位且向下兼容</p>
+<p>在汇编中可以这样定义变量所指向的地址的内容是另外一个变量所指向的地址</p>
+<p>补码的意义在于有符号数，如果是无符号数的话，即使是正数，其求补码得到的依旧是其本身</p>
+<p>操作数可以存放在：1、CPU内的寄存器 2、主寄存器 3、 IO设备端口</p>
+<p>寻找操作数存放地址的方式称之为寻址方式</p>
+<p>用户不能直接访问IP</p>
+<p>在8086CPU 加电启动或复位后（即 CPU刚开始工作时）CS和IP被设置为CS&#x3D;FFFFH，IP&#x3D;0000H</p>
+<p>即在8086PC机刚启动时，CPU从内存FFFF0H单元中读取指令执行，FFFF0H单元中的指令是8086PC机开机后执行的第一条指令<img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106161056.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106161056"></p>
+<p>堆栈只能操作字型数据或者双字型数据</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106161351.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106161351"></p>
+<p>注意PUSH先改变SP的值，而POP是后改变POP的值</p>
+<p>当使用栈对寄存器的值进行存储时，注意存储的顺序和取出的顺序相反</p>
+<p>寄存器寻址是执行速度最快的寻址方式</p>
+<p>段超越即显式的指出要使用的段寄存器</p>
+<p>寄存器的相对寻址中寄存器的位移量需要是8或16位的位移量</p>
+<p>寄存器相对寻址可以进行段超越</p>
+<p><strong>由基址寄存器(BX或BP)给出</strong> <strong>——</strong> <strong>基址寻址方式</strong></p>
+<p><strong>由变址寄存器(SI或DI)给出</strong> <strong>——</strong> <strong>变址寻址方式</strong></p>
+<p><strong>MOV AX, [BX] [SI]</strong></p>
+<p><strong>MOV AX, [BX+SI]</strong></p>
+<p><strong>MOV AX,</strong> <strong>DS</strong>: <strong>[BP] [DI]</strong></p>
+<p><strong>错误例：[BX+BP]或[SI+DI]是非法搭配</strong></p>
+<p><strong>×</strong> <strong>MOV AX, [BX] [BP]</strong></p>
+<p><strong>×</strong> <strong>MOV AX, [DI] [SI]</strong></p>
+<p>相加后求补码和先求补码后再相加两者的结果一致</p>
+<p>宏的定义是独立的，应当写在所有段的外面</p>
+<p>当指示的地址类型不明确时需要使用ptr进行指定，若存在寄存器等包含了隐含数据类型的就不需要指定，但如立即数存储到主存中就需要指明具体类型</p>
+<p>小段方式：低存低，高存高</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106170519.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106170519"></p>
+<p>源操作数和目的操作数不能同时是存储器方式表示</p>
+<p>立即数是没有类型的，不含变量的存储器方式所表示的操作数类型是不明确的，必须用属性定义算法PTR指明操作数的类型</p>
+<p><strong>8086CPU****对段使用的默认约定</strong></p>
+<p><strong>– 取指令时只能用</strong>*CS段</p>
+<p>– <strong>压栈和出栈只能使用SS段</strong>*</p>
+<p>– <strong>串操作中的目的串只能用</strong>ES段</p>
+<p>– <strong>只要有</strong>BP寄存器出现，操作数就在当前的堆栈段使用堆栈段寄存器**SS；</p>
+<p>– <strong>只要有</strong><em>BS,SI,DI</em>，操作数在当前数据段，使用数据段寄存器DS</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106171822.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106171822"><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106171707.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106171707"></p>
+<p>GT&#x3D;Great Than             &gt;<br>EQ&#x3D;Equal                      &#x3D;<br>GE&#x3D;Great and Equal    &gt;&#x3D;<br>NE&#x3D;Not Equal               ≠<img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106172219.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106172219"></p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106172229.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106172229"></p>
+<p>使用？进行定义变量时，虽然没有赋初值，但是仍分配了存储单元</p>
+<p>定义变量时，存储的单元可以比待存储值要大，但是不能比待存储值小</p>
+<p>如果字符串的长度超过了两个字符，那么数据定义只能使用DB（即DW只能用于定义两个字符大小的数据，如’12’）</p>
+<p>地址变量定义只能使用DW 或者  DD</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106190529.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106190529"></p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106190928.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106190928"></p>
+<p>有符号数的指令前面往往要加  I</p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106192002.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106192002"></p>
+<p>一般数据传送指令是不会影响标志位的，除了SAHF，POPF，POPFD这些专门修改标志位的指令</p>
+<p>立即数不能送段寄存器，	并且不能用MOV指令改变CS<img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106192645.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106192636"></p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106192636.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106192636"></p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106194041.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106194041"><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106193813.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106193813"></p>
+<p><img src="C:\Users\小赵同学\Desktop\计算机学习笔记\图片\微信截图_20220106194123.png" srcset="/img/loading.gif" lazyload alt="微信截图_20220106194123"></p>
+<p>DEC和INC不影响CF的数值</p>
+<p>乘法指令只有单操作数的时候，该操作数不能是立即数</p>
+<p>异或操作：相同就是0，不相同就是1</p>
+<p>在8086处理器中，当使用移位指令时，移位个数只能是1，大部分移位个数超过1时使用CL</p>
+<p>注意在初始化栈的时候要进行初始化栈底</p>
+<p>注意汇编也是从0开始计数</p>
+<p>寄存器的大小不能进行强转</p>
+<p>‘123456’存储的是每一个字符值对应的ASCII值</p>
+<p>短转移：指段内－128～127之间的转移，位移量用一个字节表示</p>
+<p>近转移：指段内±32K之间的转移，位移量用一个字表示</p>
+<p>远转移：指段间1MB范围的转移</p>
+<p>段内转移：指在同一个代码段内的转移，可以是短转移或者近转移</p>
+<p>段间转移：指转移到另外一个代码段，就是远转移</p>
+<p>8086&#x2F;8088CPU的JMP、CALL和INT n指令可以实现段间转移</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/汇编语言笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/JavaScript%E7%AC%94%E8%AE%B0/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

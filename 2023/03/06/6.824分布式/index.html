@@ -1,0 +1,726 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="当你能够不使用分布式应用时，就应该避免使用分布式应用 实现分布式接口需要尽量将分布式实现的细节不进行暴露，而是创建合理的接口 分布式系统由于使用了大量计算机集群，单机的故障率在基数的增大前提下，整体故障率也在提高 分布式所面临的挑战：  时序性(Timing)，如何确保运行在不同网络下的机器中的进程如何判断一些事件发生的顺序 并发性(Concurrency) 如何确保不同网络下的机器进程之间共享资">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/6.824%E5%88%86%E5%B8%83%E5%BC%8F/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="当你能够不使用分布式应用时，就应该避免使用分布式应用 实现分布式接口需要尽量将分布式实现的细节不进行暴露，而是创建合理的接口 分布式系统由于使用了大量计算机集群，单机的故障率在基数的增大前提下，整体故障率也在提高 分布式所面临的挑战：  时序性(Timing)，如何确保运行在不同网络下的机器中的进程如何判断一些事件发生的顺序 并发性(Concurrency) 如何确保不同网络下的机器进程之间共享资">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/typoraPictureFiles/image-20221003111145740.png">
+<meta property="article:published_time" content="2023-03-06T12:20:13.647Z">
+<meta property="article:modified_time" content="2022-10-15T08:47:51.603Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/typoraPictureFiles/image-20221003111145740.png">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>当你能够不使用分布式应用时，就应该避免使用分布式应用</p>
+<p>实现分布式接口需要尽量将分布式实现的细节不进行暴露，而是创建合理的接口</p>
+<p>分布式系统由于使用了大量计算机集群，单机的故障率在基数的增大前提下，整体故障率也在提高</p>
+<p><strong>分布式所面临的挑战：</strong></p>
+<ul>
+<li>时序性(Timing)，如何确保运行在不同网络下的机器中的进程如何判断一些事件发生的顺序</li>
+<li>并发性(Concurrency) 如何确保不同网络下的机器进程之间共享资源而互不干扰，如访问共同的数据库</li>
+<li>健壮性(Robustness) 如何应对网络的不稳定性和硬件的不稳定性</li>
+<li>一致性(Consistency) 如何保证访问哪个服务结点都是获得相同的数据</li>
+</ul>
+<p><strong>高容错</strong>  :</p>
+<ul>
+<li>可用性(Availability)</li>
+<li>可恢复性(Recoverabilty)  1.non-volatile storage 2.replication</li>
+</ul>
+<p>强一致性的分布式系统需要通信等各方面代价很高的操作，有时会使用弱一致性的系统来应用，使用弱一致性的系统可能读到的数据并不是最新的数据</p>
+<p>要尽可能保证不同的服务器之间发生故障的概率是不相关的（eg:避免两个副本服务器放在同一个机架上）</p>
+<p>线程切换需要保存一些状态，也就是所谓上下文，所以实际上实现线程切换是消耗资源的操作</p>
+<p><strong>多线程的好处：</strong></p>
+<ul>
+<li>实现IO并发操作（IO concurrency）</li>
+<li>CPU并行化（CPU parallelism）</li>
+<li>保证在主线程执行的过程中，在后台调用一些检查的后台进程</li>
+</ul>
+<p><strong>多线程和多进程：</strong></p>
+<ul>
+<li>多进程是指不同的运行程序，不同的操作系统使用不同的实现，但是都会为不同的进程分配一块独立的内存空间，进程之间无法相互访问</li>
+<li>多线程是指程序内部有多个执行过程，即在进程内部又可以有多个线程，不同线程可以使用chanel等方式进行分享数据</li>
+</ul>
+<p>在使用go语言的过程中，go并不知道什么数据被上锁，锁和变量并没有一一对应，而是只对锁的获取和释放进行管理</p>
+<p>对于加锁的另外一种理解可以将其认为希望在加锁过程中的代码执行是原子性的</p>
+<p>对于一个爬虫程序，它会不断的递归爬取一个网站中的URL，然后再从这个URL中爬取其他URL，在这个过程中形成了一个树状的结构，但是同样也有可能在递归过程中产生环状结构，为了避免产生环状问题，我们需要对其遍历过的URL维护一个变量map进行记录</p>
+<p>有时为了限制使用过多的线程，可以使用线程池技术将线程的数量控制在一个范围中</p>
+<p>channel本身使用了内置的互斥锁来保证临界资源的访问互斥性 </p>
+<p>raft并不保证命令一定会被执行，如果某条指令没有被超过半数的结点所接受则不会commit这条指令</p>
+<p>只要leader所发送的信息被半数以上的结点<strong>接受</strong>到，leader就会执行这条指令并且返回结果给客户端</p>
+<p>如果一个foller接收到了比当前记录大的任期号，就会将当前follower的</p>
+<p><strong>大型分布式存储：</strong></p>
+<ul>
+<li>为了保证对数据存储的性能，需要对数据进行分片操作</li>
+<li>由于对数据进行了分片操作，导致错误发生会显著提高，需要保证良好的容错性</li>
+<li>使用数据副本进行复制数据来保证容错性</li>
+<li>使用复制本身很自然的会导致数据的不一致性</li>
+<li>为了保证数据的一致性自然会导致影响一定的性能</li>
+</ul>
+<p><img src="/typoraPictureFiles/image-20221003111145740.png" srcset="/img/loading.gif" lazyload alt="image-20221003111145740"></p>
+<p>nv(非易失的)  v(易失的)</p>
+<p><strong>容错系统中所使用的容错模式：</strong></p>
+<ul>
+<li>MapReduce所使用的复制方案，但其复制操作完全由单个master所控制</li>
+<li>GFS通过主备方案（primary backup）复制实际的文件内容，但其依赖于单一的master节点为每一片数据选择primary</li>
+<li>VMware ft 复制方案，其在一台primary虚拟机和backup虚拟机上执行写入操作，当运行过程出现差错时，需要借助一台test-and-set服务器来帮助其选择一台backup 来接管 primary</li>
+<li>以上三种方式的共同点在于都需要一个单一的实体来决定primary的产生，其好处在于一定能做出决策，但同样也受限于单一实体，可能出现单点错误情况</li>
+</ul>
+<p><strong>数据不一致的产生情况：</strong></p>
+<ul>
+<li>分布式系统中的一致性需要依赖于客户端能够对所有的服务器进行访问，如果客户端只能对其中的部分服务器访问，就会出现数据不一致的现象，称之为脑裂（split brain）,每一个客户端都觉得自己沟通的就是master，导致产生了两个master结点，称之为脑裂</li>
+<li>解决脑裂的方式：<ul>
+<li>构建完全稳定的网络，确保客户端能够访问到所有的服务器（实际上由于网络分区的存在，所以不可能能够构建完全稳定的网络）</li>
+<li>人为设置，确保客户端只能在访问到所有的服务器的情况下才能够进行数据使用</li>
+<li>基于“少数服从多数的”raft协议来保证数据一致，由于存在奇数台服务器，所以无论对服务器如何进行分隔，总是最多只有其中的一组拥有所有服务器的半数以上，即只能选举出一个master</li>
+</ul>
+</li>
+</ul>
+<p><strong>raft协议解析：</strong></p>
+<ul>
+<li>存在奇数台服务器，每次执行必须要保证半数以上的服务器确认（3台服务器中两台确认），注意这里的服务器指的是所有的服务器，而不是只有存活的服务器</li>
+<li>如果拥有 2f+1 台服务器，那么就能够承受 f 台服务器发生服务故障（3台服务器中，即使1台发生故障，也能保证至少有半数以上的服务器确认）</li>
+<li>raft 以 lib库的形式被连接到某些服务器程序中，并且会有基于RPC的程序供给调用</li>
+<li>当leader在发送请求过程中如果出现了错误，则会导致部分服务器获取到了更新日志，而另外一部分服务器没有获取到更新日志，但是基于raft协议会在运行一段时间内达到最终一致性，并且只有在达到最终一致性后才会执行对应的语句</li>
+<li>raft中要解决的常见问题<ul>
+<li>如何进行leader选举：</li>
+<li>当日志存在不一致的处理方式：</li>
+</ul>
+</li>
+</ul>
+<p><strong>Raft选举过程详解：</strong></p>
+<ul>
+<li>结点维护一个选举计时器，当选举计时器定期结束后就开始进行选举，首先将当前term++（确保当前节点能够成为leader），将当前节点转化成候选人结点，并且向其他结点发送参与选举信息，默认参与选举的结点会为自身投一票<ul>
+<li>由于在选举过程中，有可能并不是因为原本的leader结点宕机了，而是无法通信，这时由于双方无法得知对方的存在会导致重复的leader结点出现</li>
+<li>如果网络中存在单向数据传输问题，那么可能会导致leader结点无法接收到客户端发来的请求，但是leader会持续向外界发送心跳包从而抑制其他结点的leader选举来保证功能的可用性</li>
+<li>在raft中我们需要确认一个term中最多只能存在一个leader，通过选举leader必须在一半以上，并且在同一个term中只能给一个候选人投票来保证这一点</li>
+<li>基于majority原则，保证只要系统中没有一半的结点都宕机了的话，就能够保证一定能够选举出来一个leader</li>
+<li>实际上当一个服务器成为一个leader后，其并不会向其他结点发送“我成为了一个leader结点，任期为22！”这样的信息，因为在raft协议中，实际上只有leader结点能够发送AppendEntries信息，所以只要一个结点接受到了AppendEntries信息就说明已经产生了新的leader，这个AppendEntries信息就像heartbeat包一样，会重置当前节点的选举计数器</li>
+<li>由于在选举过程中严重依赖大部分选票的获取，所以为了避免多个结点同时发出选举（三个结点同时都开始选票，三个结点都面对其他结点的选票要求无动于衷，最后导致循环往复）导致选票被瓜分的情况出现，raft会进行限制，随机化每个结点的选举计数器来避免多个结点同时成为候选人，即避免同时多个结点的选举计数器到时</li>
+<li>至少要限定选举计数器的时间要大于两次心跳包之间的时间，来避免由于心跳传输所导致的额外选举</li>
+<li>选举计数器的时间实际上是有一个区间的，在最小值和最大值之间随机选取一个值作为选举计数器时间，注意选举计数器时间的最大值标志着这个系统中的对于故障的反应速度，选举计数器的最大值越大，则一个系统从故障到重新进行选举的恢复时间越长（在这段时间中，即使你知道其他的服务器是正常工作的也得等待）</li>
+<li>并且对于不同结点的选举计数器也需要有足够差值来保证当其中等待时间较小的结点当成为候选人发送投票请求时，时间较长的结点能够收到这个投票请求而不是也成为一个候选人</li>
+<li>注意使用的选举时间不要重复复用，而是每次选举时间都需要重新获取一个随机值，避免错误情况：如瓜分选票，的情况重复出现</li>
+<li>相对于新选举得到的leader结点而言，原来的由于网络故障等原因得不到majority的旧leader结点会被废弃，同时也由于得不到majority的原因，也不会对客户端的请求进行提交</li>
+<li>log分叉是指，在log传递过程中可能由于网络问题等原因，一部分server收到了log，而另外一部分server并没有收到log，导致不一致的情况产生</li>
+<li>只要半数以上的服务器中拥有的log，那么这个命令就是合理的，是能够被提交的</li>
+<li>可能会对log中的末尾数据进行丢弃，保证所有的server的log的末尾指令是来自同一个term</li>
+<li>发送每一个log信息时，其中会附带前一个日志的log slot ，并且也会附带前一个日志的term号，避免日志出现错误</li>
+<li>leader会为每一个follower记录一个nextIndex，来记录最后发送的log slot号，当leader服务器重启后，会以当前leader服务器中最后一条log对应的数字作为其他所有follower的nextIndex，如果发送信息后对应的nextindex不正确，则leader服务器会自动减小对应的nextindex号码，并且follower结点会根据leader结点传送的数据来丢弃部分先前不匹配的数据</li>
+<li>leader通过一种类似复制的算法，找到每一个follower结点对应的和leader相同的log的位置，并从这个位置开始向后进行复制同步</li>
+<li>被抛弃的没执行的log操作可行的前提是由于，这个被抛弃的log一定没有被majority所确定，所以一定还尚未被执行，即可以安全删除</li>
+<li>所以如何确定当前服务器的结点哪个为leader，很自然的想到应该将拥有最多log的作为leader，但是实际上这样是不对的</li>
+<li>如果选取了最长log的结点作为leader，那么当这个节点成为leader时，其会导致其他结点中与该节点不同的log被抛弃，但其中可能有部分log已经被majority所拥有并执行，所以如果选用最长log的结点作为服务器，可能会导致其强行更新其他服务器的log产生错误</li>
+</ul>
+</li>
+</ul>
+<p><strong>当raft协议中出现分区的处理和解决方案</strong></p>
+<ul>
+<li>由于产生了分区，所以一个网络中最多只会有一个分区中能够拥有超过半数的服务器，并且其他分区由于没有超过半数的服务器，在这些分区中的伪leader虽然一直在工作，但是由于没有超过半数的foller能获取到数据，所以该leader无法对client所发出的数据进行回应</li>
+<li>当分区问题解决，之前那个拥有超过半数结点分区的leader由于term号更大，自然就使得其他伪leader在接收到该leader的消息后转变为foller</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/6.824分布式/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/JVM/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/Go_Error/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

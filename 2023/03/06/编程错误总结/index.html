@@ -1,0 +1,756 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="虚拟机网络IP地址动态变化  TODO  虚拟机无法连接网络  将网络适配器设置调整成桥接模式  VSCODE连接SSH配置  解决方法：在对应配置文件中进行配置即可  导入SQL文件不成功  解决方法：导入的SQL文件是没有创建数据库语句含在其中的，需要手动创建一个数据库然后在这个数据库基础上运行 还有可能是SQL文件不完整  git clone 不成功  报错：GnuTLS recv erro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/%E7%BC%96%E7%A8%8B%E9%94%99%E8%AF%AF%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="虚拟机网络IP地址动态变化  TODO  虚拟机无法连接网络  将网络适配器设置调整成桥接模式  VSCODE连接SSH配置  解决方法：在对应配置文件中进行配置即可  导入SQL文件不成功  解决方法：导入的SQL文件是没有创建数据库语句含在其中的，需要手动创建一个数据库然后在这个数据库基础上运行 还有可能是SQL文件不完整  git clone 不成功  报错：GnuTLS recv erro">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230203140509965.png">
+<meta property="og:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230207134539092.png">
+<meta property="article:published_time" content="2023-03-06T12:20:13.783Z">
+<meta property="article:modified_time" content="2023-03-02T06:52:46.434Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230203140509965.png">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>虚拟机网络IP地址动态变化</strong></p>
+<ul>
+<li>TODO</li>
+</ul>
+<p><strong>虚拟机无法连接网络</strong></p>
+<ul>
+<li>将网络适配器设置调整成桥接模式</li>
+</ul>
+<p><strong>VSCODE连接SSH配置</strong></p>
+<ul>
+<li>解决方法：在对应配置文件中进行配置即可</li>
+</ul>
+<p><strong>导入SQL文件不成功</strong></p>
+<ul>
+<li>解决方法：导入的SQL文件是没有创建数据库语句含在其中的，需要手动创建一个数据库然后在这个数据库基础上运行</li>
+<li>还有可能是SQL文件不完整</li>
+</ul>
+<p><strong>git clone 不成功</strong></p>
+<ul>
+<li>报错：GnuTLS recv error (-110): The TLS connection was non-properly terminated.</li>
+<li>解决方法：git clone –recursive  <a target="_blank" rel="noopener" href="https://github.com/cloudwego/kitex-examples.git%EF%BC%88%E6%B7%BB%E5%8A%A0--recursive">https://github.com/cloudwego/kitex-examples.git（添加--recursive</a> 参数）</li>
+<li>–recursive是递归的意思，不仅会git clone当前项目中的代码，也会clone项目中子项目的代码。我们有时在git clone的时候漏掉 –recursive选项，导致编译无法通过</li>
+</ul>
+<p><strong>使用hexos部署失败</strong></p>
+<ul>
+<li><p>报错：OpenSSL SSL_read: Connection was reset, errno 10054</p>
+</li>
+<li><p>实际上本身是由于没有开VPN，导致无法访问页面，然后在Git的配置里设置了下文来跳过证书验证，但是由于git优先级的原因，仍旧无法连接github</p>
+</li>
+<li><p>其原因在于git的配置信息具有优先级，所以重新在博客对应的git配置文件中设置下文即可</p>
+<ul>
+<li><p>1、仓库级别 local 【优先级最高】 位置是当前目录下的 <code>.git/config</code></p>
+<p>2、用户级别 global【优先级次之】位置是主目录下的 <code>~/.gitconfig</code> (这个文件里存放有和push pull操作相关的路径)</p>
+<p>3、系统级别 system【优先级最低】位置是根目录下的<code>/etc/gitconfig</code> （这个文件我Ubuntu和MacOS上默认都是不存在的，官网给的路径是<code>$(prefix)/etc/gitconfig</code>,我默认没有<code>$prefix</code>这个变量，所以system层级的配置文件估计是要自己想用时再写。）</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">[http]<br> sslverify = <span class="hljs-literal">false</span><br>[https]<br> sslverify = <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>使用Clash Verge无法连接网络</strong></p>
+<ul>
+<li>情况一：需要在windows设置界面选择<strong>关闭使用代理服务器</strong></li>
+<li>情况二：同时开启了UU加速器 加速了STEAM</li>
+</ul>
+<p><strong>使用AirPods连接电脑出现音质过低问题</strong></p>
+<ul>
+<li>删除原来的耳机设备然后重新连接即可</li>
+<li>耳机模式分类<ul>
+<li>「Hands-Free AG Audio」的模式其实是为手机进行适配的，俗称免提AG音频，实现蓝牙免提语音通话的功能，走的SBC编码，而正常电脑使用我们是用不到通话功能的。</li>
+<li>「Stereo（立体声）」设备在蓝牙术语中被称为「高级音频分发配置文件」（Advanced Audio Distribution Profile），或缩写为A2DP，是针对<strong>单方向</strong>传输高质量的双声道立体声设计的。可以简单理解为，音质更高（相对于Hands-free模式）</li>
+</ul>
+</li>
+</ul>
+<p><strong>使用阿里云对象存储配置出错</strong></p>
+<ul>
+<li>area的参数应该是oss-cn-hangzhou而不是oss-cn-hangzhou.aliyuncs.com</li>
+</ul>
+<p><strong>使用git警告warning: LF will be replaced by CRLF in</strong> </p>
+<ul>
+<li>LF和CRLF其实都是换行符，但是不同的是，LF是linux和Unix系统的换行符，CRLF是window 系统的换行符。这就给跨平台的协作的项目带来了问题，保存文件到底是使用哪个标准呢？ git为了解决这个问题，提供了一个”换行符自动转换“的功能，并且这个功能是默认处于”自动模式“即开启状态的。</li>
+<li>这个换行符自动转换会把自动把你代码里 与你当前操作系统不相同的换行的方式 转换成当前系统的换行方式（即LF和CRLF 之间的转换），这样一来，当你提交代码的时候，即使你没有修改过某个文件，也被git认为你修改过了，从而提示”LF will be replaced by CRLF in “</li>
+</ul>
+<p><strong>git在clone过程中总是报错OpenSSL SSL_read: Connection was reset, errno 10054</strong></p>
+<ul>
+<li>原因：电脑中的host文件配置错误的DNS解析</li>
+<li>删除C:\Windows\System32\drivers\etc中的host文件中的github文件相关</li>
+<li>解决方法：git config –global –unset http.<a target="_blank" rel="noopener" href="https://github.com.proxy/">https://github.com.proxy</a></li>
+</ul>
+<p><strong>git推送速度慢，并且报错GnuTLS recv error (-110): The TLS connection was non-properly terminated.</strong></p>
+<ul>
+<li>Failed to connect to github.com port 443 after 21091 ms: Timed out</li>
+<li>先删除host中github相关的部分，然后使用下面这个</li>
+<li>解决方法：git config –global –unset http.<a target="_blank" rel="noopener" href="https://github.com.proxy/">https://github.com.proxy</a></li>
+</ul>
+<p><strong>内存极少，被联想系统占用</strong></p>
+<ul>
+<li><p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230203140509965.png" srcset="/img/loading.gif" lazyload alt="image-20230203140509965"></p>
+</li>
+<li><p>禁用上图服务即可</p>
+</li>
+</ul>
+<p><strong>连接校园网失败</strong></p>
+<ul>
+<li>显示错误为代理服务器错误</li>
+<li>解决方法：从windows中设置代理服务器，关闭代理服务器的使用即可</li>
+</ul>
+<p><strong>idea所使用的git插件无论是使用登录还是使用token都显示无法连接到服务器</strong></p>
+<ul>
+<li><p>原因：使用的idea的插件默认选择不使用代理，但是这里需要使用代理来连接github</p>
+<ul>
+<li>这里会发现使用git可以直接push但是使用idea的git插件却不可以，是因为git在宿主机上的windows已经设置了代理连接，但是在idea本身的设置里还没有将代理勾选</li>
+</ul>
+</li>
+<li><p>解决方法：设置对应的git设置，使其使用自动判断是否使用代理</p>
+</li>
+<li><p>解决方法：git config –global –unset http.<a target="_blank" rel="noopener" href="https://github.com.proxy/">https://github.com.proxy</a></p>
+</li>
+</ul>
+<p><img src="http://typora0418.oss-cn-hangzhou.aliyuncs.com/img/image-20230207134539092.png" srcset="/img/loading.gif" lazyload alt="image-20230207134539092"></p>
+<p><strong>hexo添加代码块不成功</strong></p>
+<ul>
+<li>原因：无序列表符号和代码块符号解析冲突，导致接下来的解析全部出错</li>
+<li>不要出现无序列表符号和代码块连用的情况</li>
+</ul>
+<p><strong>设置静态IP地址相关</strong></p>
+<ul>
+<li>解决方法：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/130984945">VMware虚拟机网络配置-NAT篇 - 知乎 (zhihu.com)</a></li>
+</ul>
+<p><strong>虚拟机无法连接网络</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36408196/article/details/103390303">(53条消息) VMware 虚拟机里连不上网的五种解决方案_菜鸟也秃头的博客-CSDN博客_虚拟机系统连不上网</a></li>
+<li>解决方法：VMware中没有设置成NAT模式而是设置成了桥接模式</li>
+</ul>
+<p><strong>报错显示：与终端 pty 主机进程的连接没有响应，终端可能停止工作</strong></p>
+<ul>
+<li>参考资料<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Castlehe/article/details/124196344">(53条消息) vscode使用ssh远程连接失败（及其他问题合集）_与终端pty主机进程的连接没有响应_吨吨不打野的博客-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/vscode/issues/130320">Connection to terminal’s pty host process is becoming unresponsive · Issue #130320 · microsoft&#x2F;vscode (github.com)</a></li>
+</ul>
+</li>
+<li>设置对应的linux默认终端配置<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45905650/article/details/121900199">(53条消息) 配置VScode终端_一只嵌入式爱好者的博客-CSDN博客</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>虚拟机挂起后无法通过docker连接</strong></p>
+<ul>
+<li>[(53条消息) 虚拟机挂起之后docker内的容器连接不上_枯玄的博客-CSDN博客](<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43904316/article/details/109924058#:~:text=%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8C%82%E8%B5%B7%E4%B9%8B%E5%90%8E">https://blog.csdn.net/weixin_43904316/article/details/109924058#:~:text=虚拟机挂起之后</a> docker 内的容器连接不上，需要重启docker,才能连接上。 vi %2Fusr%2Flib%2Fsysctl.d%2F%2F00-system.conf 1)</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45297578/article/details/117945769">(53条消息) 解决VMware虚拟机挂起后无法连接docker容器_喜羊羊sk的博客-CSDN博客</a></li>
+</ul>
+<p><strong>配置好SSH密钥后无法通过vscode连接云服务器</strong></p>
+<ul>
+<li>打开前配置的是用管理员身份进行登录，然后调整为兼容模式后就无法登录了</li>
+<li>重新使用管理员身份登录即可</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/编程错误总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E6%89%8B%E5%86%99jvm/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

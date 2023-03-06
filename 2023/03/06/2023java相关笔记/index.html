@@ -1,0 +1,703 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Java相关知识点java基础 java版本     HashMap的遍历方式 HashMap 的 7 种遍历方式与性能分析！(强烈推荐) - 腾讯云开发者社区-腾讯云 (tencent.com)    12345678910111213141516171819202122232425262728293031323334353637383940414243444546&#x2F;&#x2F;迭代器方式Iterator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluid">
+<meta property="og:url" content="http://example.com/2023/03/06/2023java%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="fluid">
+<meta property="og:description" content="Java相关知识点java基础 java版本     HashMap的遍历方式 HashMap 的 7 种遍历方式与性能分析！(强烈推荐) - 腾讯云开发者社区-腾讯云 (tencent.com)    12345678910111213141516171819202122232425262728293031323334353637383940414243444546&#x2F;&#x2F;迭代器方式Iterator">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="d:\%E5%AD%A6%E4%B9%A0%E6%96%87%E4%BB%B6\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0\%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\image-20230112160650946.png">
+<meta property="og:image" content="d:\%E5%AD%A6%E4%B9%A0%E6%96%87%E4%BB%B6\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0\%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\image-20230112160706188.png">
+<meta property="og:image" content="d:\%E5%AD%A6%E4%B9%A0%E6%96%87%E4%BB%B6\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0\%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\image-20230122212131179.png">
+<meta property="article:published_time" content="2023-03-06T12:20:13.761Z">
+<meta property="article:modified_time" content="2023-02-08T08:30:14.371Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="d:\%E5%AD%A6%E4%B9%A0%E6%96%87%E4%BB%B6\%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E4%B9%A0\%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AC%94%E8%AE%B0\%E5%9B%BE%E7%89%87\image-20230112160650946.png">
+  
+  
+  
+  <title>fluid</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 20:20" pubdate>
+          2023年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Java相关知识点"><a href="#Java相关知识点" class="headerlink" title="Java相关知识点"></a>Java相关知识点</h1><h2 id="java基础"><a href="#java基础" class="headerlink" title="java基础"></a>java基础</h2><ul>
+<li>java版本</li>
+</ul>
+<p><img src="D:\学习文件\计算机学习\计算机笔记\图片\image-20230112160650946.png" srcset="/img/loading.gif" lazyload alt="image-20230112160650946"></p>
+<p><img src="D:\学习文件\计算机学习\计算机笔记\图片\image-20230112160706188.png" srcset="/img/loading.gif" lazyload alt="image-20230112160706188"></p>
+<ul>
+<li>HashMap的遍历方式<ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1623343">HashMap 的 7 种遍历方式与性能分析！(强烈推荐) - 腾讯云开发者社区-腾讯云 (tencent.com)</a></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//迭代器方式</span><br>Iterator&lt;Map.Entry&lt;Integer, String&gt;&gt; iterator = map.entrySet().iterator();<br>        <span class="hljs-keyword">while</span> (iterator.hasNext())&#123;<br>            Map.Entry&lt;Integer, String&gt; next = iterator.next();<br>            System.out.println(next.getKey());<br>            System.out.println(next.getValue());<br>        &#125;<br><br><span class="hljs-comment">//迭代器单独遍历Key</span><br>Iterator&lt;Integer&gt; iterator = map.keySet().iterator();<br>        <span class="hljs-keyword">while</span> (iterator.hasNext())&#123;<br>            <span class="hljs-type">Integer</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> iterator.next();<br>            System.out.print(key);<br>            System.out.print(map.get(key));<br>        &#125;<br><br><span class="hljs-comment">//foreach-entry整体遍历</span><br><span class="hljs-keyword">for</span> (Map.Entry&lt;Integer,String&gt; entry: map.entrySet())&#123;<br>      System.out.println(<span class="hljs-string">&quot;entry.getKey() = &quot;</span> + entry.getKey());<br>      System.out.println(<span class="hljs-string">&quot;entry.getValue() = &quot;</span> + entry.getValue());<br>  &#125;<br><br><span class="hljs-comment">//foreach-Key单独遍历</span><br><span class="hljs-keyword">for</span> (Integer key: map.keySet() )&#123;<br>      System.out.println(key);<br>      System.out.println(map.get(key));<br>  &#125;<br><br><span class="hljs-comment">//lambma表达式</span><br>map.forEach((key,value) -&gt; &#123;<br>            System.out.print(key);<br>            System.out.print(value);<br>  &#125;);<br><br><span class="hljs-comment">//Stream单线程</span><br> map.entrySet().stream().forEach((integerStringEntry -&gt; &#123;<br>            System.out.println(integerStringEntry.getKey());<br>            System.out.println(integerStringEntry.getValue());<br>  &#125;));<br><br><br><span class="hljs-comment">//Stream多线程</span><br>map.entrySet().parallelStream().forEach((integerStringEntry -&gt; &#123;<br>            System.out.println(integerStringEntry.getKey());<br>            System.out.println(integerStringEntry.getValue());<br>   &#125;));<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>字符串的compareto方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">a1</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;aa&quot;</span>;<br><span class="hljs-type">String</span> <span class="hljs-variable">a2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ad&quot;</span>;        <br>System.out.println(a1.compareTo(a2));<span class="hljs-comment">//结果为-3</span><br><span class="hljs-comment">//并且注意在比较两个长度不同的字符串时</span><br><span class="hljs-comment">//比较结果是纯纯的字典序比较，每次返回的结果都只是一位一位的结果，也就是说对于一个特别长的字符串，实际上有用的比较部分只有后面</span><br><span class="hljs-comment">//严格类比字典即可</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>迭代器</p>
+<ul>
+<li><p>Java Iterator（迭代器）不是一个集合，它是一种用于访问集合的方法，可用于迭代 <a target="_blank" rel="noopener" href="https://www.runoob.com/java/java-arraylist.html">ArrayList</a> 和 <a target="_blank" rel="noopener" href="https://www.runoob.com/java/java-hashset.html">HashSet</a> 等集合。</p>
+<p>Iterator 是 Java 迭代器最简单的实现，ListIterator 是 Collection API 中的接口， 它扩展了 Iterator 接口。</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RunoobTest</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br><br>        <span class="hljs-comment">// 创建集合</span><br>        ArrayList&lt;String&gt; sites = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;String&gt;();<br>        sites.add(<span class="hljs-string">&quot;Google&quot;</span>);<br>        sites.add(<span class="hljs-string">&quot;Runoob&quot;</span>);<br>        sites.add(<span class="hljs-string">&quot;Taobao&quot;</span>);<br>        sites.add(<span class="hljs-string">&quot;Zhihu&quot;</span>);<br><br>        <span class="hljs-comment">// 获取迭代器</span><br>        Iterator&lt;String&gt; it = sites.iterator();<br><br>        <span class="hljs-comment">// 输出集合中的所有元素</span><br>        <span class="hljs-keyword">while</span>(it.hasNext()) &#123;<br>            System.out.println(it.next());<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>双端队列Deque方法辨析</li>
+</ul>
+<p><img src="D:\学习文件\计算机学习\计算机笔记\图片\image-20230122212131179.png" srcset="/img/loading.gif" lazyload alt="image-20230122212131179"></p>
+<ul>
+<li><p><strong>java字符串split相关</strong></p>
+<ul>
+<li><p>split() 方法根据匹配给定的正则表达式来拆分字符串。</p>
+<p><strong>注意：</strong> <strong>.</strong> 、 **$**、 <strong>|</strong> 和 ***** 等转义字符，必须得加 <strong>\</strong>。</p>
+<p><strong>注意：</strong>多个分隔符，可以用 <strong>|</strong> 作为连字符。</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;/1122/1113///66&quot;</span>;  <span class="hljs-comment">//相当于把空字符串也看成字符串了</span><br>        String[] res = s.split(<span class="hljs-string">&quot;/&quot;</span>);  <span class="hljs-comment">//输出结果为6</span><br>        System.out.println(Arrays.toString(res));<br>        System.out.println(res.length);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="系统优化相关"><a href="#系统优化相关" class="headerlink" title="系统优化相关"></a>系统优化相关</h2><ul>
+<li>局部性原理<ul>
+<li><strong>程序局部性原理</strong>：是指程序在执行时呈现出局部性规律，即在一段时间内，整个程序的执行仅限于程序中的某一部分。相应地，执行所访问的存储空间也局限于某个内存区域，具体来说，局部性通常有两种形式：时间局部性和空间局部性。<ul>
+<li><strong>时间局部性：</strong>被引用过一次的存储器位置在未来会被多次引用（通常在循环中）</li>
+</ul>
+</li>
+<li><strong>空间局部性：</strong>如果一个存储器的位置被引用，那么将来他附近的位置也会被引用</li>
+</ul>
+</li>
+</ul>
+<h2 id="多线程相关"><a href="#多线程相关" class="headerlink" title="多线程相关"></a>多线程相关</h2><ul>
+<li>死锁的四个必要条件<ul>
+<li>1、 互斥条件：<br>进程要求对所分配的资源（如打印机）进行排他性控制，即在一段时间内某资源仅为一个进程所占有。此时若有其他进程请求该资源，则请求进程只能等待。</li>
+<li>2、不可剥夺条件:<br>进程所获得的资源在未使用完毕之前，不能被其他进程强行夺走，即只能由获得该资源的进程自己来释放（只能是主动释放)。</li>
+<li>3、 请求与保持条件：<br>进程已经保持了至少一个资源，但又提出了新的资源请求，而该资源已被其他进程占有，此时请求进程被阻塞，但对自己已获得的资源保持不放。</li>
+<li>4、循环等待条件:<br>存在一种进程资源的循环等待链，链中每一个进程已获得的资源同时被 链中下一个进程所请求。即存在一个处于等待状态的进程集合{Pl, P2, …, pn}，其中Pi等 待的资源被P(i+1)占有（i&#x3D;0, 1, …, n-1)，Pn等待的资源被P0占有，如图2-15所示</li>
+</ul>
+</li>
+</ul>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><ul>
+<li>limit语句相关<ul>
+<li>当更新语句中的where字段没有索引的时候，如果没有使用limit的话会锁全表；而如果使用了limit的话，mysql会通过主键索引找到对应的行记录，此时只会给索引搜寻过的行加上行锁，并不会把后面的行给锁住</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> limit m,n<br>#其中m是指记录开始的index，从<span class="hljs-number">0</span>开始，表示第一条记录<br>#n是指从第m<span class="hljs-operator">+</span><span class="hljs-number">1</span>条开始，取n条。<br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tablename limit <span class="hljs-number">2</span>,<span class="hljs-number">4</span><br>#即取出第<span class="hljs-number">3</span>条至第<span class="hljs-number">6</span>条，<span class="hljs-number">4</span>条记录<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>select  for update相关<ul>
+<li>我们平时使用的select语句只是查询，不涉及修改，故不存在加锁的概念。而select * for update 从字面意思就可以知道，该语句不单单是查询，而是为了后续的修改，所以是要对数据加锁的，并且是<strong>悲观锁</strong>。此时按照select 中where条件字段，又可分为行锁和表锁</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/03/06/2023java相关笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/06/gin/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
